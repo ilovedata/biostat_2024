@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; 연관성의 측도 – 의학통계학</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notes/association-test.html" rel="next">
+<link href="../notes/intro.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/association.html">분할표와 연관성</a></li><li class="breadcrumb-item"><a href="../notes/association.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">의학통계학</a> 
+        <div class="sidebar-tools-main">
+    <a href="../의학통계학.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">서론</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">분할표와 연관성</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">연관성의 검정</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/diagnose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#필요한-패키지" id="toc-필요한-패키지" class="nav-link active" data-scroll-target="#필요한-패키지"><span class="header-section-number">2.1</span> 필요한 패키지</a></li>
+  <li><a href="#이항변수" id="toc-이항변수" class="nav-link" data-scroll-target="#이항변수"><span class="header-section-number">2.2</span> 이항변수</a></li>
+  <li><a href="#분할표와-연관성의-측도" id="toc-분할표와-연관성의-측도" class="nav-link" data-scroll-target="#분할표와-연관성의-측도"><span class="header-section-number">2.3</span> 분할표와 연관성의 측도</a>
+  <ul class="collapse">
+  <li><a href="#분할표" id="toc-분할표" class="nav-link" data-scroll-target="#분할표"><span class="header-section-number">2.3.1</span> 분할표</a></li>
+  <li><a href="#상대위험" id="toc-상대위험" class="nav-link" data-scroll-target="#상대위험"><span class="header-section-number">2.3.2</span> 상대위험</a></li>
+  <li><a href="#기여위험과-백신효과" id="toc-기여위험과-백신효과" class="nav-link" data-scroll-target="#기여위험과-백신효과"><span class="header-section-number">2.3.3</span> 기여위험과 백신효과</a></li>
+  <li><a href="#오즈비" id="toc-오즈비" class="nav-link" data-scroll-target="#오즈비"><span class="header-section-number">2.3.4</span> 오즈비</a></li>
+  </ul></li>
+  <li><a href="#신뢰구간" id="toc-신뢰구간" class="nav-link" data-scroll-target="#신뢰구간"><span class="header-section-number">2.4</span> 신뢰구간</a>
+  <ul class="collapse">
+  <li><a href="#예제-아스피린-임상실험" id="toc-예제-아스피린-임상실험" class="nav-link" data-scroll-target="#예제-아스피린-임상실험"><span class="header-section-number">2.4.1</span> 예제: 아스피린 임상실험</a></li>
+  </ul></li>
+  <li><a href="#casecontrol" id="toc-casecontrol" class="nav-link" data-scroll-target="#casecontrol"><span class="header-section-number">2.5</span> 사례-대조 연구</a>
+  <ul class="collapse">
+  <li><a href="#사례대조-연구의-목표와-가설" id="toc-사례대조-연구의-목표와-가설" class="nav-link" data-scroll-target="#사례대조-연구의-목표와-가설"><span class="header-section-number">2.5.1</span> 사례대조 연구의 목표와 가설</a></li>
+  <li><a href="#오즈비의-비교" id="toc-오즈비의-비교" class="nav-link" data-scroll-target="#오즈비의-비교"><span class="header-section-number">2.5.2</span> 오즈비의 비교</a></li>
+  <li><a href="#예제-약물남용-사례-대조-연구" id="toc-예제-약물남용-사례-대조-연구" class="nav-link" data-scroll-target="#예제-약물남용-사례-대조-연구"><span class="header-section-number">2.5.3</span> 예제: 약물남용 사례-대조 연구</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/association.html">분할표와 연관성</a></li><li class="breadcrumb-item"><a href="../notes/association.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="association" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="필요한-패키지" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="필요한-패키지"><span class="header-section-number">2.1</span> 필요한 패키지</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(epiR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="이항변수" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="이항변수"><span class="header-section-number">2.2</span> 이항변수</h2>
+<p>통계학에서 관측값은 값이 가지는 특성에 따라서 연속형 변수(continuous variable)과 범주형 변수(categorical variable)로 나눈다.</p>
+<p>결과가 2개인 범주형 변수인 이항변수(binary variable)는 매우 중요한 역할을 한다. 그 이유는 두 개의 선택 중에서 하나를 선택해 야할 의사결정이 실제로 대부분을 차지하고 있기 때문이다.</p>
+<p>예를 들어서 코로나 19에 감염된 환자가 병원에서 치료를 받고 있다고 가정해보자. 환자는 병원에서 여러 가지 검사를 수행하면서 다양한 자료를 수집한다. 예를 들어 환자는 수시로 체온을 재고 항체검사, 혈액검사 등을 받을 것이다. 다양한 검사 등에서 나온 자료는 연속형 또는 범주형 자료로 구성될 것이다.</p>
+<p>하지만 의사가 가장 중요하게 결정할 사항은 환자가 계속 치료를 필요로 하는지 아닌지 결정해야 한다. 즉, 여러 가지 검사를 고려하여 최종적으로 의사는 환자가 더 치료가 필요한지 아닌 지를 결정해야 한다. 의사의 결정을 이항변수 <span class="math inline">\(Y\)</span>로 다음과 같이 표현할 수 있다..</p>
+<p><span class="math display">\[
+Y =
+\begin{cases}
+1 &amp; \text{ if patient still needs treatment} \\
+0 &amp; \text{ if patient dose not need treatment any more (GO HOME!)}
+\end{cases}
+\]</span></p>
+<p>실제 임상에서는 이러한 두 개의 가능한 선택 중에 하나를 선택하는 결정이 빈번하게 일어나며 이러한 결정은 대부분 중요한 임상적 결정이다. 예를 들어 다음과 같은 의사결정들은 이항변수로 표현할 수 있다.</p>
+<ul>
+<li>환자는 약을 복용해야 하는가?</li>
+<li>환자는 입원을 해야 하는가?</li>
+<li>환자는 중환자실로 가야 하는가?</li>
+<li>환자는 퇴원해도 되는가?</li>
+</ul>
+<p>또는 환자의 상태(outcome)가 이항변수로 표현될 수 있다.</p>
+<ul>
+<li>환자는 치료가 되었는가?</li>
+<li>환자가 사망하였는가?</li>
+</ul>
+<p>이제 코로나 19 치료제의 효과를 알아보기 위한 임상실험을 수행하는 경우를 생각해보자. 통상적으로 임상실험에서는 두 개의 집단을 비교하며 가장 많이 사용하는 두 개의 집단은 실제 치료(drug)를 받은 사람들과 위약(placebo)을 받은 사람들이다. 즉 치료를 받은 사람과 받지 않는 사람들의 효과를 비교하는 것이 임상실험의 목적이다. 이러한 경우 앞에서 논의한 의사 결정과 마찬가지로 한 환자가 받은 치료의 종류를 이항변수 <span class="math inline">\(X\)</span>로 나타낼 수 있다.</p>
+<p><span class="math display">\[
+X=
+\begin{cases}
+1 &amp; \text{ if patient receives drug} \\
+0 &amp; \text{ if treatment receives placebo}
+\end{cases}
+\]</span></p>
+</section>
+<section id="분할표와-연관성의-측도" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="분할표와-연관성의-측도"><span class="header-section-number">2.3</span> 분할표와 연관성의 측도</h2>
+<section id="분할표" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="분할표"><span class="header-section-number">2.3.1</span> 분할표</h3>
+<p>이제 앞에서 말한 두 개의 변수 <span class="math inline">\(X\)</span> 와 <span class="math inline">\(Y\)</span> 의 관계에 대해서 생각해 보자. 실험에서 사람들은 코로나 19에 대한 치료약의 효과에 관심이 있다. 코로나 19 환자가 치료약을 처치 받으면 치료약을 이용하지 않는 환자보다 빨리 치료되거나 사망할 가능성이 낮은 지가 주요 관심사이다. 즉, 치료약이 환자의 회복 속도나 사망과 연관(association)이 있는지 알고 싶은 것이며, 특히 실험이 매우 정교하게 설계된 경우는 치료약이 환자의 회복이나 사망에 영향을 미치는 원인이 되는지(cause-effect relation) 파악하고 싶은 것이다.</p>
+<ul>
+<li>먼저 코로나 19에 대한 치료약의 효과에 대한 임상실험에 <span class="math inline">\(n\)</span> 명의 환자들이 실험에 참가 했다고 가정하자.</li>
+<li>치료약이 효과가 있는지에 대한 결과(<span class="math inline">\(Y\)</span>)는 치료를 시작하여 정해진 기간 내에 사망하였는지에 대한 사건으로 결정하였다.</li>
+</ul>
+<p><span class="math display">\[
+Y =
+\begin{cases}
+1 &amp; \text{ if patient is dead within D days } \\
+0 &amp; \text{ otherwise}
+\end{cases}
+\]</span></p>
+<p>코로나 19에 대한 치료약의 효과에 대한 임상실험의 결과를 다음과 같은 <strong>분할표(contingency table)</strong>로 요약할 수 있다.</p>
+<div id="tbl-conttable22" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conttable22-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;2.1: <span class="math inline">\(2 \times 2\)</span> 분할표
+</figcaption>
+<div aria-describedby="tbl-conttable22-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">치료/결과</th>
+<th style="text-align: center;">사망 (<span class="math inline">\(Y=1\)</span>)</th>
+<th style="text-align: center;">생존 (<span class="math inline">\(Y=0\)</span>)</th>
+<th style="text-align: center;">합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">위약 (<span class="math inline">\(X=0\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(n_{11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_{1+}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">치료약 (<span class="math inline">\(X=1\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(n_{21}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_{22}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_{2+}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;"><span class="math inline">\(n_{+1}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_{+2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>많은 임상실험이나 의학연구의 결과들을 위와 같은 <span class="math inline">\(2 \times 2\)</span> 분할표로 요약할 수 있다. 이제 우리의 관심은 분할표를 통해서 임상실험의 결과를 어떻게 통계적으로 추론할 수 있는지이다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+노트
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>분할표에서 연관성의 측도를 계산하는 경우 성공의 기준(이항변수로 표현하면 <span class="math inline">\(Y=1\)</span>)에 따라서 계산을 수행해야 한다. 어떤 경우는 사망이나 악화와 같은 위험한 사건이 성공 사건이 될 수 있으며 어떤 경우는 생존이나 회복과 같은 좋은 사건이 성공이 될 수 있다.</p>
+<p>또한 기준이 되는 그룹(이항변수 <span class="math inline">\(X\)</span>)에 따라서 연관성의 측도 계산할 때 분자와 분모에 해당하는 그룹을 적절하게 선택해야 한다.</p>
+<p>분할표에서 연관성의 측도를 계산하는 경우 분석의 의도와 목적에 맞게 성공 사건과 기준그룹을 정의하고 그에 따라서 연관성의 측도를 계산해야 한다.</p>
+</div>
+</div>
+</section>
+<section id="상대위험" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="상대위험"><span class="header-section-number">2.3.2</span> 상대위험</h3>
+<p><span class="math inline">\(2 \times 2\)</span> 분할표 <a href="#tbl-conttable22" class="quarto-xref"><span>2.1</span></a> 에서 두 개의 처리군, 즉 치료약을 받은 집단과 위약을 받은 집단의 효과를 비교할 때 가장 많이 사용되는 측도(measure)는 <strong>상대위험(relative risk, risk ratio, prevalnce ratio;RR)</strong>이다.</p>
+<p>주어진 집단의 위험율을 그 집단에 속한 환자의 수에서 사망한 사람의 비율이다. 분할표 <a href="#tbl-conttable22" class="quarto-xref"><span>2.1</span></a> 에서 위약 집단의 위험율은 <span class="math inline">\(n_{11}/n_{1+}\)</span> 이며 이는 치료를 받지 않는 경우에 나타나는 기준점인 위험율(baseline risk)을 의미한다. 치료약 집단의 위험율은 <span class="math inline">\(n_{21}/n_{2+}\)</span> 이다. 통상적으로 위험율은 비율(proportion, percent)로 나타내며 발생률(rate,예를 들어 인구 1000명당 X명)로 나타내기도 한다.</p>
+<p>상대위험은 두 위험율의 비율로서 다음과 같이 정의한다.</p>
+<p><span class="math display">\[\begin{equation}
+RR = \frac{n_{11}/n_{1+}}{n_{21}/n_{2+}} = \frac{ \tfrac{n_{11}}{n_{11} + n_{12}}} { \tfrac{n_{21}}{n_{21} + n_{22}}}
+\end{equation}\]</span></p>
+<p>상대위험이 1보다 크면 분자에 위치한 집단이 위험(위의 예제에서는 위험이 사망을 의미한다)에 처할 가능성이 분모에 위치한 집단보다 <span class="math inline">\(RR\)</span> 배 높다는 것을 의미한다. 상대위험이 1이면 두 집단에 대한 위험이 동일하다는 것을 의미한다.</p>
+<p>예를 들어 특정한 코로나 치료제의 효과를 실험하는 임상실험에서 다음과 결과를 얻었다.</p>
+<div id="tbl-conttable23" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conttable23-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;2.2: 코로나 치료제 실험 결과
+</figcaption>
+<div aria-describedby="tbl-conttable23-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">치료/결과</th>
+<th style="text-align: center;">사망 (<span class="math inline">\(Y=1\)</span>)</th>
+<th style="text-align: center;">생존 (<span class="math inline">\(Y=0\)</span>)</th>
+<th style="text-align: center;">합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">위약 (<span class="math inline">\(X=0\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(10\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1212\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1222\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">치료약 (<span class="math inline">\(X=1\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2355\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2360\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;"><span class="math inline">\(15\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3567\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3582\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>상대위험은 다음과 같이 계산된다.</p>
+<p><span class="math display">\[ RR = \frac{10/1222}{5/2360} = 3.8625 \approx 4 \]</span></p>
+<p>상대위험이 약 4 배란 의미는 치료약을 받은 집단보다 위약집단이 사망할 가능성이 약 4배 높다는 것이다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+노트
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>우리는 두 집단의 비율을 비교할 때 두 비율의 차이를 이용하는 방법을 자주 사용한다. 두 집단의 비율이 각각 <span class="math inline">\(p_1\)</span>, <span class="math inline">\(p_2\)</span> 라면 두 비율의 차이는 <span class="math inline">\(p_1 - p_2\)</span> 이며 이는 우리가 평상 적으로 사용하는 비율의 비교 측도이다.</p>
+<p>예를 들어 대통령 후보들의 지지율과 차이는 많은 언론에서 사용하고 있으며 기초 통계학에서 두 모집단의 비교를 위한 가설 검정에서도 비율의 차이를 이용하였다.</p>
+<p>위의 코로나 치료제의 효과를 비교하는 실험에서 치료집단과 위약집단의 사망률 차이를 측도로 사용하면 어떨까?</p>
+</div>
+</div>
+</section>
+<section id="기여위험과-백신효과" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="기여위험과-백신효과"><span class="header-section-number">2.3.3</span> 기여위험과 백신효과</h3>
+<p><strong>기여위험(attributable proportion, attributable risk percent, AR)</strong>은 두 그룹의 위험에 대한 비교를 위한 다른 측도이다. 기여위험은 특정한 성격을 가진 집단(exposed group)이 위험에 처한 전체 집단에서 차지하는 비율을 백분율로 나타낸다.</p>
+<p><span class="math display">\[\begin{equation}
+AR = \frac{ (n_{11}/n_{1+}) - (n_{21}/n_{2+})} {n_{11}/n_{1+} } \times 100
+\end{equation}\]</span></p>
+<p>예를 들어 비흡연자(unexposed group)와 흡연자(exposed group)의 폐암에 대한 위험을 비교하는 경우를 생각해 보자.비흡연자의 폐암으로 인한 사망률이 연간 1000명 당 0.07명이고 흡연자는 1000명당 0.57명이라고 하면</p>
+<p>일단 상대위험은 약 8배이다.</p>
+<p><span class="math display">\[  RR = 0.57/0.07 = 8.1428 \]</span></p>
+<p>두 집단의 비교를 기여위험으로 나타내면 다음과 같다.</p>
+<p><span class="math display">\[ AR = \frac{0.57-0.07}{0.57} \times (100) = 87.7\% \approx 88 \%\]</span></p>
+<p>만약 흡연이 폐암을 일으키는 원인이고 두 집단의 다른 요인이 유사하다고 가정하면, 기여위험이 약 88% 라는 것은 모든 폐암 환자(위험에 처한 전체 집단)의 88% 가 흡연에 의한 것이라고 해석할 수 있다.</p>
+<p>최근에 코로나 19에 대한 백신과 치료제의 임상실험에서 효과를 발표하는 경우 위에서 언급한 상대위험을 사용하지 않고 <strong>백신효과(Vaccine efficacy, vaccine effectiveness; VE)</strong> 라는 백분율을 사용한다. 백신효과는 기본적으로 기여위험과 동일한 측도이다.</p>
+<p>예를 들어 위의 예제에서 치료제의 효과를 백신효과(VE)로 계산하면 다음과 같다.</p>
+<p><span class="math display">\[ VE = \left [ \frac{10/1222 - 5/2360}{10/1222} \right ]\times 100 =74.1101\% \]</span></p>
+<p>백신효과가 74% 란 의미는 치료제를 사용하면 사용하지 않는 경우보다 사망을 74% 줄일 수 있다고 해석할 수 있다.</p>
+<p>간단한 예로서 코로나19로 인한 치명율(사망자/확진자)을 비교한다고 가정하자. 백신을 맞은 그룹의 치명율이 1%이고 백신을 맞지 않는 그룹의 치명율이 2% 백신효과는 50%이다.</p>
+</section>
+<section id="오즈비" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="오즈비"><span class="header-section-number">2.3.4</span> 오즈비</h3>
+<p>오드(odd)는 가능성을 나타내는 측도로서 전통적으로 도박에서 유래된 측도이다.</p>
+<p>우리가 주사위를 던져서 1과 2가나오면 성공, 다른 숫자가 나오면 실패라고 하는 경우 성공의 확률은 <span class="math inline">\(2/6 =0.3333\)</span> 으로 계산한다. 확률을 계산하는 경우는 분모에 전체 사건의 수를 사용한다.</p>
+<p>위의 주사위 예제로 오드를 계산하면 <span class="math inline">\(2/4 =0.5\)</span> 가 된다. 즉, 오드는 분모에 성공을 제외한 실패의 사건을 수를 사용한다. 만약 오드가 1이면 무슨 의미인가? 오드가 1이면 성공하는 사건의 수가 실패하는 사건의 수가 동일하다는 의미이다. 게임에서 이길 확률이 <span class="math inline">\(1/2\)</span> 이면 공정한 게임이며 이 경우 오드는 1 이다.</p>
+<p>전통적으로 오드는 확률의 개념이 나오기 전에 가능성의 측도로 오랫동안 사용되어 왔으며 도박에서 상대방이 1번 이길 때 내가 이기는 평균적인 횟수를 의미한다.</p>
+<p><span class="math display">\[ odd = \frac{\text{number of events for success}}{\text{number of events for failure}} \]</span></p>
+<p>예를 들어 위의 코로나 치료제 실험에서 성공을 사망할 사건이라고 하면 위약군의 오드는 <span class="math inline">\(n_{11}/n_{12} =10/1212\)</span> 이고 치료군의 오드는 <span class="math inline">\(n_{21}/n_{22} = 5/2355\)</span> 이다.</p>
+<p>두 집단을 비교하는 측도 중 하나는 <strong>오즈비(odds ratio; OR)</strong>가 있다. 오즈비는 두 그룹의 오드들의 비율로 정의된다. 오즈비가 1이면 두 그룹에서 성공 사건의 가능성이 같다는 것이다.</p>
+<p><span class="math display">\[ OR = \frac{n_{11}/n_{12}}{n_{21}/n_{22}} = \frac{n_{11} n_{22}}{n_{12} n_{21}} \]</span></p>
+<p>코로나 치료제 실험에서의 오즈비는 <span class="math inline">\((10/1212)/(5/2355) =3.8861\)</span> 이다.</p>
+<p>오즈비는 상대위험이나 기여위험에 비하여 의미 있는 해석이 어렵다. 오즈비가 1이면 두 집단이 성공의 가능성이 같다(또는 두 요인의 연관성이 없다)는 것으로 해석이 쉽다. 하지만 예를 들어 오즈비가 1 보다 큰 경우(또는 작은 경우) 두 집단의 차이를 의미 있게 해석하는 것이 어렵다.</p>
+<p>오즈비는 향후 학습할 통계적 가설검정에서 중요한 모수(parameter)로 사용되며 특히 실험의 방법이 사례-대조 연구와 같은 특별한 방법을 사용하는 경우 오즈비가 중요한 역할을 하게 된다.</p>
+<hr>
+<p>예를 들어 다음과 같은 분할표에서 비율의 차이, 상대위험, 오즈비를 구하여 비교해 보자.</p>
+<div id="tbl-conttable24" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conttable24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;2.3: <span class="math inline">\(2 \times 2\)</span> 분할표 예제
+</figcaption>
+<div aria-describedby="tbl-conttable24-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">처리 /결과</th>
+<th style="text-align: center;">성공 (<span class="math inline">\(Y=1\)</span>)</th>
+<th style="text-align: center;">실패 (<span class="math inline">\(Y=0\)</span>)</th>
+<th style="text-align: center;">합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0 (<span class="math inline">\(X=0\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(6\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1 (<span class="math inline">\(X=1\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(6\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;"><span class="math inline">\(10\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(20\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>비율의 차이(DP)은 다음과 같이 계산된다.</p>
+<p><span class="math display">\[ DP(0/1) =  6/10 - 4/10 = 0.2 \]</span></p>
+<p>상대위험은 다음과 같이 계산된다.</p>
+<p><span class="math display">\[ RR(0/1) = \frac{6/10}{4/10} = \frac{6}{4} = 1.5 \]</span></p>
+<p>오즈비는 다음과 같이 계산된다.</p>
+<p><span class="math display">\[ OR(0/1) = \frac{6/4}{4/6} = \frac{(6)(6)}{(4)(4)} = 2.25 \]</span></p>
+</section>
+</section>
+<section id="신뢰구간" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="신뢰구간"><span class="header-section-number">2.4</span> 신뢰구간</h2>
+<p>상대위험과 오즈비는 분할표에서 연관성을 나타내는 하나의 측도, 즉 점추정량(point estimation) 이다. 하나의 숫자로 표현되는 점추정은 표본으로 부터 발생한 불확실성을 반영하지 못한다. 따라서 점추정량을 보완하기 위하여 신뢰구간(confidence interval)을 제시할 수 있다.</p>
+<p>상대위험과 오즈비는 표본비율 또는 셀 도수의 함수로 나타난다. 하지만 함수의 형태가 비율로서 비선형이기 때문에 상대위험과 오즈비의 근사적인 표준오차(standard error)는 쉽게 구할 수 없다.</p>
+<p>다항분포를 가정하고 로그 오즈비의 점근적 분산을 다음과 같이 유도할 수 있다.</p>
+<p><span class="math display">\[ v_1 =V ( \log OR)   \approx \frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}} \]</span></p>
+<p>따라서 로그 오즈비의 <span class="math inline">\(100(1-\alpha)\)</span> % 근사 신뢰구간을 다음과 같이 구할 수 있다.</p>
+<p><span class="math display">\[\begin{equation*}
+   \log OR \pm z_{\alpha/2} \sqrt{v_1}
+\end{equation*}\]</span></p>
+<p>위의 신뢰구간을 오즈비로 역변환하면 오즈비 <span class="math inline">\(OR\)</span> 의 <span class="math inline">\(100(1-\alpha)\)</span> % 근사 신뢰구간을 다음과 같다.</p>
+<p><span id="eq-oddratiovar"><span class="math display">\[
+   ( OR \times \exp [ - z_{\alpha/2} \sqrt{v_1}], ~~OR \times \exp [  z_{\alpha/2} \sqrt{v_1}] )
+\tag{2.1}\]</span></span></p>
+<p>상대위험(RR)의 신뢰구간도 오즈비의 신뢰구간을 유도하는 방법과 유사하게 델타 방법을 사용하며 다음과 같이 구할 수 있다.</p>
+<p><span id="eq-rrratiovar"><span class="math display">\[
+   ( RR \times \exp [ - z_{\alpha/2} \sqrt{v_2}], ~~OR \times \exp [  z_{\alpha/2} \sqrt{v_2}] )
+\tag{2.2}\]</span></span></p>
+<p>위의 식 <a href="#eq-rrratiovar" class="quarto-xref"><span>2.2</span></a> 에서 <span class="math inline">\(v_2\)</span> 는 다음과 같이 계산한다.</p>
+<p><span class="math display">\[ v_2 =V ( \log RR)   \approx \frac{1-n_{11}/n_{1+}}{n_{11}} + \frac{1-n_{21}/n_{2+}}{n_{21}} \]</span></p>
+<section id="예제-아스피린-임상실험" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="예제-아스피린-임상실험"><span class="header-section-number">2.4.1</span> 예제: 아스피린 임상실험</h3>
+<p>소량의 아스피린 복용이 심장병으로 인한 위험을 줄이는데 효과가 있는지 알아보고자 임상실험을 실시하였다. 22,701명의 남성을 <strong>임의화(randomization)</strong> 을 통해서 두 그룹으로 나눈 후, 한 그룹은 매일 일정량의 아스피린을 복용시키고 다른 그룹은 위약(palcebo)를 복용하게 한 후 약 5년간 심근경색이 일어나는지 알아보았다. 임상실험의 결과는 아래 표와 같다.</p>
+<div id="tbl-conttable25" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conttable25-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;2.4: 아스피린 임상실험 결과
+</figcaption>
+<div aria-describedby="tbl-conttable25-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">심근경색 발생</th>
+<th style="text-align: center;">심근경색 없음</th>
+<th style="text-align: center;">합</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">아스피린</td>
+<td style="text-align: center;"><span class="math inline">\(139\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10,898\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(11,037\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">위약</td>
+<td style="text-align: center;"><span class="math inline">\(239\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(10,795\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(11,034\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>위약 집단과 아스피린 집단의 상대위험은 다음과 같다.</p>
+<p><span class="math display">\[ RR = \frac{139/11037}{239/11034} = 0.581 \]</span></p>
+<p>상대위험을 보면 1보다 작으므로 아스피린을 복용한 집단이 위약 집단에 비해서 심근 경색이 일어날 위험이 적어진 다는 것을 알 수 있다.</p>
+<p>상대위험의 95% 근사 신뢰구간은 다음과 같이 계산한다.</p>
+<p>먼저 다음 <span class="math inline">\(v_2\)</span> 를 계산하면</p>
+<p><span class="math display">\[ v_2 = \frac{1-n_{11}/n_{1+}}{n_{11}} + \frac{1-n_{21}/n_{2+}}{n_{21}}  =
+\frac{1-139/11037}{139} + \frac{1-239/11034}{239} = 0.011 \]</span></p>
+<p>상대위험의 신뢰구간은 다음과 같다.</p>
+<p><span class="math display">\[(0.581 \times \exp[-1.96\sqrt{0.011}], 0.581 \times \exp[1.96\sqrt{0.011}])
+= ( 0.473, 0.715)\]</span></p>
+<p>위의 신뢰구간은 1을 포함하지 않으므로 상대위험이 1 과 유의한 차이가 있다고 할 수 있다. 결론적으로 아스피린의 복용은 심근경색의 발생을 감소시킨다고 할 수 있다.</p>
+<p>이제 <code>epiR</code> 패키지를 사용하여 위에서 분석한 내용을 다시 구해보자.</p>
+<p>먼저 위의 임상실험 자료를 <code>R</code> 의 <code>matrix</code> 형태로 저장한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ex1dat <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">139</span>, <span class="dv">10898</span>, <span class="dv">239</span>, <span class="dv">10795</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ex1dat</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]  [,2]
+[1,]  139 10898
+[2,]  239 10795</code></pre>
+</div>
+</div>
+<p>이제 함수 <code>epi.2by2</code>를 이용하여 상대위험과 싱대구간을 구해보자. 임의화를 사용한 임상실험 자료인 경우 <code>method = "cross.sectional"</code> 으로 지정한다. 관심이 있는 사건(심근경색, outcome)의 도수가 첫 번째 열(column)에 있으니 <code>outcome = "as.columns"</code>이라고 지정한다.</p>
+<p>아래 결과에 <code>Prevalence ratio</code>라고 나오는 것이 상대위험이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">epi.2by2</span>(<span class="at">dat =</span> ex1dat, <span class="at">method =</span> <span class="st">"cross.sectional"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">units =</span> <span class="dv">100</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="at">interpret =</span> <span class="cn">FALSE</span>, <span class="at">outcome =</span> <span class="st">"as.columns"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Outcome +    Outcome -      Total               Prev risk *
+Exposed +          139        10898      11037       1.26 (1.06 to 1.49)
+Exposed -          239        10795      11034       2.17 (1.90 to 2.46)
+Total              378        21693      22071       1.71 (1.55 to 1.89)
+
+Point estimates and 95% CIs:
+-------------------------------------------------------------------
+Prev risk ratio                                0.58 (0.47, 0.72)
+Prev odds ratio                                0.58 (0.47, 0.71)
+Attrib prev in the exposed *                   -0.91 (-1.25, -0.56)
+Attrib fraction in the exposed (%)            -71.99 (-111.63, -39.78)
+Attrib prev in the population *                -0.45 (-0.77, -0.13)
+Attrib fraction in the population (%)         -26.47 (-36.51, -17.18)
+-------------------------------------------------------------------
+Uncorrected chi2 test that OR = 1: chi2(1) = 26.944 Pr&gt;chi2 = &lt;0.001
+Fisher exact test that OR = 1: Pr&gt;chi2 = &lt;0.001
+ Wald confidence limits
+ CI: confidence interval
+ * Outcomes per 100 population units </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="casecontrol" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="casecontrol"><span class="header-section-number">2.5</span> 사례-대조 연구</h2>
+<p>심장발작을 일으킨 환자와 그렇지 않은 사람들을 각각 214명씩 조사하여 과거에 약물남용을 한 경력이 있는지 조사한 사례-대조 연구의 자료이다.</p>
+<div id="tbl-conttable26" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conttable26-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;2.5: 약물 남용 사례-대조 연구 결과
+</figcaption>
+<div aria-describedby="tbl-conttable26-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">심장 발작 발생</th>
+<th style="text-align: center;">심장발작 없음</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">약물남용 유</td>
+<td style="text-align: center;"><span class="math inline">\(73\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(18\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">약물남용 무</td>
+<td style="text-align: center;"><span class="math inline">\(141\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(196\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합</td>
+<td style="text-align: center;">214</td>
+<td style="text-align: center;">214</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>이 연구의 목표는 약물남용과 심장발작의 연관성이 있는지를 알아보는 것이다. 이제 다음과 같은 사건들을 정의해 보자.</p>
+<ul>
+<li><span class="math inline">\(H+\)</span>: 심장발작이 발생했다.</li>
+<li><span class="math inline">\(H-\)</span>: 심장발작이 발생하지 않았다.</li>
+<li><span class="math inline">\(D+\)</span>: 약물남용을 했다.</li>
+<li><span class="math inline">\(D-\)</span>: 약물남용을 하지 않았다.</li>
+</ul>
+<p>위에서 정의된 사건들을 고려할 때 사례-대조 연구의 자료에서 다음과 같은 조건부 확률에 대한 추정값을 구할 수 있다.</p>
+<p><span class="math display">\[\begin{align*}
+P(\textrm{약물남용을 했다} | \textrm{심장발작이 발생했다}) &amp; =P(D+|H+) = \frac{73}{214} \\
+P(\textrm{약물남용을 하지 않았다} | \textrm{심장발작이 발생했다}) &amp; =P(D-|H+) = 1- P(D+|H+) = \frac{141}{214} \\
+  &amp; \\
+P(\textrm{약물남용을 했다} | \textrm{심장발작이 발생하지 않았다}) &amp; =P(D+|H-) = \frac{18}{214} \\
+  P(\textrm{약물남용을 하지 않았다} | \textrm{심장발작이 발생하지 않았다}) &amp; =P(D-|H-) = 1- P(D+|H-) = \frac{196}{214}
+\end{align*}\]</span></p>
+<section id="사례대조-연구의-목표와-가설" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="사례대조-연구의-목표와-가설"><span class="header-section-number">2.5.1</span> 사례대조 연구의 목표와 가설</h3>
+<p>연구에서 비교하고 싶은 비율은 위에서 추정한 확률이 아니고 조건과 결과가 바뀐 다음과 같은 조건부 확률이다. <span class="math display">\[\begin{align*}
+P( \textrm{심장발작이 발생했다} | \textrm{약물남용을 했다} ) &amp; = P(H+|D+) \\
+P( \textrm{심장발작이 발생했다} | \textrm{약물남용을 하지 않았다} ) &amp; = P(H+|D-) \\
+\end{align*}\]</span></p>
+<p>즉 연구의 목표는 다음과 같은 가설을 검정하는 것이다.</p>
+<p><span id="eq-hypo01"><span class="math display">\[
+H_0: P(H+|D+) = P(H+|D-)  ~~~\text{ vs } ~~~H_1: P(H+|D+) \ne P(H+|D-)
+\tag{2.3}\]</span></span></p>
+<p>전체 모집단을 약물남용을 한 사람들과 하지 않은 사람들로 두 집단으로 나누었을 때 두 집단에 대한 심장발작의 확률이 같은지 다른지 비교하고 싶은 것이다.</p>
+<p>위의 식에서 보듯이 추정하고 싶은 확률인 <span class="math inline">\(P(H+|D+)\)</span>와 <span class="math inline">\(P(H+|D-)\)</span>를 추정하려면 전체 모집단에 대한 심장발작 발병률 <span class="math inline">\(P(H+)\)</span>와 약물남용의 비율 <span class="math inline">\(P(D+)\)</span>를 알아야 한다. 즉</p>
+<p><span class="math display">\[\begin{align*}
+P(H+|D+) &amp; = \frac{ P(H+ \cap D+)} { P(D+)} \\
+          &amp; = \frac{ P(D+|H+) P(H+)} { P(D+)} \\
+          &amp; \approx  (73/214) \frac{ P(H+)} { P(D+)} \\
+\end{align*}\]</span></p>
+<p>위의 식은 다음의 조건부 확률 공식을 각 단계마다 적용한 결과이다.</p>
+<p><span class="math display">\[ P(A \cap B) = P(A|B)P(B) = P(B|A) P(A) \]</span></p>
+<p>사례-대조 연구의 자료만으로는 모집단에 대한 심장발작 발병률 <span class="math inline">\(P(H+)\)</span>와 약물남용의 비율 <span class="math inline">\(P(D+)\)</span>을 구할 수 없다. 또한 다른 외부의 자료가 있다 하더라도 약물남용의 비율을 정확하게 추정하는 것은 매우 어렵다.</p>
+</section>
+<section id="오즈비의-비교" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="오즈비의-비교"><span class="header-section-number">2.5.2</span> 오즈비의 비교</h3>
+<p>이러한 문제는 두 집단의 비율의 차이나 상대위험을 비교하지 않고 오즈비를 구하여 비교하면 심장발작 발병률와 약물남용의 비율을 추정하지 않고 사례-대조 연구의 자료만으로 추론이 가능하다.</p>
+<p>다음의 가설은 두 비율의 비교를 오즈비로 표현한 것이다.</p>
+<p><span id="eq-hypo02"><span class="math display">\[
+H_0: \frac{P(H+|D+)/P(H-|D+)}{P(H+|D-) / P(H-|D-)} =1  ~~~\text{ vs } ~~~H_1:
+\frac{P(H+|D+)/P(H-|D+)}{P(H+|D-) / P(H-|D-)} \ne 1
+\tag{2.4}\]</span></span></p>
+<p>위의 가설 <a href="#eq-hypo02" class="quarto-xref"><span>2.4</span></a> 는 단순한 비율을 비교하는 가설 <a href="#eq-hypo01" class="quarto-xref"><span>2.3</span></a> 과 동일한 가설이다.</p>
+<p>가설 <a href="#eq-hypo02" class="quarto-xref"><span>2.4</span></a> 에서 나타는 오즈비는 심장발작 발병률와 약물남용의 비율을 이용하지 않고 사례-대조 연구에서 추정할 수 있는 조건부 확률만으로 추정할 수 있다.</p>
+<p><span class="math display">\[\begin{align*}
+\frac{P(H+|D+)/P(H-|D+)}{P(H+|D-) / P(H-|D-)}  
+   &amp; =  \frac{[P(H+|D+)P(D+)]/[P(H-|D+)P(D+)]}{[P(H+|D-)P(D-)] / [P(H-|D-)P(D-)]} \\
+   &amp; =  \frac{P(H+ \cap D+)/P(H- \cap D+)}{P(H+ \cap D-) / P(H- \cap D-)}\\
+   &amp; =  \frac{[P(D+|H+)P(H+)]/ [P(D+|H-) P(H-)]} {[P( D-|H+)P(H+)] / [P(D-|H-)P(H-)]}\\
+   &amp; =  \frac{P(D+|H+)/ P(D+|H-)} {P( D-|H+) / P(D-|H-)} \\
+   &amp;=   \frac{(73/214)/ (142/214)} {(18/214)/ (196/214)} \\
+   &amp; = \frac{(73)(196)}{(141)(18)} \\
+   &amp; = 5.64
+\end{align*}\]</span></p>
+<p>결론적으로 사례-대조 연구에서는 연구의 목표에 대한 가설 검정을 비율의 차이나 상대위험으로 표현하여 수행할 수 없다. 하지만 오즈비를 검정하는 것으로 가설을 세우면 자료에서 쉽게 유도할 수 있는 오즈비로 가설 검정을 쉽게 수행할 수 있다.</p>
+</section>
+<section id="예제-약물남용-사례-대조-연구" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="예제-약물남용-사례-대조-연구"><span class="header-section-number">2.5.3</span> 예제: 약물남용 사례-대조 연구</h3>
+<p>심작발작을 일으킨 환자와 그렇지 않은 사람들을 각각 214명씩 조사하여 과거에 약물남용을 한 경력이 있느지 조사한 <strong>사례-대조 연구(case-control study)</strong> 의 결과가 표 <a href="#tbl-conttable26" class="quarto-xref"><span>2.5</span></a> 에 있다.</p>
+<p>사례-대조 연구는 사례(case)가 발견되면, 즉 위의 연구와 같이 심장발작이 일어난 환자가 발생하면 그 환자와 유사한 나이와 성별 등을 가진 일반사람을 찾아 매칭하여 환자와 일반인의 과거 경력을 조사하는 후향적인 연구(restrspective study)이다. 반대로 앞의 예제에서 본 임의화를 이용한 임상실험은 전향적 연구(prospective study)이다.</p>
+<p>이러한 사례-대조 연구에서는 상대위험을 이용하여 연관성을 알아낼 수 없다. 하지만 사례-대조 연구에서 상대위험 대신 오즈비를 이용하여 연관성을 추론할 수 있다.</p>
+<p>위의 심장발작에 대한 사례-대조 연구의 결과에서 오즈비와 그 신뢰구간을 구해보자.</p>
+<p>먼저 오즈비는 다음과 같다.</p>
+<p><span class="math display">\[ OR = \frac{(73)(196)}{(18)(141)} = 5.64 \]</span></p>
+<p>위의 결과는 심장발작이 일어난 집단에서 약물남용을 한 환자들의 오즈가 심장발작이 일어나지 않은 집단에서 약물남용을 한 사람들의 오즈에 비해 5.6배 크다는 것을 알 수 있으며 이는 1보다 상당히 크다.</p>
+<p>오즈비의 95% 근사 신뢰구간은 다음과 같이 계산한다.</p>
+<p>먼저 다음 <span class="math inline">\(v_1\)</span> 를 계산하면</p>
+<p><span class="math display">\[ v_1 =V ( \log OR)   \approx \frac{1}{n_{11}} + \frac{1}{n_{12}} + \frac{1}{n_{21}} + \frac{1}{n_{22}} = \frac{1}{73} + \frac{1}{18} + \frac{1}{141} + \frac{1}{196} =0.08\]</span></p>
+<p>오즈비의 신뢰구간은 다음과 같다.</p>
+<p><span class="math display">\[(5.64 \times \exp[-1.96\sqrt{0.08}], 5.64 \times \exp[1.96\sqrt{0.08}])
+= (3.222, 9.863)\]</span></p>
+<p>위의 신뢰구간을 보면 1을 포함하지 않으므로 약물남용이 심장발작의 위험을 높인다고 말할 수 있다.</p>
+<p>이제 <code>epiR</code> 패키지를 사용하여 위에서 분석한 내용을 다시 구해보자.</p>
+<p>먼저 위의 사례-대조 연구 자료를 <code>R</code> 의 <code>matrix</code> 형태로 저장한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ex2dat <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">73</span>,<span class="dv">18</span>,<span class="dv">141</span>,<span class="dv">196</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ex2dat</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]   73   18
+[2,]  141  196</code></pre>
+</div>
+</div>
+<p>이제 함수 <code>epi.2by2</code>를 이용하여 오즈비과 신뢰구간을 구해보자. 사례-대조 연구의 자료인 경우 <code>method = "case.control"</code> 으로 저장한다. 사례-대조 연구로 지정하면 상대위험이 출력되지 않는다. 관심이 있는 사건(심장발작, outcome)의 도수가 첫 번째 열(column)에 있으니 <code>outcome = "as.columns"</code>이라고 지정한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">epi.2by2</span>(<span class="at">dat =</span> ex2dat, <span class="at">method =</span> <span class="st">"case.control"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">units =</span> <span class="dv">100</span>, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>   <span class="at">interpret =</span> <span class="cn">FALSE</span>, <span class="at">outcome =</span> <span class="st">"as.columns"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Outcome +    Outcome -      Total                       Odds
+Exposed +           73           18         91        4.06 (2.50 to 7.27)
+Exposed -          141          196        337        0.72 (0.57 to 0.89)
+Total              214          214        428        1.00 (0.83 to 1.21)
+
+Point estimates and 95% CIs:
+-------------------------------------------------------------------
+Exposure odds ratio                            5.64 (3.22, 9.86)
+Attrib fraction (est) in the exposed (%)      82.19 (68.26, 90.44)
+Attrib fraction (est) in the population (%)   28.06 (20.13, 35.21)
+-------------------------------------------------------------------
+Uncorrected chi2 test that OR = 1: chi2(1) = 42.218 Pr&gt;chi2 = &lt;0.001
+Fisher exact test that OR = 1: Pr&gt;chi2 = &lt;0.001
+ Wald confidence limits
+ CI: confidence interval</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notes/intro.html" class="pagination-link" aria-label="서론">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">서론</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notes/association-test.html" class="pagination-link" aria-label="연관성의 검정">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">연관성의 검정</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
