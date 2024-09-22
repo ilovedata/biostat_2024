@@ -20,7 +20,10 @@ book:
         - notes/association.qmd
         - notes/association-test.qmd
         - notes/diagnose.qmd
-
+    - part: "집단의 비교"
+      chapters:
+        - notes/anova.qmd
+        - notes/ancova.qmd
     - references.qmd
 
 bibliography: references.bib
