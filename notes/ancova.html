@@ -473,7 +473,7 @@ SSE &amp; = \frac{(\sum_i S_{xx(i)})(\sum_i S_{yy(i)})-(\sum_i S_{xy(i)})^2}{\su
 </section>
 <section id="예제-저혈당-실험" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="예제-저혈당-실험"><span class="header-section-number">6.5</span> 예제: 저혈당 실험</h2>
-<p>앞에서 살펴본 예제 @ref(diabetes) 의 저혈당 임상실험에서는 혈당을 감소시키기 위한 다섯 개의 처리(<code>treat</code>)를 비교 하려고 한다. 반응 변수 <code>response</code> 는 치료 적용 1달 후 혈당량 수치이며 각 처리그룹에 대한 자료와 상자그림은 다음과 같다.</p>
+<p>앞에서 살펴본 예제 <a href="anova.html#sec-diabetes" class="quarto-xref"><span>섹션 5.9</span></a> 의 저혈당 임상실험에서는 혈당을 감소시키기 위한 다섯 개의 처리(<code>treat</code>)를 비교 하려고 한다. 반응 변수 <code>response</code> 는 치료 적용 1달 후 혈당량 수치이며 각 처리그룹에 대한 자료와 상자그림은 다음과 같다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"chapter-5-data.txt"</span>), <span class="at">sep=</span><span class="st">''</span>, <span class="at">header =</span> F)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -534,7 +534,7 @@ SSE &amp; = \frac{(\sum_i S_{xx(i)})(\sum_i S_{yy(i)})-(\sum_i S_{xy(i)})^2}{\su
 </div>
 </div>
 </div>
-<p>이제 공변량을 사용하지 않는 분산분석 모형을 적합해 보자. 처리 간에 산소운반 능력이 유의한 차이가 없다.</p>
+<p>이제 공변량을 사용하지 않는 분산분석 모형을 적합해 보자. 처리 간에 혈당의 평균은 유의한 차이가 없다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diab1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(response<span class="sc">~</span>treat, <span class="at">data=</span>diabetes )</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(diab1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -956,12 +956,12 @@ Residuals 27  86465  3202.4               </code></pre>
 </div>
 <p>다음으로 1인당 담배소비량을 공변량으로 포함한 공분석 결과를 적합해 보자.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>oxy2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(oxy <span class="sc">~</span> cigar <span class="sc">+</span> treat, <span class="at">data=</span>oxygen )</span>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>oxy2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(oxy <span class="sc">~</span> treat <span class="sc">+</span> cigar, <span class="at">data=</span>oxygen )</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(oxy2)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = oxy ~ cigar + treat, data = oxygen)
+lm(formula = oxy ~ treat + cigar, data = oxygen)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -970,9 +970,9 @@ Residuals:
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept) 187.0662    30.9742   6.039 2.22e-06 ***
-cigar        -1.4695     0.3743  -3.926 0.000567 ***
 treat2      -25.4892    20.5656  -1.239 0.226266    
 treat3      -54.7028    23.2087  -2.357 0.026234 *  
+cigar        -1.4695     0.3743  -3.926 0.000567 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -987,8 +987,8 @@ F-statistic:  6.13 on 3 and 26 DF,  p-value: 0.002697</code></pre>
 Response: oxy
             Sum Sq Df F value    Pr(&gt;F)    
 (Intercept)  76152  1 36.4746 2.224e-06 ***
-cigar        32183  1 15.4146 0.0005667 ***
 treat        11873  2  2.8433 0.0764293 .  
+cigar        32183  1 15.4146 0.0005667 ***
 Residuals    54283 26                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
@@ -1006,12 +1006,12 @@ y_{ij} = \mu + \alpha_i + \beta_i ~ x_{ij}  + e_{ij},
 <p>이제 식 <a href="#eq-ancovamodel3" class="quarto-xref"><span>6.4</span></a> 를 이용하여 공분산 분석을 실행해 보자.</p>
 <p>공변량의 효과가 처리 집단마다 다르게 놓은 모형 <a href="#eq-ancovamodel3" class="quarto-xref"><span>6.4</span></a> 에서는 처리집단 간의 유의한 차이가 나타난다 (p-값 = 8.272e-05). 평균 잔차제곱합도 <span class="math inline">\(MSE = 29146/24= 1214.4\)</span> 으로 줄어든 것을 알 수 있다.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>oxy3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(oxy <span class="sc">~</span> cigar <span class="sc">+</span> treat<span class="sc">*</span>cigar, <span class="at">data=</span>oxygen )</span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>oxy3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(oxy <span class="sc">~</span> treat <span class="sc">+</span> treat<span class="sc">*</span>cigar, <span class="at">data=</span>oxygen )</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(oxy3)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = oxy ~ cigar + treat * cigar, data = oxygen)
+lm(formula = oxy ~ treat + treat * cigar, data = oxygen)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -1020,11 +1020,11 @@ Residuals:
 Coefficients:
               Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)   274.0363    36.6575   7.476 1.03e-07 ***
-cigar          -2.6576     0.4776  -5.564 1.00e-05 ***
 treat2         10.4882    71.0085   0.148 0.883811    
 treat3       -198.4239    42.1708  -4.705 8.79e-05 ***
-cigar:treat2   -0.3603     0.8919  -0.404 0.689783    
-cigar:treat3    2.4838     0.6256   3.970 0.000568 ***
+cigar          -2.6576     0.4776  -5.564 1.00e-05 ***
+treat2:cigar   -0.3603     0.8919  -0.404 0.689783    
+treat3:cigar    2.4838     0.6256   3.970 0.000568 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -1039,9 +1039,9 @@ F-statistic: 10.46 on 5 and 24 DF,  p-value: 2.031e-05</code></pre>
 Response: oxy
             Sum Sq Df F value    Pr(&gt;F)    
 (Intercept)  67868  1  55.884 1.026e-07 ***
-cigar        37600  1  30.961 1.004e-05 ***
 treat        34648  2  14.265 8.272e-05 ***
-cigar:treat  25137  2  10.349 0.0005742 ***
+cigar        37600  1  30.961 1.004e-05 ***
+treat:cigar  25137  2  10.349 0.0005742 ***
 Residuals    29146 24                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
