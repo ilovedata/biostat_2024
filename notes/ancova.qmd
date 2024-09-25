@@ -147,7 +147,7 @@ $$ H_0: \alpha_i =\alpha_j \quad \text{ vs. } \quad  H_1:\alpha_i  \ne \alpha_j 
 
 ## 예제: 저혈당 실험
 
-앞에서 살펴본 예제 \@ref(diabetes) 의 저혈당 임상실험에서는 혈당을 감소시키기 위한 다섯 개의 처리(`treat`)를 비교 하려고 한다.  반응 변수 `response` 는   치료 적용 1달 후 혈당량 수치이며 각 처리그룹에 대한 자료와 상자그림은 다음과 같다.
+앞에서 살펴본 예제 @sec-diabetes 의 저혈당 임상실험에서는 혈당을 감소시키기 위한 다섯 개의 처리(`treat`)를 비교 하려고 한다.  반응 변수 `response` 는   치료 적용 1달 후 혈당량 수치이며 각 처리그룹에 대한 자료와 상자그림은 다음과 같다.
 
 ```{r, echo =TRUE, fig.width=4, fig.height=3, out.width='.50\\linewidth'}
 diabetes <- read.csv(here("data", "chapter-5-data.txt"), sep='', header = F)
@@ -191,7 +191,7 @@ ggplot(diabetes, aes(baseline, response))+geom_point(aes(colour = treat)) +
   facet_wrap("treat")
 ```
 
-이제 공변량을 사용하지 않는 분산분석 모형을 적합해 보자. 처리 간에 산소운반 능력이 유의한 차이가 없다.
+이제 공변량을 사용하지 않는 분산분석 모형을 적합해 보자. 처리 간에 혈당의 평균은 유의한 차이가 없다.
 
 ```{r}
 diab1 <- lm(response~treat, data=diabetes )
@@ -333,7 +333,7 @@ anova(oxy1)
 
 
 ```{r}
-oxy2 <- lm(oxy ~ cigar + treat, data=oxygen )
+oxy2 <- lm(oxy ~ treat + cigar, data=oxygen )
 summary(oxy2)
 Anova(oxy2, type="III")
 ```
@@ -363,7 +363,7 @@ $$ {#eq-ancovamodel3}
 $MSE = 29146/24= 1214.4$ 으로 줄어든 것을 알 수 있다. 
 
 ```{r}
-oxy3 <- lm(oxy ~ cigar + treat*cigar, data=oxygen )
+oxy3 <- lm(oxy ~ treat + treat*cigar, data=oxygen )
 summary(oxy3)
 Anova(oxy3, type="III")
 ```
