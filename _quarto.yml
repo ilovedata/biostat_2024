@@ -24,6 +24,7 @@ book:
       chapters:
         - notes/anova.qmd
         - notes/ancova.qmd
+        - notes/multiple.qmd
     - references.qmd
 
 bibliography: references.bib
