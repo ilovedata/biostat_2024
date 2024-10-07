@@ -25,6 +25,7 @@ book:
         - notes/anova.qmd
         - notes/ancova.qmd
         - notes/multiple.qmd
+        - notes/repeatmeasure.qmd
     - references.qmd
 
 bibliography: references.bib
