@@ -1,0 +1,224 @@
+# 선형혼합모형의 이론  {#sec-lmmtheory} 
+
+## 독립군집 모형 
+
+선형혼합모형을 적용할 수 있는 자료의 종류와 구조는 다양하지만 가장 흔하게 나타나는 자료 구조는 독립 군집(independent cluster)의 형태로  $n$ 개의 독립적인 군집(개체, 그룹 등)들에서 각각 $m_i$ 개의 반응값이 나타나는 구조이다.
+
+독립적인 군집은 여러 개의 내포되는 층으로 구성될 수 도 있고(예를 들어 학교, 교사, 학생) 개체(반복측정자료) 또는 공간적/시간적인 군집으로도 나타날 수 있다.  이렇게 독립적 군집에 대한 자료를 설명하는 혼합모형을 독립군집 혼합모형이라고 부른다.
+
+예를 들어 @exm-sleep 에서 살펴본 트럭 운전사 자료에서 트럭 운전사는 하나의 군집이 되고 각 운전사마다 반복한 측정치가 있는 자료가 대표적인 예이다. 또한 학교(군집)를 독립적으로 추출하고 각 학교에서 다시 학생들을 추출하는 경우도 독립 군집의 형태라고 할 수 있다.
+
+
+먼저 $i$ 번째 군집에서 측정된 반응벡터를 $\pmb y_i$ 라고 하고 
+
+$$
+\pmb y_i=
+\begin{bmatrix}
+y_{i1} \\
+y_{i2} \\
+\vdots\\
+y_{i m_i}
+\end{bmatrix}
+$$
+
+다음과 같은 독립군집 모형을 따른다고 가정한다.
+
+$$
+\pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i, \quad i=1,2,\dots,n
+$$ {#eq-lmm-indcluster-1}
+
+- 반응벡터 $\pmb y_i$ 는 $m_i \times 1$ 벡터로 $i$ 번쨰 군집에 속한 관측값들을 모아 놓은 벡터이다. 
+- 차원이 $m_i \times p$ 인 행렬  $\pmb X_i$ 는 $i$ 번째 군집의 고정 효과에 대한 계획행렬이다. 
+- $p \times 1$ 의 모수벡터 $\pmb\beta$ 는 고정 효과로서 회귀계수를 의미한다.
+- 차원이 $m_i \times q$ 인 행렬  $\pmb Z_i$ 는  $i$ 번째 군집의 임의 효과에 대한 계획행렬이다. 
+- $i$ 번째 군집에 대한 $q \times 1$ 임의효과 벡터를 $\pmb b_i$ 로 나타낸다.
+- $\pmb e_i$는 $m_i$ 개의 관측값들에 대한 오차를 모아놓은 오차 벡터이다.
+
+
+또한 군집에 대한 임의효과 벡터와 오차항 벡터의 분포는 각각 다음과 같이 주어진다. 개체에 대한 임의효과 벡터 $\pmb b_i$ 는 서로 독립적으로 평균이 0 공분산이  $\pmb G$ 인 다변량 정규분포를 따른다. 임의효과의 공분산 행렬 $\pmb G$ 는 양반정치 행렬(semi-positive definite matrix)이다. 여기서 양반정치행렬이라는 의미는 분산의 0이 될 수 있는 양정치 행렬을 말한다.
+
+
+$$
+{\pmb b}_i \sim N(\pmb 0, \pmb G ),\quad {\pmb e}_i \sim N(0, \sigma \pmb I), ~~i=1,2,\dots, n
+$$ {#eq-lmm-cov-model}  
+
+
+ 모든 오차항은 서로 독립이고 분산은 $\sigma^2$ 으로 동일하다.
+
+$$
+V(e_{ik}) = \sigma^2 \quad \text{ for all } i,k
+$$
+
+$$
+Cov(e_{ik}, e_{jl}) =0 \text{ for all } i,j,k,l 
+$$
+
+다른 개체에 대한 임의효과 벡터는 서로 독립이며 임의 효과 벡터와 오차항 벡터도 독립이다. 
+
+$$  
+Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j
+$$
+
+$$
+Cov(\pmb b_{i}, \pmb e_{i}) =\pmb 0
+$$
+
+
+
+::: {#exm-lmm-sleep}
+
+@exm-sleep 에서 살펴본 트럭 운전사 자료에서 임의계수 모형 @eq-re-repeat 을 위의 식 @eq-lmm-indcluster-1 의 형태로 기술하면 
+계획행렬 $\pmb X_i$ 와 $\pmb Z_i$ 는 다음과 같다. 
+
+$$  
+\pmb y=\begin{bmatrix}
+y_{i1} \\
+y_{i2} \\
+\vdots \\
+y_{i,10}
+\end{bmatrix},~\pmb X_i =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots  \\
+1 & 9 
+\end{bmatrix}, \pmb  \beta=
+\begin{bmatrix}
+\beta_{0} \\
+\beta_{1} \\
+\end{bmatrix}, ~\pmb Z_i =
+\begin{bmatrix}
+1 & 0 \\
+1 & 1 \\
+\vdots & \vdots  \\
+1 & 9 
+\end{bmatrix},~ \pmb b_i =
+\begin{bmatrix}
+b_{0i} \\
+b_{1i} \\
+\end{bmatrix},~
+\pmb  e_i= 
+\begin{bmatrix}
+e_{i1} \\
+e_{i2} \\
+\vdots \\
+e_{i,10}
+\end{bmatrix}
+$$ 
+
+:::
+
+위의 각 군집에 대한 모형 @eq-lmm-indcluster-1 을 모두 합쳐서 하나의 혼합효과모형으로 나타내면 다음과 같이 표현할 수 있다.
+
+$$
+\pmb  y = \pmb  X \pmb \beta + \pmb Z \pmb b + \pmb e 
+$$ {#eq-lmm-lme1} 
+
+여기서 반응변수 벡터 $\pmb y$ 와 고정효과 $\pmb \beta$ 에 대한 계획행렬 $\pmb X$ 는 각 군집의 반응변수 벡터 $\pmb y_i$ 와 ${\pmb X}_i$ 를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 $\pmb e$ 도 동일한 형식의 벡터이다.
+
+$$  
+\pmb y =
+\begin{bmatrix}
+\pmb y_{1} \\
+\pmb y_{2} \\
+\vdots \\
+\pmb y_n
+\end{bmatrix},~\pmb X =
+\begin{bmatrix}
+\pmb X_1 \\
+\pmb X_2 \\
+\vdots \\
+\pmb  X_n 
+\end{bmatrix}
+~ \pmb e =
+\begin{bmatrix}
+\pmb e_1 \\
+\pmb e_2 \\
+\vdots  \\
+\pmb e_n
+\end{bmatrix}
+$$ 
+
+임의효과 벡터 ${\pmb  b}$ 는 각 군집에 대한 임의효과 벡터 $\pmb b_i$ 를 행으로 쌓아놓은 것과 같고 임의효과에 대한 계획행렬 $\pmb Z$ 는 각 군집의 계획행렬 ${\pmb Z}_i$ 를 대각원소로 구성하는 행렬이다.
+
+$$ 
+\pmb b=\begin{bmatrix}
+\pmb b_{1} \\
+\pmb b_{2} \\
+\vdots \\
+\pmb b_n
+\end{bmatrix},~\pmb Z =
+\begin{bmatrix}
+\pmb Z_1 & 0 & \dots & 0 \\
+0   & \pmb Z_2 & \dots & 0 \\
+\vdots & \vdots & \vdots & \vdots  \\
+0 & 0 & \dots & \pmb Z_n
+\end{bmatrix}
+$$ 
+
+다음은 모형 @eq-lmm-lme1 에 나타난 벡터와 행렬의 차원이다. 이 경우 전체 반응변수의 수를 $N$ 이라고 하자.
+
+$$ 
+N = m_1 + m_2 + \dots + m_n = \sum_{i=1}^n m_i
+$$
+
+
+- $\pmb y$ : $N \times 1$ 
+- $\pmb X$ : $N \times p$
+- $\pmb \beta$: $p \times 1$
+- $\pmb Z$ : $N \times qn$ 
+- $\pmb b$ : $qn \times 1$ 로 나타낸다.
+- $\pmb e$ : $N \times 1$
+
+여기서 유의할 점은 군집의개수 $n$ 이 증가해도 고정효과를 나타내는 회귀계수의 벡터 $\pmb \beta$ 의 차원은 변하지 안지만
+임의효과에 대한 벡터  $\pmb b$ 의 차원은 증가한다는 사실이다.
+
+또한 임의효과에 대한 계획행렬 $\pmb Z$ 는 원소에 0 이 많은 희소행렬(sparse matrix)로 나타난다.  
+
+
+## 반응값의 분포 
+
+### 주변 분포 
+
+이제 선형혼합모형 @eq-lmm-lme1 에서 관측값의 분포에 대하여 살펴보자. 먼저 반응변수 벡터 $\pmb y$ 는 다변량 정규분포를 따르며 기대값 $\pmb \mu$ 과 공분산 행렬 $\pmb V$ 는 다음과 같이 주어진다. 
+
+$$
+\begin{aligned}
+\pmb \mu & = E(\pmb y)   \\
+  & = E(\pmb X \pmb \beta + \pmb Z  \pmb b + \pmb e)  \\
+  & = E(\pmb X \pmb \beta) + \pmb Z  E(\pmb b) + E(\pmb e)  \\
+  & = \pmb X \pmb \beta + \pmb 0 + \pmb 0  \\
+  & = \pmb X \pmb \beta  \\
+\pmb V & = Cov (\pmb y)   \\
+ & = Cov (\pmb X \pmb \beta + \pmb Z  \pmb b + \pmb e)   \\
+ & = Cov (\pmb Z  \pmb b + \pmb e)   \\
+ & = Cov (\pmb Z  \pmb b) +  Cov (\pmb e)   \\
+ & = \pmb Z Cov(\pmb b) {\pmb Z}^t +  \sigma^2 \pmb I   \\
+ & = \pmb  Z  \pmb G {\pmb Z}^t +  \sigma^2 \pmb I  \\ 
+\end{aligned}
+$$
+
+<!---
+
+위의 식 \@ref(eq:lme1-dist-2) 에서 전체 임의효과 벡터 $b$ 의 공분산 행렬 $\Sigma$는 다음과 나타난다. 
+
+$$
+Cov(b) = \sigma^2 \Sigma =  \sigma^2  
+\begin{bmatrix}
+ G & 0 & \dots & 0 \\
+0   &  G & \dots & 0 \\
+\vdots & \vdots & \vdots & \vdots  \\
+0 & 0 & \dots &  G
+\end{bmatrix}
+$$ 
+
+그리고 $\sigma^2$ 으로 스케일링된 공분산 행렬 $V$는 다음과 같이 주어진다.  
+
+```{=tex}
+\begin{equation}
+  V = V(\theta) = I + Z \Sigma(\theta) Z^t = I + \sum_{i=1}^n Z_i G(\theta) Z^t_i
+(\#eq:inf-varcomppara)  
+\end{equation}  
+```
+
+--->

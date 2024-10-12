@@ -1,0 +1,219 @@
+# 다변량 확률변수의 성질 {#sec-mulivar}
+
+## 일변량분포
+
+일변량 확률변수 $x$가 확률밀도함수 $f(x)$를 가지는 분포를 따를 때  기대값과 분산은 다음과 같이 정의된다.
+
+$$ 
+E( x) = \int x f(x)  dx = \mu 
+$$ 
+
+$$
+V( x) = E[  x-E( x)]^2=\int (x-\mu)^2 f(x) dx =\sigma^2 
+$$
+
+새로운 확률변수 $y$ 가 확률변수 $x$의 선형변환으로 표시된다면 ($a$ 와 $b$ 는 실수) 
+
+$$ 
+y = a x+b
+$$
+그 기대값(평균)과 분산은 다음과 같이 계산된다.
+
+$$
+\begin{aligned}
+E(y) &= E(a x+b) \\
+&= \int (ax+b) f(x) dx \\
+&= a \int x f(x) dx + b \\
+&= a E( x) + b\\
+&= a \mu + b \\
+V(y) &= Var(a x+b) \\
+&= E[a x+b -E(a x+b)]^2 \\
+&= E[a( x-\mu)]^2 \\
+&= a^2 E( x-\mu)^2\\
+&= a^2 \sigma^2
+\end{aligned}
+$$
+
+## 확률벡터의 분포 
+
+다음과 같은 확률벡터 $\pmb x$ 가 $p$ 차원의 다변량분포를 따른다고 하자.
+
+$$
+ \pmb x =
+\begin{bmatrix}
+ x_1 \\
+ x_2 \\
+ x_3 \\
+..  \\
+ x_p
+\end{bmatrix}
+$$
+
+다변량 확률벡터 $\pmb x$ 의  평균벡터 $\pmb \mu$ 과 공분산 행렬 $\pmb \Sigma$ 은 다음과 같이 계산된다.
+
+$$
+ E( \pmb x) =
+  \begin{bmatrix}
+E( x_1) \\
+E( x_2) \\
+E( x_3) \\
+..  \\
+E( x_p)
+\end{bmatrix}
+= 
+  \begin{bmatrix}
+\mu_1 \\
+\mu_2 \\
+..  \\
+\mu_p
+\end{bmatrix}
+= \pmb \mu 
+$$
+
+$$
+V( \pmb x) =Cov( \pmb x) =  
+\begin{bmatrix}
+\sigma_{11} & \sigma_{12} & \dots & \sigma_{1p} \\
+\sigma_{12} & \sigma_{22} & \dots & \sigma_{2p} \\
+& \dots & \dots & \\
+\sigma_{1p} & \sigma_{2p} & \dots & \sigma_{pp} \\
+\end{bmatrix}
+=  \pmb \Sigma
+$$
+
+여기서 
+
+$$ 
+\sigma_{ii}=V(x_i), \quad \sigma_{ij} = Cov(x_i, x_j)=
+$$
+
+
+두 확률변수의 상관계수 $\rho_{ij}$는 다음과 같이 정의된다.
+$$ 
+\rho_{ij} = \frac{Cov(x_i, x_j)}{ \sqrt{V( x_i) V( x_j)}} = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii} \sigma_{jj}}} 
+$$
+
+새로운 확률벡터 $\pmb y$ 가 확률벡터 $\pmb x$ 의 선형변환라고 하자. 
+$$  
+\pmb y =  \pmb A   \pmb x +  \pmb b 
+$$
+
+단 여기서 $\pmb A$ 는 $p \times p$ 실수 행렬이고 $\pmb b$ 는 $p \times 1$ 실수 벡터이다.
+
+이제 확률벡터 $\pmb y$ 의 기대값(평균벡터)과 공분산은 다음과 같이 계산된다.
+
+$$
+E(  \pmb y ) = E( \pmb A  \pmb x +  \pmb b) 
+=  \pmb A  \pmb \mu +  \pmb b 
+$$
+
+$$
+V( \pmb y) = Var( \pmb A  \pmb x + \pmb b) 
+=  \pmb A \pmb \Sigma  {\pmb A}^t
+$$
+
+
+## 다변량 정규분포 
+
+### 일변량 정규뷴포
+
+일변량 확률변수 $x$ 가 평균이 $\mu$ 이고 분산이 $\sigma^2$ 인 정규분포를 따른다면 다음과 같이 나타내고 
+
+$$ 
+\pmb x \sim N(\mu, \sigma^2 ) 
+$$
+
+확률밀도함수 $f(x)$ 는 다음과 갇이 주어진다.
+$$ 
+f(x) = (2 \pi \sigma^2)^{-1/2} \exp \left ( - \frac{(x-\mu)^2}{2} \right ) 
+$$
+
+
+### 이변량 정규분포
+
+이제 2개의 확률변수로 이루어진 $2$-차원 확률벡터  $\pmb x=(\pmb x_1, \pmb x_2)^t$ 가 다음과 같은 평균 벡터 $\pmb \mu$ 과 공분산 행렬 $\pmb \Sigma$ 울 가지고 
+정규뷴포를 따른다면 이변량 정규분포(bivariate normal distribution)을 따른다고 하며 
+
+$$ 
+E(\pmb x) = 
+\begin{bmatrix}
+\mu_1 \\
+\mu_2
+\end{bmatrix}
+= \pmb \mu, \quad 
+Cov(\pmb x) =
+\begin{bmatrix}
+\sigma_{11} & \sigma_{12} \\
+\sigma_{12} & \sigma_{22}
+\end{bmatrix}
+= \pmb \Sigma 
+$$
+
+다음과 같이 표기한다.
+
+$$ 
+\pmb x \sim N_2(\pmb \mu , \pmb \Sigma)
+$$
+
+이변량 정규분포의  확률밀도함수 $f(\pmb x)$에서 다음과 같이 주어진다.
+
+$$ 
+f( \pmb x) = (2 \pi)^{-1} | \pmb \Sigma |^{-1/2} 
+\exp \left ( - \frac{( \pmb x- \pmb \mu)  {\pmb \Sigma}^{-1}( \pmb x- \pmb \mu)^t}{2} \right ) 
+$$ {#eq-mutinormpdf}
+
+
+만약 $x_2$ 가 주어졌을 때 $x_1$의 조건부 분포는 정규분포이고 평균과 분산은 다음과 같이 주어진다. 
+
+$$
+E( x_1 |  x_2 ) =  \mu_1 +  \frac{\sigma_{12}}{\sigma_{22}} ( \mu_2 -  x_2)  
+$$
+
+$$
+V( x_1 |  x_2 )  =   \sigma_{11} - \frac{\sigma^2_{12}}{\sigma_{22}} 
+$$
+
+위의 식에서 $\rho = \sigma_{12}/(\sigma_{11} \sigma_{22})$ 는 $x_1$ 과 $x_2$ 의 상관계수이다. 
+
+
+### 다변량 정규분포 
+
+앞에서 살펴본 이변량 정규분포를 $p$-차원 확률벡터로 쉽게 확장할 수 있다.  $p$-차원 확률벡터  $\pmb x$ 가  평균이 $\pmb \mu$ 이고 공분산이 $\pmb \Sigma$ 인 
+다변량 정규분포(p-dimensional normal distribution)를 따른다면 다음과 같이 나타내고 
+
+$$
+\pmb x \sim N_p( \pmb \mu,  \pmb \Sigma ) 
+$$
+
+확률밀도함수 $f(\pmb x)$ 는  @eq-mutinormpdf 에서 평균 백터 $\pmb \mu$ 와 공분산 행렬 $\pmb \Sigma$ 의 차원이 $p$ 차원으로 주어진 식으로 나타낼 수 있다.
+
+
+
+- 다변량 정규분포에서, 두 변수의 공분산이 0 인 경우와 두 변수의  독립은 동치이다.
+
+- 다변량 정규분포의 주변 분포(marginal distribution)는 여전히 정규분포를 따른다. 즉, 다변량 정규분포에서 일부 변수만 따로 떼어내더라도 그 변수들 역시 다변량 정규분포를 따른다.
+
+- 다변량 정규분포에서 공분산 행렬 $\pmb \Sigma$ 는 대칭행렬(symmetric matrix)이며 양정치 행렬(positive definite matrix)이다.
+
+
+
+다변량 정규분포를 따르는  확률벡터 $\pmb x$ 를 다음과 같이 두 부분으로 나누면 
+
+$$
+\pmb x =
+\begin{bmatrix}
+\pmb x_1 \\
+\pmb x_2
+\end{bmatrix}
+$$
+
+확률벡터 $\pmb x_2$ 가 주어진 경우 $\pmb x_1$ 의 조건부 분포는 다변량 정규분포를 따르고 평균과 공분산은 다음과 같다.
+
+$$ 
+  E(\pmb x_1 | \pmb x_2 ) = \pmb \mu_1 + {\pmb \Sigma}_{12} {\pmb \Sigma}^{-1}_{22} (\pmb \mu_2 - \pmb x_2)
+$$ 
+
+$$
+V(\pmb x_1 | \pmb x_2 )  = {\pmb \Sigma_{11}} -{\pmb \Sigma}_{12} {\pmb \Sigma}^{-1}_{22} {\pmb \Sigma}^t_{12}
+  $$
+

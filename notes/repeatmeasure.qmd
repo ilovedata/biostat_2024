@@ -265,17 +265,17 @@ $$  {#eq-re-compmodel}
 library(lme4)
 library(lmerTest)
 str(sleepstudy)
-head(sleepstudy,n=20)
+head(sleepstudy, n = 20)
 ```
 
 각 운전자에 대한 10일 간의 반응속도가 시간에 따라 어떻게 변하는 가를 알아보자. 전반적으로 시간이 지나면서 운전자들의 반응시간이 증가하고 있음을 알 수 있다. 또한 개인 별로 반응 시간의 변화와 패턴이 다르다는 것을 알 수 있다.  
 ```{r ex15,echo=T ,fig.width=7, fig.height=7, out.width='.8\\linewidth'}
 library(ggplot2)
-ggplot(sleepstudy, aes(x=Days, y=Reaction)) +
-     geom_point(size=0.5) +
-    geom_smooth(method = lm, se = FALSE,linewidth=0.5)+
-     facet_wrap("Subject", labeller = label_both)+ 
-     theme_bw()
+ggplot(sleepstudy, aes(x = Days, y = Reaction)) +
+    geom_point(size = 0.5) +
+    geom_smooth(method = lm, se = FALSE, linewidth = 0.5) +
+    facet_wrap("Subject", labeller = label_both) +
+    theme_bw()
 ```
 
 
@@ -329,7 +329,7 @@ $$
 lmf1 <- lmList(Reaction ~ Days | Subject, sleepstudy)
 lmf1
 cor(coef(lmf1))
-plot(coef(lmf1),main="intercepts and slopes on drivers: sleep study ")
+plot(coef(lmf1), main = "intercepts and slopes on drivers: sleep study ")
 ```
 
 18개의 절편과 기울기는 큰 상관관계는 없는것으로 보이지만 약한 음의 상관계수가 나타났다.  
@@ -354,18 +354,18 @@ $$ {#eq-re-popmodel}
 ```{r pmodel}
 lmpop <- lm(Reaction ~ Days, sleepstudy)
 summary(lmpop)
-with(sleepstudy, plot(Days, Reaction,main="Population and individual regression lines"))
-abline(a=coef(lmpop)[1], b=coef(lmpop)[2],lwd=3)
-for ( i in 1:18 ) {
-  xx <- as.numeric(coef(lmf1)[i,])
-abline(a=xx[1],b=xx[2], lty=2)
+with(sleepstudy, plot(Days, Reaction, main = "Population and individual regression lines"))
+abline(a = coef(lmpop)[1], b = coef(lmpop)[2], lwd = 3)
+for (i in 1:18) {
+    xx <- as.numeric(coef(lmf1)[i, ])
+    abline(a = xx[1], b = xx[2], lty = 2)
 }
 ```
 
 이제 각 운전사에 대하여 개체별로 적합한 회귀식의 계수들$(\hat \beta_{0i}, \hat \beta_{1i})$ 와 전체집단에 적한한 회귀식의 계수 $(\hat \beta_{0}, \hat \beta_{1})$의 관계를 보면 개체별로 회귀 계수들의 평균이 전체에 적용한 모형의 계수와 매우 가까운 사실을 알 수 있다.
 
 ```{r mean1}
-apply(coef(lmf1),2,mean)
+apply(coef(lmf1), 2, mean)
 coef(lmpop)
 ```
 
@@ -410,6 +410,7 @@ b_{0i} \\
 b_{1i} \\
 \end{bmatrix}
 , \quad
+\pmb b_i =
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
@@ -432,12 +433,16 @@ $$
 
 다른 개체에 대한 임의효과는 서로 독립이며 임의 효과와 오차항은 독립이다. 여기서 오차항은 서로 독립이며 $N(0, \sigma^2_e)$를 따른다고 가정한다.
 
-$$  Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
-Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k $$ 
+$$  
+Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
+Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k 
+$$ 
 
 
 
 위 @eq-re-repeat 같은 혼합효과모형(mixed effects model)을 각 개인 $i$에 대하여 행렬식으로 표시하면 다음과 같다.
+아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며  독립군집 모형의 일반적인 이론은
+@sec-lmmtheory 에서 더 논의할 것이다.
 
 $$  
 \pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i , \quad i=1,2,\dots,18
@@ -491,7 +496,7 @@ $$ {#eq-re-lme1}
 여기서 반응변수벡터 $\pmb y$와 고정효과 $\pmb \beta$에 대한 계획행렬 $X$는 각 개인의 반응변수벡터 $\pmb y_i$와 $\pmb X_i$를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 $\pmb e$도 동일한 형식의 벡터이다.
 
 $$  
-\pmb y_i=\begin{bmatrix}
+\pmb y=\begin{bmatrix}
 \pmb y_{1} \\
 \pmb y_{2} \\
 \vdots \\
@@ -512,7 +517,7 @@ $$
 \end{bmatrix}
 $$ 
 
-임의효과 벡터 ${\pmb  b}$ 는 각 개인에 대한 임의효과벡터 $\pmb b_i$를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 $\pmb Z$는 각 개인의 계획행렬 $\pmb Z_i$를 대각원소로 같은 행렬이다.
+임의효과 벡터 ${\pmb  b}$ 는 각 개인에 대한 임의효과벡터 $\pmb b_i$ 를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 $\pmb Z$ 는 각 개인의 계획행렬 $\pmb Z_i$ 를 대각원소로 구성하는 행렬이다.
 
 $$ 
 \pmb b=\begin{bmatrix}
