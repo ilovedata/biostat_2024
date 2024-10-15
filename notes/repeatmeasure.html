@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../notes/multivar.html" rel="next">
 <link href="../notes/multiple.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -285,12 +285,35 @@ window.Quarto = {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/lmmtheory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">선형혼합모형의 이론</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -311,7 +334,7 @@ window.Quarto = {
   <li><a href="#반복측정자료" id="toc-반복측정자료" class="nav-link" data-scroll-target="#반복측정자료"><span class="header-section-number">8.4</span> 반복측정자료</a>
   <ul class="collapse">
   <li><a href="#개체들의-선형-회귀모형" id="toc-개체들의-선형-회귀모형" class="nav-link" data-scroll-target="#개체들의-선형-회귀모형"><span class="header-section-number">8.4.1</span> 개체들의 선형 회귀모형</a></li>
-  <li><a href="#임의계수-모형" id="toc-임의계수-모형" class="nav-link" data-scroll-target="#임의계수-모형"><span class="header-section-number">8.4.2</span> 임의계수 모형</a></li>
+  <li><a href="#sec-randomcoef" id="toc-sec-randomcoef" class="nav-link" data-scroll-target="#sec-randomcoef"><span class="header-section-number">8.4.2</span> 임의계수 모형</a></li>
   </ul></li>
   <li><a href="#예제-고혈압-강하제-살험" id="toc-예제-고혈압-강하제-살험" class="nav-link" data-scroll-target="#예제-고혈압-강하제-살험"><span class="header-section-number">8.5</span> 예제: 고혈압 강하제 살험</a>
   <ul class="collapse">
@@ -471,6 +494,19 @@ y_{ijk} = \mu + a_i + b_{ij} + e_{ijk}
 y_{ij} = \mu + \tau_{k(i)} + a_i + e_{ij}
 \tag{8.9}\]</span></span></p>
 <p>여기서 <span class="math inline">\(\tau_{k(i)}\)</span>는 <span class="math inline">\(i\)</span>번째 학교의 교수법에 대한 고정효과이다(교수법이 배정된 결과에 의하여 <span class="math inline">\(k(i)=1\)</span> 또는 <span class="math inline">\(k(i)=2\)</span>이 된다). 이 교수법에 대한 고정효과에 대해서는 두 교수법이 차이가 있는 지에 대한 검정이 주요한 관심사일 것이다 (<span class="math inline">\(H_0: \tau_1=\tau_2\)</span>)</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="고정효과와 임의효과의 표기">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+고정효과와 임의효과의 표기
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>고정효과는 보통 모형식에서 그릭 문자(<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>)로 표시하고 임의효과는 모형식에서 영어 알파벳 문자(<span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>)로 표시한다</p>
+</div>
+</div>
 </section>
 </section>
 <section id="반복측정자료" class="level2" data-number="8.4">
@@ -489,7 +525,7 @@ y_{ij} = \mu + \tau_{k(i)} + a_i + e_{ij}
  $ Days    : num  0 1 2 3 4 5 6 7 8 9 ...
  $ Subject : Factor w/ 18 levels "308","309","310",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleepstudy,<span class="at">n=</span><span class="dv">20</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleepstudy, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Reaction Days Subject
 1  249.5600    0     308
@@ -517,11 +553,11 @@ y_{ij} = \mu + \tau_{k(i)} + a_i + e_{ij}
 <p>각 운전자에 대한 10일 간의 반응속도가 시간에 따라 어떻게 변하는 가를 알아보자. 전반적으로 시간이 지나면서 운전자들의 반응시간이 증가하고 있음을 알 수 있다. 또한 개인 별로 반응 시간의 변화와 패턴이 다르다는 것을 알 수 있다.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(<span class="at">x=</span>Days, <span class="at">y=</span>Reaction)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>,<span class="at">linewidth=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">facet_wrap</span>(<span class="st">"Subject"</span>, <span class="at">labeller =</span> label_both)<span class="sc">+</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="fu">theme_bw</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(<span class="at">x =</span> Days, <span class="at">y =</span> Reaction)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="st">"Subject"</span>, <span class="at">labeller =</span> label_both) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -604,7 +640,7 @@ Residual standard error: 25.59182</code></pre>
 (Intercept)   1.0000000 -0.1375534
 Days         -0.1375534  1.0000000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">coef</span>(lmf1),<span class="at">main=</span><span class="st">"intercepts and slopes on drivers: sleep study "</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">coef</span>(lmf1), <span class="at">main =</span> <span class="st">"intercepts and slopes on drivers: sleep study "</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -662,11 +698,11 @@ Residual standard error: 47.71 on 178 degrees of freedom
 Multiple R-squared:  0.2865,    Adjusted R-squared:  0.2825 
 F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sleepstudy, <span class="fu">plot</span>(Days, Reaction,<span class="at">main=</span><span class="st">"Population and individual regression lines"</span>))</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="fu">coef</span>(lmpop)[<span class="dv">1</span>], <span class="at">b=</span><span class="fu">coef</span>(lmpop)[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">3</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span> ) {</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">coef</span>(lmf1)[i,])</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span>xx[<span class="dv">1</span>],<span class="at">b=</span>xx[<span class="dv">2</span>], <span class="at">lty=</span><span class="dv">2</span>)</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sleepstudy, <span class="fu">plot</span>(Days, Reaction, <span class="at">main =</span> <span class="st">"Population and individual regression lines"</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="fu">coef</span>(lmpop)[<span class="dv">1</span>], <span class="at">b =</span> <span class="fu">coef</span>(lmpop)[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">18</span>) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    xx <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">coef</span>(lmf1)[i, ])</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">a =</span> xx[<span class="dv">1</span>], <span class="at">b =</span> xx[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -678,7 +714,7 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 </div>
 <p>이제 각 운전사에 대하여 개체별로 적합한 회귀식의 계수들<span class="math inline">\((\hat \beta_{0i}, \hat \beta_{1i})\)</span> 와 전체집단에 적한한 회귀식의 계수 <span class="math inline">\((\hat \beta_{0}, \hat \beta_{1})\)</span>의 관계를 보면 개체별로 회귀 계수들의 평균이 전체에 적용한 모형의 계수와 매우 가까운 사실을 알 수 있다.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">coef</span>(lmf1),<span class="dv">2</span>,mean)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">coef</span>(lmf1), <span class="dv">2</span>, mean)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)        Days 
   251.40510    10.46729 </code></pre>
@@ -690,8 +726,8 @@ F-statistic: 71.46 on 1 and 178 DF,  p-value: 9.894e-15</code></pre>
 </div>
 </div>
 </section>
-<section id="임의계수-모형" class="level3" data-number="8.4.2">
-<h3 data-number="8.4.2" class="anchored" data-anchor-id="임의계수-모형"><span class="header-section-number">8.4.2</span> 임의계수 모형</h3>
+<section id="sec-randomcoef" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="sec-randomcoef"><span class="header-section-number">8.4.2</span> 임의계수 모형</h3>
 <p>앞 절의 모형과 분석에서 알 수 있듯이 한 개체에 대하여 여러 개의 관측값을 측정한 자료에 회귀방정식을 각각 적합시켜보고 또한 개체의 특성을 고려하지않은 전체 모형을 적합해보면 다음과 같은 두 가지 결과를 볼 수 있다.</p>
 <ul>
 <li>각 개체별 회귀식은 개인의 특성을 반영한다. 즉, 개체에 따라 시간에 따른 반응시간의 변화가 다르게 나타난다.</li>
@@ -719,6 +755,7 @@ b_{0i} \\
 b_{1i} \\
 \end{bmatrix}
 , \quad
+\pmb b_i =
 \begin{bmatrix}
 b_{0i} \\
 b_{1i} \\
@@ -737,9 +774,11 @@ N \left (
 \]</span></p>
 <p>위의 모형은 각 개인의 회귀직선에서 각 절편과 기울기가 전체평균 <span class="math inline">\(\beta_0\)</span>와 <span class="math inline">\(\beta_1\)</span>를 따르며 각 개인의 차이는 전체평균에 임의효과인 <span class="math inline">\(b_{0i}\)</span>와 <span class="math inline">\(b_{1i}\)</span>가 더해져서 나타난다는 것을 의미한다. 이변량 임의효과 <span class="math inline">\(b_{0i}\)</span>와 <span class="math inline">\(b_{1i}\)</span>는 이변량 정규분포를 따르며 각각의 분산과 상관계수가 <span class="math inline">\(\sigma^2_{b1}\)</span>, <span class="math inline">\(\sigma^2_{b2}\)</span>, <span class="math inline">\(\rho\)</span>이다.</p>
 <p>다른 개체에 대한 임의효과는 서로 독립이며 임의 효과와 오차항은 독립이다. 여기서 오차항은 서로 독립이며 <span class="math inline">\(N(0, \sigma^2_e)\)</span>를 따른다고 가정한다.</p>
-<p><span class="math display">\[  Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
-Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k \]</span></p>
-<p>위 <a href="#eq-re-repeat" class="quarto-xref"><span>8.12</span></a> 같은 혼합효과모형(mixed effects model)을 각 개인 <span class="math inline">\(i\)</span>에 대하여 행렬식으로 표시하면 다음과 같다.</p>
+<p><span class="math display">\[  
+Cov(\pmb b_{i}, \pmb b_{j}) =\pmb 0 \text{ when } i \ne j,\quad
+Cov(\pmb b_{i}, e_{jk}) =\pmb 0 \text{ for all } i,j,k
+\]</span></p>
+<p>위 <a href="#eq-re-repeat" class="quarto-xref"><span>8.12</span></a> 같은 혼합효과모형(mixed effects model)을 각 개인 <span class="math inline">\(i\)</span>에 대하여 행렬식으로 표시하면 다음과 같다. 아래 모형식은 일반적으로 독립군집 모형에서 하나의 군집에 대한 반복된 관측값들에 대한 모형이며 독립군집 모형의 일반적인 이론은 <a href="lmmtheory.html" class="quarto-xref"><span>부록 B</span></a> 에서 더 논의할 것이다.</p>
 <p><span class="math display">\[  
 \pmb y_i = \pmb X_i \pmb \beta + \pmb Z_i \pmb b_i + \pmb e_i , \quad i=1,2,\dots,18
 \]</span></p>
@@ -785,7 +824,7 @@ e_{i,10}
 \tag{8.13}\]</span></span></p>
 <p>여기서 반응변수벡터 <span class="math inline">\(\pmb y\)</span>와 고정효과 <span class="math inline">\(\pmb \beta\)</span>에 대한 계획행렬 <span class="math inline">\(X\)</span>는 각 개인의 반응변수벡터 <span class="math inline">\(\pmb y_i\)</span>와 <span class="math inline">\(\pmb X_i\)</span>를 행으로 쌓아놓은 것으로 표현된다. 오차항에 대한 벡터 <span class="math inline">\(\pmb e\)</span>도 동일한 형식의 벡터이다.</p>
 <p><span class="math display">\[  
-\pmb y_i=\begin{bmatrix}
+\pmb y=\begin{bmatrix}
 \pmb y_{1} \\
 \pmb y_{2} \\
 \vdots \\
@@ -805,7 +844,7 @@ e_{i,10}
 \pmb e_{18}
 \end{bmatrix}
 \]</span></p>
-<p>임의효과 벡터 <span class="math inline">\({\pmb  b}\)</span> 는 각 개인에 대한 임의효과벡터 <span class="math inline">\(\pmb b_i\)</span>를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 <span class="math inline">\(\pmb Z\)</span>는 각 개인의 계획행렬 <span class="math inline">\(\pmb Z_i\)</span>를 대각원소로 같은 행렬이다.</p>
+<p>임의효과 벡터 <span class="math inline">\({\pmb  b}\)</span> 는 각 개인에 대한 임의효과벡터 <span class="math inline">\(\pmb b_i\)</span> 를 행으로 쌓아놓은것과 같고 임의효과에 대한 계획행렬 <span class="math inline">\(\pmb Z\)</span> 는 각 개인의 계획행렬 <span class="math inline">\(\pmb Z_i\)</span> 를 대각원소로 구성하는 행렬이다.</p>
 <p><span class="math display">\[
 \pmb b=\begin{bmatrix}
 \pmb b_{1} \\
@@ -1987,8 +2026,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
