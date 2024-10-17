@@ -636,7 +636,7 @@ $$
 =
 \begin{bmatrix}
 \mu + a_i \\
-y_{ij}
+\bar y_{i}
 \end{bmatrix}
 \sim 
 N \left ( 
