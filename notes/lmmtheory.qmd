@@ -370,7 +370,7 @@ $$
 \vdots & \vdots & \vdots & \vdots  \\
 0 & 0 & \dots & \sigma^2_a
 \end{bmatrix}
-=  \sigma^2_b \pmb I_{I}
+=  \sigma^2_a \pmb I_{I}
 $$
 
 따라서 임의효과 벡터   $\pmb b$ 는 다음과 같은 다변량 정규분포를 따른다.
@@ -403,8 +403,8 @@ $$
  & = Cov (\pmb X \pmb \beta + \pmb Z  \pmb b + \pmb e)   \\
  & = Cov (\pmb Z  \pmb b + \pmb e)   \\
  & = Cov (\pmb Z  \pmb b) +  Cov (\pmb e)   \\
- & = \pmb Z Cov(\pmb b) {\pmb Z}^t +  \sigma^2 \pmb I   \\
- & = \pmb  Z  \pmb G {\pmb Z}^t +  \sigma^2 \pmb I  \\ 
+ & = \pmb Z Cov(\pmb b) {\pmb Z}^t +  \sigma_e^2 \pmb I   \\
+ & = \pmb  Z  \pmb G {\pmb Z}^t +  \sigma_e^2 \pmb I  \\ 
 \end{aligned}
 $$
 
@@ -493,9 +493,9 @@ $$
 $$ 
 \pmb G = Cov(\pmb b) =  
 \begin{bmatrix}
-\sigma^2_b & 0 & 0 \\
-0 & \sigma^2_b & 0 \\
- 0 & 0 & \sigma^2_b
+\sigma^2_a & 0 & 0 \\
+0 & \sigma^2_a & 0 \\
+ 0 & 0 & \sigma^2_a
 \end{bmatrix}
 $$ 
 
@@ -516,9 +516,9 @@ $$
 0 & 0 & 1 \\
 \end{bmatrix}
 \begin{bmatrix}
-\sigma^2_b & 0 & 0 \\
-0 & \sigma^2_b & 0 \\
- 0 & 0 & \sigma^2_b
+\sigma^2_a & 0 & 0 \\
+0 & \sigma^2_a & 0 \\
+ 0 & 0 & \sigma^2_a
 \end{bmatrix}
 \begin{bmatrix}
 1 & 1 & 0  & 0 & 0 & 0 \\
@@ -527,12 +527,12 @@ $$
 \end{bmatrix} \\
 & =
 \begin{bmatrix}
-\sigma^2_b  & \sigma^2_b  & 0 & 0 & 0 & 0\\
-\sigma^2_b & \sigma^2_b   & 0 & 0 & 0 & 0\\
- 0 & 0 &\sigma^2_b & \sigma^2_b &  0 & 0\\
- 0 & 0 &\sigma^2_b & \sigma^2_b &  0 & 0\\
- 0 & 0 & 0 & 0 & \sigma^2_b & \sigma^2_b  \\
- 0 & 0 & 0 & 0 & \sigma^2_b & \sigma^2_b \\
+\sigma^2_a  & \sigma^2_a  & 0 & 0 & 0 & 0\\
+\sigma^2_a & \sigma^2_a   & 0 & 0 & 0 & 0\\
+ 0 & 0 &\sigma^2_a & \sigma^2_a &  0 & 0\\
+ 0 & 0 &\sigma^2_a & \sigma^2_a &  0 & 0\\
+ 0 & 0 & 0 & 0 & \sigma^2_a & \sigma^2_a  \\
+ 0 & 0 & 0 & 0 & \sigma^2_a & \sigma^2_a \\
 \end{bmatrix}
 \end{aligned}
 $$
@@ -542,18 +542,18 @@ $$
 $$  
 Cov (\pmb y) = \pmb V =
 \begin{bmatrix}
-\sigma^2_b +\sigma^2_e & \sigma^2_b  & 0 & 0 & 0 & 0\\
-\sigma^2_b & \sigma^2_b+\sigma^2_e   & 0 & 0 & 0 & 0\\
- 0 & 0 &\sigma^2_b +\sigma^2_e& \sigma^2_b &  0 & 0\\
- 0 & 0 &\sigma^2_b & \sigma^2_b +\sigma^2_e&  0 & 0\\
- 0 & 0 & 0 & 0 & \sigma^2_b +\sigma^2_e& \sigma^2_b  \\
- 0 & 0 & 0 & 0 & \sigma^2_b & \sigma^2_b+\sigma^2_e  \\
+\sigma^2_a +\sigma^2_e & \sigma^2_a  & 0 & 0 & 0 & 0\\
+\sigma^2_a & \sigma^2_a+\sigma^2_e   & 0 & 0 & 0 & 0\\
+ 0 & 0 &\sigma^2_a +\sigma^2_e& \sigma^2_a &  0 & 0\\
+ 0 & 0 &\sigma^2_a & \sigma^2_a +\sigma^2_e&  0 & 0\\
+ 0 & 0 & 0 & 0 & \sigma^2_a +\sigma^2_e& \sigma^2_a  \\
+ 0 & 0 & 0 & 0 & \sigma^2_a & \sigma^2_a+\sigma^2_e  \\
 \end{bmatrix}
 $$ 
  
-같은 그룹에 속한 관측값의 공분산은 $\sigma^2_b$이고 같은 그룹에 속한 두 개의 관측값들에 대한 상관계수는 다음과 같다.
+같은 그룹에 속한 관측값의 공분산은 $\sigma^2_a$이고 같은 그룹에 속한 두 개의 관측값들에 대한 상관계수는 다음과 같다.
 
-$$ cor(y_{i1}, y_{i2}) = \frac{\sigma^2_b }{\sigma^2_b+\sigma^2_e } $$ 
+$$ cor(y_{i1}, y_{i2}) = \frac{\sigma^2_a }{\sigma^2_a+\sigma^2_e } $$ 
    
 :::
 
@@ -603,12 +603,12 @@ $$
 $$ E(\bar y_i) = E \left (\mu + b_i + \frac{\sum_j e_{ij}}{J} \right )= \mu  $$
 $$ 
 V(\bar y_i) = V \left (\mu + b_i + \frac{\sum_j e_{ij}}{J} \right )= 
-V(b_i)  + V \left (\frac{\sum_j e_{ij}}{J} \right ) = \sigma_b^2 + \frac{\sigma_e^2}{J}
+V(b_i)  + V \left (\frac{\sum_j e_{ij}}{J} \right ) = \sigma_a^2 + \frac{\sigma_e^2}{J}
 $$
 
 정규분포의 성질에 의하여 $\bar y_i$ 는 다음과 같은 정규분포를 따르게 된다.
 
-$$ \bar y_i \sim N \left (\mu, \sigma_b^2 + \frac{\sigma_e^2}{J} \right ) $$
+$$ \bar y_i \sim N \left (\mu, \sigma_a^2 + \frac{\sigma_e^2}{J} \right ) $$
 
 #### 성적과 IQ 의 결합 분포
 
@@ -665,12 +665,16 @@ $i$ 번째 학생의 평균 성적 $\bar y_i$ 가 주어진 경우 실제 IQ 인
 @eq-multi-conditional 을 이용하면 $\bar y_i$ 가 주어진 경우  $\mu + a_i$ 의 조건부 기대값은 다음과 같이 주어진다.
 
 $$
-E(\mu + a_i | \bar y_i)  = \bar y_i + \frac{\sigma_a^2}{\sigma_a^2 + \sigma_e^2/J} (\bar y_i -\mu)  
+\begin{aligned}
+E(\mu + a_i | \bar y_i)  
+& = E(\mu + a_i)  + \frac{Cov(\mu + a_i, \bar y_i)}{V(\bar y_i)} [\bar y_i -E(\bar y_i)]\\  
+&= \mu + \frac{\sigma_a^2}{\sigma_a^2 + \sigma_e^2/J} (\bar y_i -\mu)  
+\end{aligned}
 $$ {#eq-lmm-iq-pred}
 
 모집단의 IQ 의 평균이 $\mu=100$ 이라고 가정하자. 또한 임의효과와 오차항의 분산이 각각 $10^2$ 와 $\sigma_e^2 = 5^2$ 라고 가정하자. 
 
-$$ \mu = 100, \quad \sigma_b^2 = 10^2, \quad \sigma_e^2 = 10^2$$
+$$ \mu = 100, \quad \sigma_a^2 = 10^2, \quad \sigma_e^2 = 10^2$$
 
 이제 10개의 문항으로 이루어진 테스트를 통하여 $i$ 번째 학생의 평균 점수 $\bar y_i$ 가 130 점으로 나타났다고 하자. 
 
@@ -683,7 +687,7 @@ $$ \bar y_i = 130, \quad J =10 $$
 $$
 \begin{aligned}
 \widehat {IQ} & =E(\mu + a_i | \bar y_i = 130) \\
-& = \bar y_i + \frac{\sigma_a^2}{\sigma_a^2 + \sigma_e^2/J} (\bar y_i -\mu)   \\
+& = \mu + \frac{\sigma_a^2}{\sigma_a^2 + \sigma_e^2/J} (\bar y_i -\mu)   \\
 & = 100 + \frac{10^2}{10^2 + 10^2/10} (130 -100) \\
 & = 127.27 \\
 \end{aligned}
@@ -775,7 +779,7 @@ $$  \widehat {\mu+ \alpha_i} = \bar y_{..} + (\bar y_{i.}- \bar y_{..}) = \bar y
 
 임의효과를 이용하면 그룹의 효과가 고정효과를 이용한 모형보다 절대값이 작게 예측되는 것을 알 수 있다.
 
-$$  \left | \frac{\hat \sigma^2_b}{\hat \sigma^2_b + \hat \sigma^2_e/J } (\bar y_{i.}- \bar y_{..}) \right | 
+$$  \left | \frac{\hat \sigma^2_a}{\hat \sigma^2_a + \hat \sigma^2_e/J } (\bar y_{i.}- \bar y_{..}) \right | 
  \le  \left  | y_{i.}- \bar y_{..} \right | $$ 
 
 
