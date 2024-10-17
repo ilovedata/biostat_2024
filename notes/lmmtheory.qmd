@@ -672,7 +672,7 @@ E(\mu + a_i | \bar y_i)
 \end{aligned}
 $$ {#eq-lmm-iq-pred}
 
-모집단의 IQ 의 평균이 $\mu=100$ 이라고 가정하자. 또한 임의효과와 오차항의 분산이 각각 $10^2$ 와 $\sigma_e^2 = 5^2$ 라고 가정하자. 
+모집단의 IQ 의 평균이 $\mu=100$ 이라고 가정하자. 또한 임의효과와 오차항의 분산이 각각 $10^2$ 와 10^2$ 라고 가정하자. 
 
 $$ \mu = 100, \quad \sigma_a^2 = 10^2, \quad \sigma_e^2 = 10^2$$
 
@@ -714,7 +714,7 @@ $$
 임의효과 $a_i$와 그룹의 평균 $\bar y_{i.}$는 각각 다음과 같은 정규분포를 따르므로 
 
 $$  
-b_i \sim N(0, \sigma^2_a), \quad \bar y_{i.} \sim N \left ( \mu, \sigma^2_a + \frac{\sigma^2_e}{J} \right ) 
+a_i \sim N(0, \sigma^2_a), \quad \bar y_{i.} \sim N \left ( \mu, \sigma^2_a + \frac{\sigma^2_e}{J} \right ) 
 $$ 
 
 임의효과 $a_i$와 그룹의 평균 $\bar y_{i.}$는 다음과 같은 이변량 정규분포를 따른다.
