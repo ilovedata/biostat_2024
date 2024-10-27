@@ -1,0 +1,240 @@
+# 생존함수의 추정 {#sec-life-table}
+
+이 장에서는 자료를 이용하여 생존함수를 추정하는 방법에 대하여 알아본다. 생존함수를 추정하는 대표적인 두 방법은 다음과 같다.
+
+- 생명표 방법를 이용한 생존함수 추정
+- 비모수적 방법을 이용한 생존함수 추정
+
+
+
+## 생명표 방법을 이용한 생존함수 추정
+
+
+### 생명표 
+
+생명표(는 특정 집단의 사망률, 생존율, 평균 수명 등을 시간에 따라 체계적으로 정리한 표로, 인구의 생존 패턴을 분석하거나 예측하기 위해 사용돼. 보통 생명표는 인구 집단이 특정 연령대에서 얼마나 오래 생존할 수 있는지를 평가하는 데 쓰이며, 각 연령대에서의 생존 확률과 사망 확률을 보여줘.
+
+다음은 @lee2005park 의 7.2.1 절에 나오는 생명표방법에 대한 요약 설명이다.
+
+시간 $(0, \infty)$구간을 다음과 같은 경계선을 이용하여 $k+1$ 개의 구간으로 나누었다고 가정하자. ($t_0=0$)
+
+$$ (t_0, t_1] \quad (t_1,t_2] \quad \dots \quad (t_{k-1}, t_k] \quad (t_k, \infty) $$
+
+생존함수는 다음과 같은 조건부 확률의 축차식으로 구할 수 있다. 
+
+```{=tex}
+\begin{align}
+S(t_i) & = p(T>t_i) \\
+    & = P(T > t_i | T > t_{i-1}) P(T > t_{i-1})  \notag \\
+    & = P(T > t_i | T > t_{i-1}) P(T > t_{i-1} | T > t_{i-2}) P(T > t_{i-2} )  \notag \\
+    & = \cdots \notag \\
+    & = P(T > t_i | T > t_{i-1}) P(T > t_{i-1} | T > t_{i-2}) P(T > t_{i-2} )  \dots  P(T> t_2 | T > t_1)P(T > t_1)
+    (\#eq:survivalcondi)
+\end{align}
+```
+
+만약 주어진 구간  $(t_{i-1}, t_i]$ 에서 시망자의 수 $d_i$ 와 중도절단자의 수 $c_i$ 가 주어졌다면  조건부 생존 함수는 다음과 같이 추정할 수 있다.
+
+$$ \hat P(T > t_{i} | T > t_{i-1}) = 1 -\frac{d_i}{n'_i}$$
+위에서 $i$  번째 구간의 위험그룹 인원수 $n_i = n_{i-1} - d_{i-1} -c_{i-1}$ 로 주어지면 유효인원수(effective sample size) $n'_i$ 는 다음과 같이 계산한다.
+
+$$ n'_i = n_i - \frac{c_i}{2} $$
+
+생존함수의 추정은 조건부 확률의 축차식을 이용하여 다음과 같이 계산한다.
+
+$$ \hat S(t_i) =  \prod_{k=1}^i  \left ( 1-\tfrac{d_k}{n'_k} \right ) $$
+
+이와 같이 주정된 생존함수의 분산은 다음과 같은 그린우드의 공식으로 구할 수 있다.
+
+$$ \widehat {Var} (\hat S (t_i) ) =  \hat S(t_i)  \sum_{k=1}^i \frac{d_k}{ n_k^{'} ( n_k^{'} -d_k)} $$
+
+생명표방법을 이용한 생존함수 추정은 표를 이용하면 편리하다. 다음은 각 구간에서 사망자수와 중도절단수가 주어진 경우 생명표방법을 이용하여 생존함수를 추정하는 예를 보여준다.
+
+
+
+
+| 구간  | 위험그룹인원수     | 사망자 수   | 중도절단 수    |  유효인원수   | 사망율              | 생존율                | 생존함수 추정 |
+|-------|----------------|-----------|-------------|------------|---------------------|-----------------------|---------------|
+| $I_i$ | $n_i$          | $d_i$     | $c_i$       | $n'_i$     | $\tfrac{d_i}{n'_i}$ | $1-\tfrac{d_i}{n'_i}$ | $\hat S(t_i)$ |
+| 0-1   | 115            | 47        | 19          | 105.5      |  0.4455          | 0.5545                  |   1.000       |
+| 1-2   | 49            | 5         | 17          | 40.5       |   0.1235          | 0.8765                |   0.5545        |
+| 2-3   | 27             | 2         | 15          | 19.5       |  0.1026          | 0.8974                  |  0.4860        |
+| 3-4   | 10             | 2         | 2            | 9.0        | 0.2222          | 0.7778                  | 0.4362            |
+| 4-5   | 6              | 0         | 6           | 3.0        |  0.0000          | 1.00                  | 0.3393          |
+
+R 에서는 패키지 `KMsurv` 의 함수 `lifeTable()` 를 이용하면 생명표방법을 이용한 생존함수 추정을 할 수 있다.
+
+위의 표에 나타난 자료를 이용하여 생명표방법을 이용한 생존함수 추정값을 구해보자.
+
+```{r}
+death1 <-  c(47,  5,  2, 2, 0)
+censor1 <- c(19, 17, 15, 2, 6)
+intEndpts <-  0:(length(death1))
+N <- sum(censor1) + sum(death1)
+lfres0 <- lifetab(tis = intEndpts, ninit=N, nlost=censor1, nevent=death1)
+lfres0[c("nsubs", "nevent", "nlost", "nrisk", "pdf", "surv","se.surv")]
+```
+
+@lee2005park 의 예제 7-1 에 나타난 자료를 이용하여 생명표방법을 이용한 생존함수 추정값을 구해보자.
+
+
+```{r}
+death2 <- c(456, 226, 152, 171, 135, 125, 83, 74, 51, 42, 43, 34, 18, 9, 6, 0)
+censor2 <- c(0, 39, 22, 23, 24, 107, 133, 102, 68, 64, 45, 53, 33, 27, 23, 30)
+intEndpts = 0:(length(death2))
+N <- sum(censor2) + sum(death2)
+lfres71 <- lifetab(tis = intEndpts, ninit=N, nlost=censor2, nevent=death2)
+lfres71[c("nsubs", "nevent", "nlost", "nrisk", "pdf", "surv","se.surv")]
+```
+
+
+## 누적한계추정법에 의한 생존함수 추정
+
+의학연구에서는 사람이나 동물을 대상으로 연구를 진행하는데 이러한 경우 실험 대상자의 수도 많지 않으며
+생존함수가 어떤 분포를 따르는지 미리 알기 힘들다. 따라서 생존함수를 추정할 때 비모수적 방법(nonparametric methods)를 이용한다.
+비모수적 방법의 대표적인 예는 위에서 고혀한 생존함수를 축차적인 조건부 확률의 곱으로 나타내는 공식 \@ref(eq:survivalcond) 을 이용한다.
+
+비모수적 방법으로 생존함수를 추정하는 경우 시간에 따른 생존함수의 변화가 각 관측점에서 일어나게 된다. 
+표본에서 괸측된 생존시간들을 순서대로 $t_1 < t_2 < \dots < t_n$ 나열한 다음 누적한계추정법(product limit estimator; Kaplan-Meier estimator)은 생존함수를 다음의 식으로 추정한다.
+
+
+\begin{equation}
+ \hat S(t) =  \prod_{t_i \le t}  \left ( 1-\frac{d_i}{n_i} \right)^{\delta_i}
+=  \prod_{t_i \le t}  \left ( \frac{n_i-d_k}{n_i} \right)^{\delta_i}
+(\#eq:kmestimator)
+\end{equation}
+
+- $n_i$ : 시간  $t_i$ 바로 직전까지 중도절단되지 않고 생존한 사람의 수 (위험집단의 수; number at risk)
+- $d_i$ : 시간  $t_i$ 에 사망한 사람의 수
+
+
+
+생존함수 추정량 $\hat S(t)$ 의 분산은 다음과 같이 주어진다.
+
+$$ Var(\hat S(t)) = [\hat S(t)]^2 \sum_{t_i \le t} \frac{d_i}{n_i(n_i-d_i)} $$
+
+
+위의 분산추정량으로 생존함수의 신뢰구간을 구하면 [0,1]의 범위를 벗어나는 경우가 생긴다. 이러한 단점을 보완하기 위하여 생존함수의 변환(log-log transformation)을 이용한 신뢰구간을 구하는 방법을 주로 사용한다.
+
+$$ Var\left ( \log \left [ - \log \hat S(t) \right ] \right )
+\approx \frac{1}{[\hat S(t)]^2  } \sum_{t_i \le t} \frac{d_i}{n_i(n_i-d_i)} $$
+
+
+```{example, name="누적한계추정법"}
+다음 주어진 11명에 대한 생존자료에 대하여 누적한계추정법으로 생존함수를 추정하는 방법을 알아보자. $+$는 중도절단된 자료를 표시한다.
+
+$$ 9,~~13,~~13+,~~18,~~23~~,28+,~~31,~~,34,~~,45+,~~,48,~~161+ $$
+
+누적한계추정법은 생존함수를 다음과 같이 축차적으로 구할 수 있다.
+
+```
+
+```{=tex}
+\begin{align*}
+\hat S(0) & = 1 \\
+\hat S(9) & = \hat S(0) \times \frac{10}{11} = 0.91 \\
+\hat S(13) & = \hat S(9) \times \frac{9}{10} = 0.82 \\
+\hat S(18) & = \hat S(13) \times \frac{7}{8} = 0.72 \\
+\hat S(23) & = \hat S(18) \times \frac{6}{7} = 0.61 \\
+\hat S(31) & = \hat S(23) \times \frac{4}{5} = 0.49 \\
+\hat S(34) & = \hat S(31) \times \frac{3}{4} = 0.37 \\
+\hat S(48) & = \hat S(34) \times \frac{1}{2} = 0.18 
+\end{align*}
+```
+  
+$\blacksquare$
+
+다음은 예제 자료에 대하여 누적한계추정법으로 생존함수를 추정하는 
+R 프로그램이다.
+
+```{r}
+t <- c(9, 13, 13, 18 ,23 ,28, 31, 34 ,45 ,48 ,161) 
+cens <- c(1,1,0,1,1,0,1,1,0,1,0)
+df <- Surv(t, cens)
+df
+res.km <- survfit(Surv(t, cens)~1,  conf.type="log-log")
+res.km
+summary(res.km)
+plot(res.km)
+```
+
+## Nelson-Aalen  추정량
+
+
+Nelson-Aalen  추정량은 생존함수와 위험함수의 관계를 이용하는 추정량이다.
+누적 위험함수 $H(t)$ 는 시간 $t$까지 위험함수의 합이므로 다음과 같이 추정할 수 있다.
+
+$$  \hat H(t) = \sum_{t_i \le t} \frac{d_i}{n_i} $$
+
+따라서 생존함수과의 관계를 이용하면 Nelson-Aalen  추정량은 다음과 같이 주어진다.
+
+$$ \hat S(t) = e^{- \hat H(t)} $$
+
+
+다음은 예제 자료에 대하여 Nelson-Aalen 추정량(`type="fh"`)으로 생존함수를 추정하는 R 프로그램이다.
+
+```{r}
+res.fh <- survfit(Surv(t, cens)~1,  conf.type="log-log", type="fh")
+res.fh
+summary(res.fh)
+plot(res.fh)
+```
+
+
+누적한계추정법과 Nelson-Aalen  추정법으로 구한 생존함수의 추정치를 비교해보면 매우 유사하다.
+
+```{r}
+compsurv <- data.frame(time = res.km$time, estKM = res.km$surv, estNA = res.fh$surv) 
+compsurv
+```
+
+
+```{r, fig.cap="누적한계추정법(파랑선)과 Nelson-Aalen 추정법(빨간선)의 비교" }
+plot(res.fh, col ="blue")
+lines(res.km, col = "red")
+```
+
+## 중위 생존시간 
+
+중위 생존시간의 추정량은 $\hat t_{med}$ 다음 방정식을 만족하는 $t$의 값이다.
+
+$$ \hat t_{med} = \inf ~ \{t~|~ \hat S(t) \le 1/2 \} $$
+
+```{r}
+res.km
+```
+
+## 예제 
+
+###  예제 7-2
+
+교과서 @lee2005park 의 예제 7-2 에 나온 자료에 대하여 누적한게추정법으로 구한 생존함수의 추정결과는 다음과 같다.
+
+```{r}
+t <-    c(3, 4, 4.5, 5.5, 6.0, 6.4, 6.5, 7.0, 7.5, 8.4, 10, 10, 12, 15)
+cens <- c(1, 0,   1,   1,   1,   1,   1,   1,   1,   0,  1,  0,  1,  1)
+res.km72 <- survfit(Surv(t, cens)~1,  conf.type="log-log")
+summary(res.km72)
+plot(res.km72)
+```
+
+
+
+### 예제
+
+교과서 @moore2016applied 의 29페이지에 나오는 예제를 소개한다.
+위암환자들에게 치료제인 Xelox를 투약하는 실제 2상 임상실험의 자료를 분석한 예이다. 
+관심있는 변수는 "progression-free time" 으로서 임상실험에 참가한 시점부터 회복이 되거나 사망하거나 둘 중에 빠르게 나타난 시간이다. 
+
+아래는 누적한계추정법으로 구한 생존함수의 추정치와 그림(생존함수와 누적위험함수)이다.
+
+
+```{r}
+timeMonths <- gastricXelox$timeWeeks*7/30.25
+result.km <- survfit(Surv(timeMonths, delta) ~ 1, conf.type="log-log", data=gastricXelox)
+# median survival and 95% confidence interval is printed as follows:
+result.km
+plot(result.km, mark="|", ylab="Survival probability", xlab="Time in months",
+     cex.axis=1.5, cex.lab=1.5, lwd=1.5)
+plot(result.km, cumhaz=TRUE, mark="|", ylab="cumulative hazrd", xlab="Time in months",  cex.axis=1.5, cex.lab=1.5, lwd=1.5)
+```

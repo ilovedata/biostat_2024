@@ -26,6 +26,9 @@ book:
         - notes/ancova.qmd
         - notes/multiple.qmd
         - notes/repeatmeasure.qmd
+    - part: "생존분석"
+      chapters:
+        - notes/survival-01.qmd
   appendices:
     - notes/multivar.qmd
     - notes/lmmtheory.qmd
