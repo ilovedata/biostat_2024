@@ -33,6 +33,7 @@ book:
   appendices:
     - notes/multivar.qmd
     - notes/lmmtheory.qmd
+    - notes/hwdata.qmd
     - references.qmd
 
 bibliography: references.bib
