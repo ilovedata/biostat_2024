@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; 생존함수의 추정 – 의학통계학</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notes/multivar.html" rel="next">
+<link href="../notes/survival-01.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/survival-01.html">생존분석</a></li><li class="breadcrumb-item"><a href="../notes/survival-02.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">의학통계학</a> 
+        <div class="sidebar-tools-main">
+    <a href="../의학통계학.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">서론</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">분할표와 연관성</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">연관성의 검정</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/diagnose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">집단의 비교</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">분산분석</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">공분산분석</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/multiple.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">다중비교</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/repeatmeasure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">반복측정자료</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">생존분석</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/survival-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">생존함수와 위험함수</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/survival-02.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/lmmtheory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">선형혼합모형의 이론</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#필요한-패키지" id="toc-필요한-패키지" class="nav-link active" data-scroll-target="#필요한-패키지"><span class="header-section-number">10.1</span> 필요한 패키지</a></li>
+  <li><a href="#생명표-방법" id="toc-생명표-방법" class="nav-link" data-scroll-target="#생명표-방법"><span class="header-section-number">10.2</span> 생명표 방법</a>
+  <ul class="collapse">
+  <li><a href="#생명표-개요" id="toc-생명표-개요" class="nav-link" data-scroll-target="#생명표-개요"><span class="header-section-number">10.2.1</span> 생명표 개요</a></li>
+  <li><a href="#생명표-방법을-이용한-생존함수-추정" id="toc-생명표-방법을-이용한-생존함수-추정" class="nav-link" data-scroll-target="#생명표-방법을-이용한-생존함수-추정"><span class="header-section-number">10.2.2</span> 생명표 방법을 이용한 생존함수 추정</a></li>
+  </ul></li>
+  <li><a href="#비모수적-방법" id="toc-비모수적-방법" class="nav-link" data-scroll-target="#비모수적-방법"><span class="header-section-number">10.3</span> 비모수적 방법</a>
+  <ul class="collapse">
+  <li><a href="#누적한계추정량" id="toc-누적한계추정량" class="nav-link" data-scroll-target="#누적한계추정량"><span class="header-section-number">10.3.1</span> 누적한계추정량</a></li>
+  <li><a href="#nelson-aalen-추정량" id="toc-nelson-aalen-추정량" class="nav-link" data-scroll-target="#nelson-aalen-추정량"><span class="header-section-number">10.3.2</span> Nelson-Aalen 추정량</a></li>
+  </ul></li>
+  <li><a href="#생존함수-추정의-예제" id="toc-생존함수-추정의-예제" class="nav-link" data-scroll-target="#생존함수-추정의-예제"><span class="header-section-number">10.4</span> 생존함수 추정의 예제</a>
+  <ul class="collapse">
+  <li><a href="#예제-1" id="toc-예제-1" class="nav-link" data-scroll-target="#예제-1"><span class="header-section-number">10.4.1</span> 예제 1</a></li>
+  <li><a href="#예제-2" id="toc-예제-2" class="nav-link" data-scroll-target="#예제-2"><span class="header-section-number">10.4.2</span> 예제 2</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/survival-01.html">생존분석</a></li><li class="breadcrumb-item"><a href="../notes/survival-02.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-life-table" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="필요한-패키지" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="필요한-패키지"><span class="header-section-number">10.1</span> 필요한 패키지</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(KMsurv)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(asaur)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>이 장에서는 자료를 이용하여 생존함수를 추정하는 방법에 대하여 알아본다. 생존함수를 추정하는 대표적인 두 방법은 다음과 같다.</p>
+<ul>
+<li>생명표 방법를 이용한 생존함수 추정</li>
+<li>비모수적 방법을 이용한 생존함수 추정</li>
+</ul>
+</section>
+<section id="생명표-방법" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="생명표-방법"><span class="header-section-number">10.2</span> 생명표 방법</h2>
+<section id="생명표-개요" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="생명표-개요"><span class="header-section-number">10.2.1</span> 생명표 개요</h3>
+<p>생명표(life table)는 특정 집단의 사망률, 생존율, 평균 수명 등을 시간에 따라 체계적으로 정리한 표로, 인구의 생존 패턴을 분석하거나 예측하기 위해 사용된다. 보통 생명표는 인구 집단이 특정 연령대에서 얼마나 오래 생존할 수 있는지를 평가하는 데 쓰이며, 각 연령대까지의 생존 확률, 즉 생존함수를 보여준다.</p>
+<p>아래 그림은 통계청에서 작성한 한국인의 생명표로 2007,2020, 2022년의 한국인 남자와 여자의 생명표이다.</p>
+<dl>
+<dt><img src="../myimages/lifetable-korea-2022.png" class="img-fluid" alt="2007,2020, 2022년의 한국인 남자와 여자의 생명표"></dt>
+<dd>
+2007,2020, 2022년의 한국인 남자와 여자의 생명표(출처: 통계청, 2022년 생명표, 2023년 12월 1일 보도자료)
+</dd>
+</dl>
+<p>위의 한국인의 생명표를 보면 다음과 같은 사실을 알 수 있다.</p>
+<ul>
+<li><p>모든 연령층에서 여자의 생존확률이 남자의 생존확률보다 높음.</p></li>
+<li><p>2022년 출생아가 65세까지 생존할 확률은 남자 88.4%, 여자 94.7%임.</p>
+<ul>
+<li>2002년 출생아가 65세까지 생존할 확률은 남자 77.7%, 여자 90.7%임.</li>
+<li>2007년 출생아가 65세까지 생존할 확률은 남자 47.7%, 여자 66.0%임.</li>
+</ul></li>
+<li><p>2022년 출생아가 80세까지 생존할 확률은 남자 61.1%, 여자 80.2%임.</p></li>
+<li><p>2022년 출생아가 100세까지 생존할 확률은 남자 0.7%, 여자 3.1%임.</p></li>
+<li><p>2007년, 2020년, 2022년의 생명표를 비교하면 한국인의 평균수명이 증가하고 있음을 알 수 있다.</p></li>
+</ul>
+</section>
+<section id="생명표-방법을-이용한-생존함수-추정" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="생명표-방법을-이용한-생존함수-추정"><span class="header-section-number">10.2.2</span> 생명표 방법을 이용한 생존함수 추정</h3>
+<p>시간 <span class="math inline">\((0, \infty)\)</span>구간을 다음과 같은 경계선을 이용하여 <span class="math inline">\(k\)</span> 개의 구간으로 나누었다고 가정하자. (<span class="math inline">\(t_0=0\)</span>)</p>
+<p><span class="math display">\[ (0, t_1] \quad (t_1,t_2] \quad \dots \quad (t_{k-1}, t_k] \]</span></p>
+<p>생존함수는 다음과 같은 조건부 확률의 축차식으로 구할 수 있다.</p>
+<p><span id="eq-survivalcondi"><span class="math display">\[
+\begin{aligned}
+S(t_i) &amp; = P(T&gt;t_i) \\
+    &amp; = P(T &gt; t_i | T &gt; t_{i-1}) P(T &gt; t_{i-1})  \notag \\
+    &amp; = P(T &gt; t_i | T &gt; t_{i-1}) P(T &gt; t_{i-1} | T &gt; t_{i-2}) P(T &gt; t_{i-2} )  \notag \\
+    &amp; = \cdots \notag \\
+    &amp; = P(T &gt; t_i | T &gt; t_{i-1}) P(T &gt; t_{i-1} | T &gt; t_{i-2})  \times \\
+    &amp;\quad \dots \times   P(T&gt; t_2 | T &gt; t_1) P(T&gt; t_1 | T &gt; t_0)P(T &gt; t_0) \\
+    &amp; = P(T &gt; t_i | T &gt; t_{i-1}) P(T &gt; t_{i-1} | T &gt; t_{i-2})  \times \\
+    &amp; \quad \dots \times  P(T&gt; t_2 | T &gt; t_1) P(T&gt; t_1 ) \\
+    &amp; = \prod_{k=1}^i P(T &gt; t_k | T &gt; t_{k-1})
+\end{aligned}
+\tag{10.1}\]</span></span></p>
+<p>참고로 위의 식에서 <span class="math inline">\(P(T &gt; t_0) = P(T &gt; 0) =1\)</span> 이다.</p>
+<p>이제 예를 들어 다음과 같이 5개 각 구간에서 <strong>사망자의 수 <span class="math inline">\(d_i\)</span></strong> 와 <strong>중도절단자의 수 <span class="math inline">\(c_i\)</span></strong> 가 주어졌다고 가정하자. 이 자료는 전체 115명의 환자에 대하여 5개 구간에서 사망자와 중도절단자의 수를 보여준다.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 28%">
+<col style="width: 20%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">구간 <span class="math inline">\(I_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(i\)</span></th>
+<th style="text-align: right;">위험그룹 인원수 <span class="math inline">\(n_i\)</span></th>
+<th style="text-align: right;">사망자 수 <span class="math inline">\(d_i\)</span></th>
+<th style="text-align: right;">중도절단 수 <span class="math inline">\(c_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,t_1]\)</span></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((t_1,t_2]\)</span></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((t_2,t_3]\)</span></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((t_3,t_4]\)</span></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((t_4,t_5]\)</span></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+<p>위의 표에서 <span class="math inline">\(i\)</span> 번째 구간의 위험그룹 인원수 <span class="math inline">\(n_i\)</span> 는 다음과 같이 주어진다.</p>
+<p><span class="math display">\[
+n_i = n_{i-1} - d_{i-1} -c_{i-1}
+\]</span></p>
+<p><strong>위험그룹 인원수(number at risk)</strong> <span class="math inline">\(n_{i}\)</span> 은 <span class="math inline">\(i\)</span>번째 구간의 시작 시점까지 살아있는 사람의 수이다. 이는 바로 전 구간의 위험 그룹 인원수 <span class="math inline">\(n_{i-1}\)</span> 에서 사망한 사람의 수 <span class="math inline">\(d_{i-1}\)</span> 와 중도절단된 사람의 수 <span class="math inline">\(c_{i-1}\)</span> 를 뺀 값이다. 분석에 처음으로 고려되는 전체 집단의 수를 <span class="math inline">\(n\)</span> 이라고 하면 <span class="math inline">\(n_0 = n\)</span> 이다.</p>
+<p>조건부 생존 확률 <span class="math inline">\(P(T &gt; t_{i} | T &gt; t_{i-1})\)</span> 는 다음과 같이 추정할 수 있다. 이는 <span class="math inline">\(i\)</span>번째 구간을 시작할 때 살아있는 사람들(위험 그룹)을 고려했을 때, <span class="math inline">\(i\)</span> 번째 구간에서 사망한 사람의 비율 <span class="math inline">\(d_i/n^{'}_{i}\)</span> 을 1에서 뺀 확률이다.</p>
+<p><span id="eq-survivalinterval"><span class="math display">\[
+\begin{aligned}
+P(T &gt; t_{i} | T &gt; t_{i-1}) &amp; =  1- P(T \le t_{i} | T &gt; t_{i-1}) \\
+&amp; = 1 -\frac{d_i}{n'_i}
+\end{aligned}
+\tag{10.2}\]</span></span></p>
+<p>위의 <a href="#eq-survivalinterval" class="quarto-xref"><span>10.2</span></a> 의 계산에서 위험그룹 인원수(number at risk) <span class="math inline">\(n_{i}\)</span> 대신 <strong>보정된 위험그룹 인원수(corrected number at risk) 또는 유효인원수(effective sample size)</strong> <span class="math inline">\(n'_i\)</span> 를 사용하였으며 다음과 같이 계산한다.</p>
+<p><span class="math display">\[ n'_i = n_i - \frac{c_i}{2} \]</span></p>
+<p>보정된 위험그룹 인원수(유효인원수) <span class="math inline">\(n'_i\)</span> 는 중도절단된 사람이 실제로 사망한 시점을 모르기 때문에 위험그룹 인원수 를 보정한 값(corrected value)이다. 중도절단된 사람이 사망한 시점을 모르기 때문에 중도절단된 사람의 수를 반으로 줄여서 보정된 위험그룹 인원수를 계산한다.</p>
+<p>조건부 생존 함수 <a href="#eq-survivalinterval" class="quarto-xref"><span>10.2</span></a> 를 계산하는 예를 들어보자. 일단 첫 번째 <span class="math inline">\(i=1\)</span> 인 경우를 살펴보자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(T &gt; t_{1} | T &gt; t_{0}) &amp; =  1- P(T \le t_{1} | T &gt; 0) \\
+&amp; = 1- P(T \le t_{1} ) \\
+&amp; = 1 -\frac{d_1}{n'_1} \\
+&amp; = 1 -\frac{47}{115-19/2} \\
+&amp; = 1 -\frac{47}{105.5} \\
+&amp; = 1 - 0.4455 \\
+&amp; = 0.5545
+\end{aligned}
+\]</span></p>
+<p>다음으로 세 번째 구간 (<span class="math inline">\(i=3\)</span>) 인 경우를 살펴보자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(T &gt; t_{3} | T &gt; t_{2}) &amp; =  1- P(T \le t_{3} | T &gt; t_{2}) \\
+&amp; = 1 -\frac{d_3}{n'_3} \\
+&amp; = 1 -\frac{2}{27-17/2} \\
+&amp; = 1 -\frac{2}{19.5} \\
+&amp; = 1 - 0.1026 \\
+&amp; = 0.8974
+\end{aligned}
+\]</span></p>
+<p>생존함수의 추정은 조건부 확률의 축차식 <a href="#eq-survivalcondi" class="quarto-xref"><span>10.1</span></a> 과 조건부 생존 확률 <a href="#eq-survivalinterval" class="quarto-xref"><span>10.2</span></a> 을 이용하여 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[ \hat S(t_i) =  \prod_{k=1}^i  \left ( 1-\tfrac{d_k}{n'_k} \right ) \]</span></p>
+<p>예를 들어 위의 예제에서 생존함수 <span class="math inline">\(S(t_3) = P(T &gt; t_3)\)</span> 의 추정은 다음과 같이 계산할 수 있다. 참고로 <span class="math inline">\(S(t_0) = 1\)</span> 이다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat S(t_3) &amp; = P(T &gt; t_3 | T &gt; t_2) P(T &gt; 2 | T &gt; t_1) P(T &gt; t_1 | T &gt; t_0 )  \\
+&amp; = \prod_{k=1}^3 P(T &gt; t_k | T &gt; t_{k-1}) \\
+&amp; = \prod_{k=1}^3  \left ( 1-\tfrac{d_k}{n'_k} \right ) \\
+&amp; =  \left ( 1-\tfrac{d_1}{n'_1} \right ) \times \left ( 1-\tfrac{d_2}{n'_2} \right ) \times  \left ( 1-\tfrac{d_3}{n'_3} \right )  \\
+&amp; = 0.5545  \times 0.8765 \times  0.8974  \\
+&amp; = 0.4860
+\end{aligned}
+\]</span></p>
+<p>생명표방법을 이용한 생존함수 추정은 표를 이용하면 편리하다. 다음은 위에서 고려한 예제 표에 대하여 각 구간에서 사망자수와 중도절단수가 주어진 경우 생명표방법을 이용하여 생존함수를 추정하는 예를 보여준다.</p>
+<div id="tbl-lifetable" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-lifetable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;10.1: 생명표 계산표
+</figcaption>
+<div aria-describedby="tbl-lifetable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">구간</th>
+<th style="text-align: right;"><span class="math inline">\(i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(c_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n'_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i/n'_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(1-d_i/n'_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat S(t_{i-1})\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,t_1]\)</span></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">105.5</td>
+<td style="text-align: right;">0.4455</td>
+<td style="text-align: right;">0.5545</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((t_1,t_2]\)</span></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">40.5</td>
+<td style="text-align: right;">0.1235</td>
+<td style="text-align: right;">0.8765</td>
+<td style="text-align: right;">0.5545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((t_2,t_3]\)</span></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">19.5</td>
+<td style="text-align: right;">0.1026</td>
+<td style="text-align: right;">0.8974</td>
+<td style="text-align: right;">0.4860</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((t_3,t_4]\)</span></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">9.0</td>
+<td style="text-align: right;">0.2222</td>
+<td style="text-align: right;">0.7778</td>
+<td style="text-align: right;">0.4362</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((t_4,t_5]\)</span></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.3393</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+주의
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>위의 생명표 계산표 <a href="#tbl-lifetable" class="quarto-xref"><span>10.1</span></a> 에서 각 구간에 대한 생존함수 추정은 구간의 시작점에 대한 생존함수 추정값이다. 즉 <span class="math inline">\(i\)</span> 번째 구간 <span class="math inline">\((t_{i-1}, t_{i}]\)</span> 에 대한 생존함수 추정값은 <span class="math inline">\(t_{i-1}\)</span> 에 대한 생존함수 <span class="math inline">\(S(t_{i-1}) = P(T &gt; t_{i-1})\)</span> 의 추정값이다.</p>
+</div>
+</div>
+<p>생명표 방법에서 각 구간의 중간 시점에 대한 위험함수(hazard function)을 다음과 같이 추정할 수 있다.</p>
+<p><span id="eq-lifetable-hazard"><span class="math display">\[
+\hat h(t_{im}) = \frac{d_i}{b_i(n'_i - d_i/2)}, \text{ where } \quad t_{im} = \frac{t_{i-1} + t_i}{2}
+\tag{10.3}\]</span></span></p>
+<p>식 <a href="#eq-lifetable-hazard" class="quarto-xref"><span>10.3</span></a> 에서 <span class="math inline">\(b_i = t_i - t_{i-1}\)</span> 는 <span class="math inline">\(i\)</span> 번째 구간의 길이이다.</p>
+<p>예를 들어, 구간의 길이가 <span class="math inline">\(b_2=1\)</span> 이라면, 두 번째 구간의 중간 시점에서 위험함수 <span class="math inline">\(h(t_{2m})\)</span> 의 추정은 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[
+\hat h(t_{2m}) =  \frac{d_2}{b_2(n'_2 - d_2/2)} = \frac{5}{(1)(40.5 - 5/2)} = 0.1316
+\]</span></p>
+<p>참고로 추정된 생존함수의 분산은 다음과 같은 그린우드의 공식(Greenwood’s formula)으로 구할 수 있다.</p>
+<p><span class="math display">\[ \widehat {Var} (\hat S (t_i) ) =  [\hat S(t_i)]^2  \sum_{k=1}^i \frac{d_k}{ n_k^{'} ( n_k^{'} -d_k)} \]</span></p>
+<p>R 에서는 패키지 <code>KMsurv</code> 의 함수 <code>lifeTable()</code> 를 이용하면 생명표방법을 이용한 생존함수 추정을 할 수 있다. 함수 <code>lifeTable()</code> 의 각 인자들은 다음과 같이 정의된다.</p>
+<ul>
+<li><code>tis</code> : 구간의 끝점 벡터로, 길이가 <code>nlost</code> 및 <code>nevent</code> 보다 개수가 1개 많은 백터</li>
+<li><code>ninit</code> : 처음에 연구에 참여한 전체 집단의 수</li>
+<li><code>nlost</code> : 각 구간에 대한 중도절단된 사람의 수를 나타내는 벡터</li>
+<li><code>nevent</code> : 각 구간에 대한 사건의 수(number of events)를 나타내는 벡터</li>
+</ul>
+<p>위의 표에 나타난 자료를 이용하여 생명표방법을 이용한 생존함수 추정값을 구해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>death1 <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">47</span>,  <span class="dv">5</span>,  <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>censor1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">2</span>, <span class="dv">6</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>intEndpts <span class="ot">&lt;-</span>  <span class="dv">0</span><span class="sc">:</span>(<span class="fu">length</span>(death1))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(censor1) <span class="sc">+</span> <span class="fu">sum</span>(death1)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>lfres0 <span class="ot">&lt;-</span> <span class="fu">lifetab</span>(<span class="at">tis =</span> intEndpts, <span class="at">ninit=</span>N, <span class="at">nlost=</span>censor1, <span class="at">nevent=</span>death1)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>lfres0[<span class="fu">c</span>(<span class="st">"nsubs"</span>, <span class="st">"nevent"</span>, <span class="st">"nlost"</span>, <span class="st">"nrisk"</span>, <span class="st">"hazard"</span>, <span class="st">"surv"</span>,<span class="st">"se.surv"</span>)]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    nsubs nevent nlost nrisk    hazard      surv    se.surv
+0-1   115     47    19 105.5 0.5731707 1.0000000 0.00000000
+1-2    49      5    17  40.5 0.1315789 0.5545024 0.04838917
+2-3    27      2    15  19.5 0.1081081 0.4860453 0.05119190
+3-4    10      2     2   9.0 0.2500000 0.4361945 0.05679548
+4-5     6      0     6   3.0        NA 0.3392624 0.07486856</code></pre>
+</div>
+</div>
+<p>함수 <code>lifetab()</code> 의 결과를 이용하여 패키지 <code>survminer</code> 의 함수 <code>ggsurvplot()</code> 을 이용하여 생존함수를 그래프로 그릴 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>intTime <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>(<span class="fu">dim</span>(lfres0)[<span class="dv">1</span>]<span class="sc">-</span><span class="dv">1</span>) <span class="co"># 구간의 시작점</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(intTime, lfres0<span class="sc">$</span>surv, <span class="at">type =</span> <span class="st">"s"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">ylab =</span> <span class="st">"Survival Probability"</span>, <span class="at">main =</span> <span class="st">"Survival Curve"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="citation" data-cites="lee2005">Jaewon Lee (<a href="../references.html#ref-lee2005" role="doc-biblioref">2005</a>)</span> 의 예제 7-1 에 나타난 자료를 이용하여 생명표방법을 이용한 생존함수 추정값을 구해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>death2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">456</span>, <span class="dv">226</span>, <span class="dv">152</span>, <span class="dv">171</span>, <span class="dv">135</span>, <span class="dv">125</span>, <span class="dv">83</span>, <span class="dv">74</span>, <span class="dv">51</span>, <span class="dv">42</span>, <span class="dv">43</span>, <span class="dv">34</span>, <span class="dv">18</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>censor2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">39</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">107</span>, <span class="dv">133</span>, <span class="dv">102</span>, <span class="dv">68</span>, <span class="dv">64</span>, <span class="dv">45</span>, <span class="dv">53</span>, <span class="dv">33</span>, <span class="dv">27</span>, <span class="dv">23</span>, <span class="dv">30</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>intEndpts <span class="ot">=</span> <span class="dv">0</span><span class="sc">:</span>(<span class="fu">length</span>(death2))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">sum</span>(censor2) <span class="sc">+</span> <span class="fu">sum</span>(death2)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>lfres71 <span class="ot">&lt;-</span> <span class="fu">lifetab</span>(<span class="at">tis =</span> intEndpts, <span class="at">ninit=</span>N, <span class="at">nlost=</span>censor2, <span class="at">nevent=</span>death2)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>lfres71[<span class="fu">c</span>(<span class="st">"nsubs"</span>, <span class="st">"nevent"</span>, <span class="st">"nlost"</span>, <span class="st">"nrisk"</span>, <span class="st">"hazard"</span>, <span class="st">"surv"</span>,<span class="st">"se.surv"</span>)]</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      nsubs nevent nlost  nrisk     hazard      surv     se.surv
+0-1    2418    456     0 2418.0 0.20821918 1.0000000 0.000000000
+1-2    1962    226    39 1942.5 0.12353102 0.8114144 0.007955134
+2-3    1697    152    22 1686.0 0.09440994 0.7170105 0.009179397
+3-4    1523    171    23 1511.5 0.11991585 0.6523689 0.009734736
+4-5    1329    135    24 1317.0 0.10804322 0.5785647 0.010138361
+5-6    1170    125   107 1116.5 0.11859583 0.5192585 0.010304216
+6-7     938     83   133  871.5 0.10000000 0.4611239 0.010379949
+7-8     722     74   102  671.0 0.11671924 0.4172073 0.010450930
+8-9     546     51    68  512.0 0.10483042 0.3711964 0.010578887
+9-10    427     42    64  395.0 0.11229947 0.3342218 0.010717477
+10-11   321     43    45  298.5 0.15523466 0.2986843 0.010890741
+11-12   233     34    53  206.5 0.17941953 0.2556577 0.011124244
+12-13   146     18    33  129.5 0.14937759 0.2135639 0.011396799
+13-14    95      9    27   81.5 0.11688312 0.1838794 0.011765989
+14-15    59      6    23   47.5 0.13483146 0.1635737 0.012259921
+15-16    30      0    30   15.0         NA 0.1429117 0.013300258</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>intTime <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>(<span class="fu">dim</span>(lfres71)[<span class="dv">1</span>]<span class="sc">-</span><span class="dv">1</span>) <span class="co"># 구간의 시작점</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(intTime, lfres71<span class="sc">$</span>surv, <span class="at">type =</span> <span class="st">"s"</span>, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">ylab =</span> <span class="st">"Survival Probability"</span>, <span class="at">main =</span> <span class="st">"Survival Curve"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="비모수적-방법" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="비모수적-방법"><span class="header-section-number">10.3</span> 비모수적 방법</h2>
+<p>의학연구에서는 사람이나 동물을 대상으로 연구를 진행하는데 이러한 경우 실험 대상자의 수도 많지 않으며 생존함수가 어떤 분포를 따르는지 미리 알기 힘들다. 앞에서 살펴본 생명표방법은 각 구간에서 사망자수와 중도절단수가 주어진 경우 생존함수를 추정하는 방법이므로 실험대상자의 수가 많지 않은 경우에는 적용하기 어렵다.</p>
+<p>따라서 생존함수를 추정할 때 비모수적 방법(nonparametric methods)를 이용한다. 비모수적 방법에서는 생명표방법에서 고려한 생존함수를 축차적인 조건부 확률의 곱으로 나타내는 공식 <a href="#eq-survivalcondi" class="quarto-xref"><span>10.1</span></a> 을 이용하는 것은 동일하지만 구간을 나누는 방법이 다르다.</p>
+<section id="누적한계추정량" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="누적한계추정량"><span class="header-section-number">10.3.1</span> 누적한계추정량</h3>
+<p>비모수적 방법으로 생존함수를 추정하는 경우 시간에 따른 생존함수의 변화가 각 관측점에서 일어나게 된다. 즉, 구간을 나누는 값이 자료의 값이 되며, 이러한 방법을 비모수적 방법이라고 한다.</p>
+<p>표본에서 <strong>관측된 생존시간들</strong> 을 순서대로 <span class="math inline">\(t_1 &lt; t_2 &lt; \dots &lt; t_n\)</span> 나열한 다음 누적한계추정법(product limit estimator; Kaplan-Meier estimator)은 생존함수를 다음의 식으로 추정한다.</p>
+<p><span id="eq-kmestimator"><span class="math display">\[
+\hat S(t) =  \prod_{t_i \le t}  \left ( 1-\frac{d_i}{n_i} \right)^{\delta_i}
+=  \prod_{t_i \le t}  \left ( \frac{n_i-d_k}{n_i} \right)^{\delta_i}
+\tag{10.4}\]</span></span></p>
+<ul>
+<li><span class="math inline">\(n_i\)</span> : 시간 <span class="math inline">\(t_i\)</span> 바로 직전까지 중도절단되지 않고 생존한 사람의 수 (위험집단의 수; number at risk)</li>
+<li><span class="math inline">\(d_i\)</span> : 시간 <span class="math inline">\(t_i\)</span> 에 사망한 사람의 수</li>
+<li><span class="math inline">\(\delta_i\)</span> : 중도절단를 나타내는 지시변수로, <span class="math inline">\(\delta_i = 1\)</span> 이면 실제 사건이 일어난 것이고, <span class="math inline">\(\delta_i = 0\)</span> 이면 중도절단을 나타낸다.</li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+주의
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>누적한계추정법에서 구간을 구성하는 시점은 실제 사건이 일어난 시점만 고려한다. 중도절단된 자료만 발생한 시점은 구간을 구성하는 시점으로 고려하지 않는다.</p>
+</div>
+</div>
+<p>다음 주어진 12명에 대한 생존자료에 대하여 누적한계추정법으로 생존함수를 추정하는 방법을 알아보자. <span class="math inline">\(+\)</span>는 중도절단된 자료를 표시한다.</p>
+<p><span class="math display">\[ 9,~~13,~~13+,~~18,~~23~~,28+,~~31,~~31,~~31+~~,45+,~~48,~~161+ \]</span> 위의 자료에서 실제로 사건이 일어난 시점만 고려하여 구간을 만들면 다음과 같다.</p>
+<p><span class="math display">\[
+(0,9] ,~~ (9,13] ,~~ (13,18] ,~~ (18,23] ,~~ (23,31] ,~~ (31,48] ,~~ (48,\infty)
+\]</span> 이제 위에서 구한 구간에 대하여 생존함수를 추정해보자.</p>
+<div id="tbl-KMestimator" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-KMestimator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;10.2: 누적한계추정법
+</figcaption>
+<div aria-describedby="tbl-KMestimator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">구간</th>
+<th style="text-align: right;"><span class="math inline">\(t\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i/n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(1-d_i/n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat S(t)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,9]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-0/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1.000\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((9, 13]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-1/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.917\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((13,18]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(13\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(11\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/11\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-1/11\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.833\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((18,23]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(18\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-1/9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.741\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((23,31]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(23\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(8\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/8\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-1/8\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.648\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((31,48]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(31\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(6\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2/6\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-2/6\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.432\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((48,\infty]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(48\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1-1/2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.216\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>누적한계추정법은 생존함수를 다음과 같이 축차적으로 구할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\hat S(0) &amp; = 1 \\
+\hat S(9) &amp; = \hat S(0) \times \left [ 1- \frac{1}{12} \right ] = 0.917 \\
+\hat S(13) &amp; = \hat S(9) \times \left [ 1-\frac{1}{11} \right ]= 0.833 \\
+\hat S(18) &amp; = \hat S(13) \times \left [ 1-\frac{1}{9} \right ]= 0.741 \\
+\hat S(23) &amp; = \hat S(18) \times \left [ 1-\frac{1}{8} \right ]= 0.648 \\
+\hat S(31) &amp; = \hat S(23) \times \left [ 1-\frac{2}{6} \right ]= 0.432 \\
+\hat S(48) &amp; = \hat S(31) \times \left [ 1-\frac{1}{2} \right ]= 0.216
+\end{aligned}
+\]</span></p>
+<p>생존함수 추정량 <span class="math inline">\(\hat S(t)\)</span> 의 분산은 다음과 같이 주어진다.</p>
+<p><span class="math display">\[
+Var(\hat S(t)) = [\hat S(t)]^2 \sum_{t_i \le t} \frac{d_i}{n_i(n_i-d_i)}
+\]</span></p>
+<p>위의 분산추정량으로 생존함수의 신뢰구간을 구하면 [0,1]의 범위를 벗어나는 경우가 생긴다. 이러한 단점을 보완하기 위하여 생존함수의 변환(log-log transformation)을 이용한 신뢰구간을 구하는 방법을 주로 사용한다.</p>
+<p><span class="math display">\[
+Var\left ( \log \left [ - \log \hat S(t) \right ] \right )
+\approx \frac{1}{[\hat S(t)]^2  } \sum_{t_i \le t} \frac{d_i}{n_i(n_i-d_i)}
+\]</span></p>
+<p>다음은 예제 자료에 대하여 누적한계추정법으로 생존함수를 추정하는 R 프로그램이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">13</span>, <span class="dv">18</span> ,<span class="dv">23</span> ,<span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">31</span>,<span class="dv">31</span>,<span class="dv">45</span> ,<span class="dv">48</span> ,<span class="dv">161</span>) </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">Surv</span>(t, cens)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   9   13   13+  18   23   28+  31   31   31+  45+  48  161+</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res.km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(t, cens)<span class="sc">~</span><span class="dv">1</span>,  <span class="at">conf.type=</span><span class="st">"log-log"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>res.km</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log")
+
+      n events median 0.95LCL 0.95UCL
+[1,] 12      7     31      13      NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.km)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log")
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    9     12       1    0.917  0.0798       0.5390        0.988
+   13     11       1    0.833  0.1076       0.4817        0.956
+   18      9       1    0.741  0.1295       0.3907        0.909
+   23      8       1    0.648  0.1426       0.3097        0.852
+   31      6       2    0.432  0.1568       0.1410        0.698
+   48      2       1    0.216  0.1717       0.0145        0.574</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.km)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="nelson-aalen-추정량" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="nelson-aalen-추정량"><span class="header-section-number">10.3.2</span> Nelson-Aalen 추정량</h3>
+<p>Nelson-Aalen 추정량은 생존함수와 위험함수의 관계를 이용하는 추정량이다. 누적 위험함수 <span class="math inline">\(H(t)\)</span> 는 시간 <span class="math inline">\(t\)</span>까지 위험함수의 합이므로 다음과 같이 추정할 수 있다.</p>
+<p><span class="math display">\[
+\hat H(t) = \sum_{t_i \le t} \frac{d_i}{n_i}
+\]</span></p>
+<p>따라서 생존함수과의 관계를 이용하면 Nelson-Aalen 추정량은 다음과 같이 주어진다.</p>
+<p><span id="eq-naestimator"><span class="math display">\[
+\hat S(t) = e^{- \hat H(t)}
+\tag{10.5}\]</span></span></p>
+<p>위에서 고려한 동일한 12명에 대한 생존자료에 대하여 Nelson-Aalen 추정법으로 생존함수를 추정하는 방법을 알아보자. <span class="math inline">\(+\)</span>는 중도절단된 자료를 표시한다.</p>
+<p><span class="math display">\[ 9,~~13,~~13+,~~18,~~23~~,28+,~~31,~~31,~~31+~~,45+,~~48,~~161+ \]</span></p>
+<p>이제 누적한계추정법과 동일한 방법으로 구간을 설정하고 <a href="#eq-naestimator" class="quarto-xref"><span>10.5</span></a> 에 주어진 추정식으로 다음과 같은 표를 만들어 생존함수를 추정할 수 있다.</p>
+<div id="tbl-NAestimator" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-NAestimator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;10.3: Nelson-Aalen 추정법
+</figcaption>
+<div aria-describedby="tbl-NAestimator-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">구간</th>
+<th style="text-align: right;"><span class="math inline">\(t\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_i/n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\sum_{t_i \le t} d_i/n_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat S(t)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((0,9]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.0000\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1.00\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((9, 13]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/12\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.0833\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.920\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((13,18]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(13\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(11\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/11\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.1742\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.840\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((18,23]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(18\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/9\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.2853\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.752\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((23,31]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(23\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(8\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/8\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.4104\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.663\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\((31,48]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(31\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(6\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2/6\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.7437\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.475\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\((48,\infty]\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(48\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1/2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(1.2439\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0.288\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>아래는 예제 자료에 대하여 Nelson-Aalen 추정량(<code>type="fh"</code>)으로 생존함수를 추정하는 R 프로그램이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">13</span>, <span class="dv">18</span> ,<span class="dv">23</span> ,<span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">31</span>,<span class="dv">31</span>,<span class="dv">45</span> ,<span class="dv">48</span> ,<span class="dv">161</span>) </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>res.fh <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(t, cens)<span class="sc">~</span><span class="dv">1</span>,  <span class="at">conf.type=</span><span class="st">"log-log"</span>, <span class="at">type=</span><span class="st">"fh"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>res.fh</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log", type = "fh")
+
+      n events median 0.95LCL 0.95UCL
+[1,] 12      7     31      13      NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.fh)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log", type = "fh")
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    9     12       1    0.920  0.0767       0.5534        0.988
+   13     11       1    0.840  0.1036       0.4978        0.957
+   18      9       1    0.752  0.1248       0.4097        0.913
+   23      8       1    0.663  0.1379       0.3305        0.859
+   31      6       2    0.460  0.1532       0.1653        0.715
+   48      2       1    0.279  0.1675       0.0403        0.602</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.fh)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>누적한계추정법과 Nelson-Aalen 추정법으로 구한 생존함수의 추정치를 비교해보면 매우 유사하다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>compsurv <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> res.km<span class="sc">$</span>time, <span class="at">estKM =</span> res.km<span class="sc">$</span>surv, <span class="at">estNA =</span> res.fh<span class="sc">$</span>surv) </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>compsurv</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  time     estKM     estNA
+1    9 0.9166667 0.9200444
+2   13 0.8333333 0.8400932
+3   18 0.7407407 0.7517484
+4   23 0.6481481 0.6634157
+5   28 0.6481481 0.6634157
+6   31 0.4320988 0.4597740
+7   45 0.4320988 0.4597740
+8   48 0.2160494 0.2788670
+9  161 0.2160494 0.2788670</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.fh, <span class="at">col =</span><span class="st">"blue"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(res.km, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>누적한계추정법(파랑선)과 Nelson-Aalen 추정법(빨간선)의 비교</figcaption>
+<p><img src="survival-02_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+중위 생존시간
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>중위 생존시간의 추정량은 <span class="math inline">\(\hat t_{med}\)</span> 다음 방정식을 만족하는 <span class="math inline">\(t\)</span>의 값이다.</p>
+<p><span class="math display">\[
+\hat t_{med} = \inf ~ \{t~|~ \hat S(t) \le 1/2 \}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>res.km</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log")
+
+      n events median 0.95LCL 0.95UCL
+[1,] 12      7     31      13      NA</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="생존함수-추정의-예제" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="생존함수-추정의-예제"><span class="header-section-number">10.4</span> 생존함수 추정의 예제</h2>
+<section id="예제-1" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="예제-1"><span class="header-section-number">10.4.1</span> 예제 1</h3>
+<p>참고도서 <span class="citation" data-cites="lee2005">Jaewon Lee (<a href="../references.html#ref-lee2005" role="doc-biblioref">2005</a>)</span> 의 예제 7-2 에 나온 자료에 대하여 누적한계추정법으로 구한 생존함수의 추정결과는 다음과 같다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span>    <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>, <span class="fl">6.0</span>, <span class="fl">6.4</span>, <span class="fl">6.5</span>, <span class="fl">7.0</span>, <span class="fl">7.5</span>, <span class="fl">8.4</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">15</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Surv</span>(t, cens)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  3.0   4.0+  4.5   5.5   6.0   6.4   6.5   7.0   7.5   8.4+ 10.0  10.0+
+[13] 12.0  15.0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>res.km72 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(t, cens)<span class="sc">~</span><span class="dv">1</span>,  <span class="at">conf.type=</span><span class="st">"log-log"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res.km72)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(t, cens) ~ 1, conf.type = "log-log")
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+  3.0     14       1    0.929  0.0688       0.5908        0.990
+  4.5     12       1    0.851  0.0973       0.5234        0.961
+  5.5     11       1    0.774  0.1152       0.4493        0.921
+  6.0     10       1    0.696  0.1270       0.3784        0.874
+  6.4      9       1    0.619  0.1344       0.3119        0.821
+  6.5      8       1    0.542  0.1381       0.2502        0.762
+  7.0      7       1    0.464  0.1384       0.1934        0.699
+  7.5      6       1    0.387  0.1352       0.1418        0.630
+ 10.0      4       1    0.290  0.1315       0.0791        0.547
+ 12.0      2       1    0.145  0.1219       0.0108        0.439
+ 15.0      1       1    0.000     NaN           NA           NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.km72, <span class="at">mark=</span><span class="st">"|"</span>, <span class="at">ylab=</span><span class="st">"survival function"</span>, <span class="at">xlab=</span><span class="st">"Time"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음은 누적한계추정법으로 구한 누적위험함수 <span class="math inline">\(H(t)\)</span> 이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.km72, <span class="at">cumhaz=</span><span class="cn">TRUE</span>, <span class="at">mark=</span><span class="st">"|"</span>, <span class="at">ylab=</span><span class="st">"cumulative hazrd"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음은 <code>survminer</code> 패키지의 <code>ggsurvplot()</code> 함수를 이용하여 생존함수와 누적위험함수를 그래프로 그린 결과이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span>    <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>, <span class="fl">6.0</span>, <span class="fl">6.4</span>, <span class="fl">6.5</span>, <span class="fl">7.0</span>, <span class="fl">7.5</span>, <span class="fl">8.4</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">15</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cens <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">1</span>,   <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>example1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">t =</span> t, <span class="at">cens =</span> cens)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>res.km721 <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(t, cens)<span class="sc">~</span><span class="dv">1</span>,  <span class="at">data=</span>example1, <span class="at">conf.type=</span><span class="st">"log-log"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(res.km721, <span class="at">data=</span>example1, <span class="at">risk.table =</span> <span class="cn">TRUE</span>, <span class="at">risk.table.height =</span> <span class="fl">0.25</span>,  <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>())</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(res.km721, <span class="at">data=</span>example1, <span class="at">fun =</span> <span class="st">"cumhaz"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="예제-2" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="예제-2"><span class="header-section-number">10.4.2</span> 예제 2</h3>
+<p>참고도서 <span class="citation" data-cites="moore2016applied">Moore (<a href="../references.html#ref-moore2016applied" role="doc-biblioref">2016</a>)</span> 의 29페이지에 나오는 예제를 소개한다. 위암환자들에게 치료제인 Xelox를 투약하는 실제 2상 임상실험의 자료를 분석한 예이다. 관심있는 변수는 “progression-free time” 으로서 임상실험에 참가한 시점부터 회복이 되거나 사망하거나 둘 중에 빠르게 나타난 시간이다.</p>
+<p>아래는 누적한계추정법으로 구한 생존함수의 추정치와 그림(생존함수와 누적위험함수)이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>example2 <span class="ot">&lt;-</span> gastricXelox <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">timeMonths =</span> timeWeeks<span class="sc">*</span><span class="dv">7</span><span class="sc">/</span><span class="fl">30.25</span>) <span class="co"># convert weeks to months</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Surv</span>(example2<span class="sc">$</span>timeMonths, example2<span class="sc">$</span>delta)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.9256198   1.8512397   1.8512397   1.8512397   2.0826446   2.5454545 
+ [7]  2.7768595   3.0082645   3.7024793   3.7024793   3.9338843   3.9338843 
+[13]  4.3966942   4.8595041   5.5537190   5.5537190   5.7851240   6.4793388 
+[19]  6.4793388   6.9421488   8.5619835   8.5619835   9.7190083   9.9504132 
+[25]  9.9504132+ 10.6446281  11.1074380+ 11.5702479+ 11.8016529+ 12.2644628 
+[31] 12.4958678+ 13.1900826+ 13.6528926+ 13.6528926  13.8842975  14.8099174 
+[37] 15.2727273  17.5867769  18.0495868  21.0578512+ 27.5371901+ 27.7685950+
+[43] 32.1652893+ 40.7272727+ 43.2727273+ 46.9752066+ 50.2148760+ 58.5454545+</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>result.km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(timeMonths, delta) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">conf.type=</span><span class="st">"log-log"</span>, <span class="at">data=</span>example2)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># median survival and 95% confidence interval is printed as follows:</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>result.km</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(timeMonths, delta) ~ 1, data = example2, 
+    conf.type = "log-log")
+
+      n events median 0.95LCL 0.95UCL
+[1,] 48     32   10.3    5.79    15.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result.km, <span class="at">mark=</span><span class="st">"|"</span>, <span class="at">ylab=</span><span class="st">"Survival probability"</span>, <span class="at">xlab=</span><span class="st">"Time in months"</span>,</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex.axis=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result.km, <span class="at">cumhaz=</span><span class="cn">TRUE</span>, <span class="at">mark=</span><span class="st">"|"</span>, <span class="at">ylab=</span><span class="st">"cumulative hazrd"</span>, <span class="at">xlab=</span><span class="st">"Time in months"</span>,  <span class="at">cex.axis=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음은 <code>survminer</code> 패키지의 <code>ggsurvplot()</code> 함수를 이용하여 생존함수와 누적위험함수를 그래프로 그린 결과이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(result.km, <span class="at">data =</span> example2, <span class="at">risk.table =</span> <span class="cn">TRUE</span>, <span class="at">risk.table.height =</span> <span class="fl">0.25</span>,  <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>())</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(result.km, <span class="at">data =</span> example2, <span class="at">fun =</span> <span class="st">"cumhaz"</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="survival-02_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-lee2005" class="csl-entry" role="listitem">
+Jaewon Lee, Hanna Yu, Mira Park. 2005. <em>생명과학연구를 위한 통계적 방법</em>. 1st ed. 자유아카데미.
+</div>
+<div id="ref-moore2016applied" class="csl-entry" role="listitem">
+Moore, Dirk F. 2016. <em>Applied survival analysis using R</em>. Springer.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notes/survival-01.html" class="pagination-link" aria-label="생존함수와 위험함수">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">생존함수와 위험함수</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
