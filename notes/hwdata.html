@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>부록 A — 다변량 확률변수의 성질 – 의학통계학</title>
+<title>부록 C — 과제 자료 화일 – 의학통계학</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notes/lmmtheory.html" rel="next">
-<link href="../notes/survival-02.html" rel="prev">
+<link href="../references.html" rel="next">
+<link href="../notes/lmmtheory.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -85,35 +85,6 @@ ul.task-list li input[type="checkbox"] {
 };
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -127,7 +98,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/multivar.html">Appendices</a></li><li class="breadcrumb-item"><a href="../notes/multivar.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/multivar.html">Appendices</a></li><li class="breadcrumb-item"><a href="../notes/hwdata.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">과제 자료 화일</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
@@ -265,7 +236,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link active">
+  <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span></a>
   </div>
 </li>
@@ -277,7 +248,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notes/hwdata.html" class="sidebar-item-text sidebar-link">
+  <a href="../notes/hwdata.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">과제 자료 화일</span></span></a>
   </div>
 </li>
@@ -299,23 +270,16 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#일변량분포" id="toc-일변량분포" class="nav-link active" data-scroll-target="#일변량분포"><span class="header-section-number">A.1</span> 일변량분포</a></li>
-  <li><a href="#확률벡터의-분포" id="toc-확률벡터의-분포" class="nav-link" data-scroll-target="#확률벡터의-분포"><span class="header-section-number">A.2</span> 확률벡터의 분포</a></li>
-  <li><a href="#다변량-정규분포" id="toc-다변량-정규분포" class="nav-link" data-scroll-target="#다변량-정규분포"><span class="header-section-number">A.3</span> 다변량 정규분포</a>
-  <ul class="collapse">
-  <li><a href="#일변량-정규뷴포" id="toc-일변량-정규뷴포" class="nav-link" data-scroll-target="#일변량-정규뷴포"><span class="header-section-number">A.3.1</span> 일변량 정규뷴포</a></li>
-  <li><a href="#sec-bivnorm" id="toc-sec-bivnorm" class="nav-link" data-scroll-target="#sec-bivnorm"><span class="header-section-number">A.3.2</span> 이변량 정규분포</a></li>
-  <li><a href="#다변량-정규분포-1" id="toc-다변량-정규분포-1" class="nav-link" data-scroll-target="#다변량-정규분포-1"><span class="header-section-number">A.3.3</span> 다변량 정규분포</a></li>
-  </ul></li>
+  <li><a href="#과제-4" id="toc-과제-4" class="nav-link active" data-scroll-target="#과제-4"><span class="header-section-number">C.1</span> 과제 4</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/multivar.html">Appendices</a></li><li class="breadcrumb-item"><a href="../notes/multivar.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/multivar.html">Appendices</a></li><li class="breadcrumb-item"><a href="../notes/hwdata.html"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">과제 자료 화일</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-mulivar" class="quarto-section-identifier">부록 A — 다변량 확률변수의 성질</span></h1>
+<h1 class="title"><span id="sec-hwdata" class="quarto-section-identifier">부록 C — 과제 자료 화일</span></h1>
 </div>
 
 
@@ -332,190 +296,14 @@ window.Quarto = {
 </header>
 
 
-<section id="일변량분포" class="level2" data-number="A.1">
-<h2 data-number="A.1" class="anchored" data-anchor-id="일변량분포"><span class="header-section-number">A.1</span> 일변량분포</h2>
-<p>일변량 확률변수 <span class="math inline">\(x\)</span>가 확률밀도함수 <span class="math inline">\(f(x)\)</span>를 가지는 분포를 따를 때 기대값과 분산은 다음과 같이 정의된다.</p>
-<p><span class="math display">\[
-E( x) = \int x f(x)  dx = \mu
-\]</span></p>
-<p><span class="math display">\[
-V( x) = E[  x-E( x)]^2=\int (x-\mu)^2 f(x) dx =\sigma^2
-\]</span></p>
-<p>새로운 확률변수 <span class="math inline">\(y\)</span> 가 확률변수 <span class="math inline">\(x\)</span>의 선형변환으로 표시된다면 (<span class="math inline">\(a\)</span> 와 <span class="math inline">\(b\)</span> 는 실수)</p>
-<p><span class="math display">\[
-y = a x+b
-\]</span> 그 기대값(평균)과 분산은 다음과 같이 계산된다.</p>
-<p><span class="math display">\[
-\begin{aligned}
-E(y) &amp;= E(a x+b) \\
-&amp;= \int (ax+b) f(x) dx \\
-&amp;= a \int x f(x) dx + b \\
-&amp;= a E( x) + b\\
-&amp;= a \mu + b \\
-V(y) &amp;= Var(a x+b) \\
-&amp;= E[a x+b -E(a x+b)]^2 \\
-&amp;= E[a( x-\mu)]^2 \\
-&amp;= a^2 E( x-\mu)^2\\
-&amp;= a^2 \sigma^2
-\end{aligned}
-\]</span></p>
-</section>
-<section id="확률벡터의-분포" class="level2" data-number="A.2">
-<h2 data-number="A.2" class="anchored" data-anchor-id="확률벡터의-분포"><span class="header-section-number">A.2</span> 확률벡터의 분포</h2>
-<p>다음과 같은 확률벡터 <span class="math inline">\(\pmb x\)</span> 가 <span class="math inline">\(p\)</span> 차원의 다변량분포를 따른다고 하자.</p>
-<p><span class="math display">\[
-\pmb x =
-\begin{bmatrix}
-x_1 \\
-x_2 \\
-x_3 \\
-..  \\
-x_p
-\end{bmatrix}
-\]</span></p>
-<p>다변량 확률벡터 <span class="math inline">\(\pmb x\)</span> 의 평균벡터 <span class="math inline">\(\pmb \mu\)</span> 과 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 은 다음과 같이 계산된다.</p>
-<p><span class="math display">\[
-E( \pmb x) =
-  \begin{bmatrix}
-E( x_1) \\
-E( x_2) \\
-E( x_3) \\
-..  \\
-E( x_p)
-\end{bmatrix}
-=
-  \begin{bmatrix}
-\mu_1 \\
-\mu_2 \\
-..  \\
-\mu_p
-\end{bmatrix}
-= \pmb \mu
-\]</span></p>
-<p><span class="math display">\[
-V( \pmb x) =Cov( \pmb x) =  
-\begin{bmatrix}
-\sigma_{11} &amp; \sigma_{12} &amp; \dots &amp; \sigma_{1p} \\
-\sigma_{12} &amp; \sigma_{22} &amp; \dots &amp; \sigma_{2p} \\
-&amp; \dots &amp; \dots &amp; \\
-\sigma_{1p} &amp; \sigma_{2p} &amp; \dots &amp; \sigma_{pp} \\
-\end{bmatrix}
-=  \pmb \Sigma
-\]</span></p>
-<p>여기서</p>
-<p><span class="math display">\[
-\sigma_{ii}=V(x_i), \quad \sigma_{ij} = Cov(x_i, x_j)
-\]</span></p>
-<p>두 확률변수의 상관계수 <span class="math inline">\(\rho_{ij}\)</span>는 다음과 같이 정의된다. <span class="math display">\[
-\rho_{ij} = \frac{Cov(x_i, x_j)}{ \sqrt{V( x_i) V( x_j)}} = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii} \sigma_{jj}}}
-\]</span></p>
-<p>새로운 확률벡터 <span class="math inline">\(\pmb y\)</span> 가 확률벡터 <span class="math inline">\(\pmb x\)</span> 의 선형변환라고 하자. <span class="math display">\[  
-\pmb y =  \pmb A   \pmb x +  \pmb b
-\]</span></p>
-<p>단 여기서 <span class="math inline">\(\pmb A\)</span> 는 <span class="math inline">\(p \times p\)</span> 실수 행렬이고 <span class="math inline">\(\pmb b\)</span> 는 <span class="math inline">\(p \times 1\)</span> 실수 벡터이다.</p>
-<p>이제 확률벡터 <span class="math inline">\(\pmb y\)</span> 의 기대값(평균벡터)과 공분산은 다음과 같이 계산된다.</p>
-<p><span class="math display">\[
-E(  \pmb y ) = E( \pmb A  \pmb x +  \pmb b)
-=  \pmb A  \pmb \mu +  \pmb b
-\]</span></p>
-<p><span class="math display">\[
-V( \pmb y) = Var( \pmb A  \pmb x + \pmb b)
-=  \pmb A \pmb \Sigma  {\pmb A}^t
-\]</span></p>
-</section>
-<section id="다변량-정규분포" class="level2" data-number="A.3">
-<h2 data-number="A.3" class="anchored" data-anchor-id="다변량-정규분포"><span class="header-section-number">A.3</span> 다변량 정규분포</h2>
-<section id="일변량-정규뷴포" class="level3" data-number="A.3.1">
-<h3 data-number="A.3.1" class="anchored" data-anchor-id="일변량-정규뷴포"><span class="header-section-number">A.3.1</span> 일변량 정규뷴포</h3>
-<p>일변량 확률변수 <span class="math inline">\(x\)</span> 가 평균이 <span class="math inline">\(\mu\)</span> 이고 분산이 <span class="math inline">\(\sigma^2\)</span> 인 정규분포를 따른다면 다음과 같이 나타내고</p>
-<p><span class="math display">\[
-\pmb x \sim N(\mu, \sigma^2 )
-\]</span></p>
-<p>확률밀도함수 <span class="math inline">\(f(x)\)</span> 는 다음과 갇이 주어진다. <span class="math display">\[
-f(x) = (2 \pi \sigma^2)^{-1/2} \exp \left ( - \frac{(x-\mu)^2}{2} \right )
-\]</span></p>
-</section>
-<section id="sec-bivnorm" class="level3" data-number="A.3.2">
-<h3 data-number="A.3.2" class="anchored" data-anchor-id="sec-bivnorm"><span class="header-section-number">A.3.2</span> 이변량 정규분포</h3>
-<p>이제 2개의 확률변수로 이루어진 <span class="math inline">\(2\)</span>-차원 확률벡터 <span class="math inline">\(\pmb x=( x_1,  x_2)^t\)</span> 가 다음과 같은 평균 벡터 <span class="math inline">\(\pmb \mu\)</span> 과 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 울 가지고 정규뷴포를 따른다면 이변량 정규분포(bivariate normal distribution)을 따른다고 하며</p>
-<p><span class="math display">\[
-E(\pmb x) =
-\begin{bmatrix}
-\mu_1 \\
-\mu_2
-\end{bmatrix}
-= \pmb \mu, \quad
-Cov(\pmb x) =
-\begin{bmatrix}
-\sigma_{11} &amp; \sigma_{12} \\
-\sigma_{12} &amp; \sigma_{22}
-\end{bmatrix}
-= \pmb \Sigma
-\]</span></p>
-<p>다음과 같이 표기한다.</p>
-<p><span class="math display">\[
-\pmb x \sim N_2(\pmb \mu , \pmb \Sigma)
-\]</span></p>
-<p>이변량 정규분포의 확률밀도함수 <span class="math inline">\(f(\pmb x)\)</span>에서 다음과 같이 주어진다.</p>
-<p><span id="eq-mutinormpdf"><span class="math display">\[
-f( \pmb x) = (2 \pi)^{-1} | \pmb \Sigma |^{-1/2}
-\exp \left ( - \frac{( \pmb x- \pmb \mu)  {\pmb \Sigma}^{-1}( \pmb x- \pmb \mu)^t}{2} \right )
-\tag{A.1}\]</span></span></p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-이변량 정규분포에서 조건부 분포
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>만약 <span class="math inline">\(x_2\)</span> 가 주어졌을 때 <span class="math inline">\(x_1\)</span>의 조건부 분포는 정규분포이고 평균과 분산은 다음과 같이 주어진다.</p>
-<p><span id="eq-multi-conditional"><span class="math display">\[
-E( x_1 |  x_2 ) =  \mu_1 +  \frac{\sigma_{12}}{\sigma_{22}} ( x_2  - \mu_2)  
-\tag{A.2}\]</span></span></p>
-<p><span class="math display">\[
-V( x_1 |  x_2 )  =   \sigma_{11} - \frac{\sigma^2_{12}}{\sigma_{22}}
-\]</span></p>
-<p>따라서 <span class="math inline">\(x_2\)</span> 가 주어졌을 때 <span class="math inline">\(x_1\)</span>의 조건부 분포는 다음과 같은 정규분포를 따른다.</p>
-<p><span class="math display">\[
-x_1 | x_2 \sim N \left ( \mu_1 +  \frac{\sigma_{12}}{\sigma_{22}} ( x_2  - \mu_2)  ,~~  \sigma_{11} - \frac{\sigma^2_{12}}{\sigma_{22}} \right )
-\]</span></p>
-<p><span class="math inline">\(x_1\)</span> 과 <span class="math inline">\(x_2\)</span> 의 상관계수는 <span class="math inline">\(\rho = \sigma_{12}/(\sigma_{11} \sigma_{22})\)</span> 이다.</p>
-</div>
-</div>
-</section>
-<section id="다변량-정규분포-1" class="level3" data-number="A.3.3">
-<h3 data-number="A.3.3" class="anchored" data-anchor-id="다변량-정규분포-1"><span class="header-section-number">A.3.3</span> 다변량 정규분포</h3>
-<p>앞에서 살펴본 이변량 정규분포를 <span class="math inline">\(p\)</span>-차원 확률벡터로 쉽게 확장할 수 있다. <span class="math inline">\(p\)</span>-차원 확률벡터 <span class="math inline">\(\pmb x\)</span> 가 평균이 <span class="math inline">\(\pmb \mu\)</span> 이고 공분산이 <span class="math inline">\(\pmb \Sigma\)</span> 인 다변량 정규분포(p-dimensional normal distribution)를 따른다면 다음과 같이 나타내고</p>
-<p><span class="math display">\[
-\pmb x \sim N_p( \pmb \mu,  \pmb \Sigma )
-\]</span></p>
-<p>확률밀도함수 <span class="math inline">\(f(\pmb x)\)</span> 는 <a href="#eq-mutinormpdf" class="quarto-xref"><span>A.1</span></a> 에서 평균 백터 <span class="math inline">\(\pmb \mu\)</span> 와 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 의 차원이 <span class="math inline">\(p\)</span> 차원으로 주어진 식으로 나타낼 수 있다.</p>
+<p>이 장은 과제에 사용되는 자료 화일의 다운로드 링크를 제공한다.</p>
+<section id="과제-4" class="level2" data-number="C.1">
+<h2 data-number="C.1" class="anchored" data-anchor-id="과제-4"><span class="header-section-number">C.1</span> 과제 4</h2>
 <ul>
-<li><p>다변량 정규분포에서, 두 변수의 공분산이 0 인 경우와 두 변수의 독립은 동치이다.</p></li>
-<li><p>다변량 정규분포의 주변 분포(marginal distribution)는 여전히 정규분포를 따른다. 즉, 다변량 정규분포에서 일부 변수만 따로 떼어내더라도 그 변수들 역시 다변량 정규분포를 따른다.</p></li>
-<li><p>다변량 정규분포에서 공분산 행렬 <span class="math inline">\(\pmb \Sigma\)</span> 는 대칭행렬(symmetric matrix)이며 양정치 행렬(positive definite matrix)이다.</p></li>
+<li><a href="../data/chapter07-problems-02-ext.txt">문제 2 자료</a></li>
 </ul>
-<p>다변량 정규분포를 따르는 확률벡터 <span class="math inline">\(\pmb x\)</span> 를 다음과 같이 두 부분으로 나누면</p>
-<p><span class="math display">\[
-\pmb x =
-\begin{bmatrix}
-\pmb x_1 \\
-\pmb x_2
-\end{bmatrix}
-\]</span></p>
-<p>확률벡터 <span class="math inline">\(\pmb x_2\)</span> 가 주어진 경우 <span class="math inline">\(\pmb x_1\)</span> 의 조건부 분포는 다변량 정규분포를 따르고 평균과 공분산은 다음과 같다.</p>
-<p><span class="math display">\[
-  E(\pmb x_1 | \pmb x_2 ) = \pmb \mu_1 + {\pmb \Sigma}_{12} {\pmb \Sigma}^{-1}_{22} (\pmb x_2 - \pmb \mu_2 )
-\]</span></p>
-<p><span class="math display">\[
-V(\pmb x_1 | \pmb x_2 )  = {\pmb \Sigma_{11}} -{\pmb \Sigma}_{12} {\pmb \Sigma}^{-1}_{22} {\pmb \Sigma}^t_{12}
-  \]</span></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -941,13 +729,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notes/survival-02.html" class="pagination-link" aria-label="생존함수의 추정">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span>
+      <a href="../notes/lmmtheory.html" class="pagination-link" aria-label="선형혼합모형의 이론">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">선형혼합모형의 이론</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notes/lmmtheory.html" class="pagination-link" aria-label="선형혼합모형의 이론">
-        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">선형혼합모형의 이론</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
