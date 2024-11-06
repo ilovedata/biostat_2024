@@ -306,6 +306,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/logrank-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -355,7 +361,7 @@ window.Quarto = {
   <ul>
   <li><a href="#필요한-패키지" id="toc-필요한-패키지" class="nav-link active" data-scroll-target="#필요한-패키지"><span class="header-section-number">3.1</span> 필요한 패키지</a></li>
   <li><a href="#카이제곱-검정" id="toc-카이제곱-검정" class="nav-link" data-scroll-target="#카이제곱-검정"><span class="header-section-number">3.2</span> 카이제곱 검정</a></li>
-  <li><a href="#코크란-맨텔-헨젤-검정" id="toc-코크란-맨텔-헨젤-검정" class="nav-link" data-scroll-target="#코크란-맨텔-헨젤-검정"><span class="header-section-number">3.3</span> 코크란-맨텔-헨젤 검정</a></li>
+  <li><a href="#sec-cmhtest" id="toc-sec-cmhtest" class="nav-link" data-scroll-target="#sec-cmhtest"><span class="header-section-number">3.3</span> 코크란-맨텔-헨젤 검정</a></li>
   <li><a href="#맥나마-검정" id="toc-맥나마-검정" class="nav-link" data-scroll-target="#맥나마-검정"><span class="header-section-number">3.4</span> 맥나마 검정</a></li>
   </ul>
 </nav>
@@ -484,8 +490,8 @@ X-squared = 26.408, df = 1, p-value = 2.764e-07</code></pre>
 </div>
 </div>
 </section>
-<section id="코크란-맨텔-헨젤-검정" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="코크란-맨텔-헨젤-검정"><span class="header-section-number">3.3</span> 코크란-맨텔-헨젤 검정</h2>
+<section id="sec-cmhtest" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-cmhtest"><span class="header-section-number">3.3</span> 코크란-맨텔-헨젤 검정</h2>
 <p>임상실험이나 의학연구는 여러 나라 또는 여러 병원들에서 진행되는 경우가 있다. 이러한 경우 국가나 병원의 고유한 특성에 따라서 실험의 결과가 다르게 나타날 수 있다. 이렇게 그룹에 의한 효과를 그룹 효과 또는 층(strata)에 의한 효과라고 한다. 예를 들어 진통제에 대한 효과는 그 나라의 문화나 관습에 따라서 효과의 차이가 나타날 수 있다. 또한 여러 개의 변원에서 연그ㅜ가 동시에 진행된다면 병원의 규모, 위치, 환자들의 특성에 따라서 치료 효과의 차이가 나타날 수 있다.</p>
 <p>이렇게 그룹에 따른 차이가 예상되는 경우 그룹의 효과를 제어하면서 처리 효과의 차이를 검정하는 방법이 필요하다. 이렇게 여러 개의 층으로 구성된 독립집단에서 얻은 자료에서 층에 의한 횩과를 통제하면서 동질성 또는 독립성 검정을 수행하는 방법을 <strong>코크란-맨텔-헨젤 검정 (Cochran-Mantel-Haenzel test)</strong>라고 한다.</p>
 <p>아래와 같이 <span class="math inline">\(K\)</span> 개의 독립집단(또는 층)에서 각각 얻은 <span class="math inline">\(K\)</span> 개의 <span class="math inline">\(2 \times2\)</span> 분할표가 있다고 하자.</p>

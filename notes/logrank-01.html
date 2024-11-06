@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; 진단의 평가 – 의학통계학</title>
+<title>11&nbsp; 생존함수의 비교 – 의학통계학</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -84,8 +84,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notes/anova.html" rel="next">
-<link href="../notes/association-test.html" rel="prev">
+<link href="../notes/multivar.html" rel="next">
+<link href="../notes/survival-02.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -181,7 +181,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/association.html">분할표와 연관성</a></li><li class="breadcrumb-item"><a href="../notes/diagnose.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/survival-01.html">생존분석</a></li><li class="breadcrumb-item"><a href="../notes/logrank-01.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
@@ -244,7 +244,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notes/diagnose.html" class="sidebar-item-text sidebar-link active">
+  <a href="../notes/diagnose.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></span></a>
   </div>
 </li>
@@ -308,7 +308,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notes/logrank-01.html" class="sidebar-item-text sidebar-link">
+  <a href="../notes/logrank-01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></span></a>
   </div>
 </li>
@@ -359,17 +359,22 @@ window.Quarto = {
     <h2 id="toc-title">목차</h2>
    
   <ul>
-  <li><a href="#민감도와-특이도" id="toc-민감도와-특이도" class="nav-link active" data-scroll-target="#민감도와-특이도"><span class="header-section-number">4.1</span> 민감도와 특이도</a></li>
-  <li><a href="#양성예측도와-음성예측도" id="toc-양성예측도와-음성예측도" class="nav-link" data-scroll-target="#양성예측도와-음성예측도"><span class="header-section-number">4.2</span> 양성예측도와 음성예측도</a></li>
+  <li><a href="#필요한-패키지" id="toc-필요한-패키지" class="nav-link active" data-scroll-target="#필요한-패키지"><span class="header-section-number">11.1</span> 필요한 패키지</a></li>
+  <li><a href="#비모수적-방법을-이용한-생존함수의-비교" id="toc-비모수적-방법을-이용한-생존함수의-비교" class="nav-link" data-scroll-target="#비모수적-방법을-이용한-생존함수의-비교"><span class="header-section-number">11.2</span> 비모수적 방법을 이용한 생존함수의 비교</a></li>
+  <li><a href="#일반화-로그-순위-검정" id="toc-일반화-로그-순위-검정" class="nav-link" data-scroll-target="#일반화-로그-순위-검정"><span class="header-section-number">11.3</span> 일반화 로그 순위 검정</a></li>
+  <li><a href="#예제" id="toc-예제" class="nav-link" data-scroll-target="#예제"><span class="header-section-number">11.4</span> 예제</a>
+  <ul class="collapse">
+  <li><a href="#예제-7.3" id="toc-예제-7.3" class="nav-link" data-scroll-target="#예제-7.3"><span class="header-section-number">11.4.1</span> 예제 7.3</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/association.html">분할표와 연관성</a></li><li class="breadcrumb-item"><a href="../notes/diagnose.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/survival-01.html">생존분석</a></li><li class="breadcrumb-item"><a href="../notes/logrank-01.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sensitivity" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></span></h1>
+<h1 class="title"><span id="sec-logrank" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></span></h1>
 </div>
 
 
@@ -386,223 +391,487 @@ window.Quarto = {
 </header>
 
 
-<p>의학에서 진단은 환자의 상태나 질병의 징후를 판단하는 일이다. 진단을 수행하기 위해서 의사는 전통적인 진단법도 사용하지만 다양한 계측 기계를 이용하는 진단 기법도 사용한다. 최근에는 첨단 분석 장비를 이용하여 다양한 질병에 대한 진단을 정확하고 쉽게 할 수 있다. 특히 최근 코로나 시대에 들면서 일반인도 여러 가지 이유로 진단 검사를 받는 경우가 자주 일어난다.</p>
-<p>진단 기법을 사용하여 감염 여부 등을 판단하는 경우 언제나 오류가 발생한다. 최근에는 첨단 기술 덕분으로 이러한 오류율이 많이 줄어 들었지만 오류가 없는 진단 기법은 개발하기 힘들다.</p>
-<p>코로나 검사를 받고 음성 판정을 받아도 실제 양성인 경우가 나타나며, 반대로 양성 판정을 받아도 음성이 경우가 나타난다. 이렇게 <strong>진단에서 발생하는 오류는 두 가지 종류</strong> 가 있다.</p>
-<p>연구자들이 진단 기법을 개발할 때 오류의 가능성이 작아지도록 노력하지만, 불행하게도 두 가지 오류의 확률을 모두 0 으로 만들 수 없다.</p>
-<p>극단적인 예를 들어보자. 코로나 바이러스 감염의 유무를 판단하는 진단 기법 A는 검사를 받는 사람을 모두 양성이라고 판단한다고 하자. 이 경우 양성인 사람이 음성으로 잘못 판단되는 오류의 확률은 0이다. 반대로 진단 기법 B는 검사를 받는 사람을 모두 음성이라고 판단한다면 음성인 사람이 양성으로 잘못 판단되는 오류의 확률은 0이다. 여기서 진단 기법 A 와 B 는 모두 쓸모없는 검사라는 것을 우리는 잘 알고 있다. 양성인 사람과 음성인 사람을 잘 구별할 수 있는 진단 기법이 좋은 방법이다.</p>
-<p>이제 우리는 진단 기법을 평가할 때 사용되는 확률의 측도에 대하여 알아보자.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="필요한-패키지" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="필요한-패키지"><span class="header-section-number">11.1</span> 필요한 패키지</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(KMsurv)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(asaur)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-title-container flex-fill">
-노트
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>일반적으로 양성(positive)는 바이러스에 감염되었거나 질병이 있다는 사건을 말한다. 음성(negative)는 양성의 반대 사건이다. 하지만 양성과 음성의 의미가 바뀌는 경우도 종종 있다.</p>
-</div>
-</div>
-<section id="민감도와-특이도" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="민감도와-특이도"><span class="header-section-number">4.1</span> 민감도와 특이도</h2>
-<p>진단 기법을 평가하는 경우 다음과 같은 두 질문에 대해서 생각해 보아야 한다.</p>
-<ul>
-<li>양성인 사람을 얼마나 잘 양성으로 판단하는가?</li>
-<li>음성인 사람을 얼마나 잘 음성으로 판단하는가?</li>
-</ul>
-<p>양성인 사람을 얼마나 잘 양성으로 판단하는지에 대한 평가 기준이 <strong>민감도(sensitivity)</strong> 이고 음성인 사람을 얼마나 잘 음성으로 판단하는지에 대한 평가 기준이 <strong>특이도(specificity)</strong> 이다. 민감도와 특이도의 정도는 확률로서 나타낼 수 있다.</p>
-<p>진단 기법에 대한 실험 연구를 수행하면 그 결과는 <span class="math inline">\(2 \times 2\)</span> 분할표로 다음과 같이 요약할 수 있다. 일반적으로 진단 기법의 효과를 측정하는 실험은 대상자에 대한 질병의 유무를 알고 시작한다.</p>
-<div id="tbl-diagnose" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-diagnose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-표&nbsp;4.1: 진단 기법의 실험 결과
-</figcaption>
-<div aria-describedby="tbl-diagnose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">진단(T) / 질병(D)</th>
-<th style="text-align: center;">양성 (<span class="math inline">\(D+\)</span>)</th>
-<th style="text-align: center;">음성 (<span class="math inline">\(D-\)</span>)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">양성 (<span class="math inline">\(T+\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(TP\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(FP\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">음성 (<span class="math inline">\(T-\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(FN\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(TN\)</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-<p>위의 표에서 각 셀에 해당하는 진단 결과는 다음과 같이 나타낼 수 있다.</p>
-<ul>
-<li><span class="math inline">\(TP\)</span> : True Positive</li>
-<li><span class="math inline">\(FP\)</span> : False Positive</li>
-<li><span class="math inline">\(FN\)</span> : False Nagative</li>
-<li><span class="math inline">\(TN\)</span> : True Negative</li>
-</ul>
-<p>이제 분할표 <a href="#tbl-diagnose" class="quarto-xref"><span>4.1</span></a> 에서 민감도와 특이도는 다음과 같이 정의된다.</p>
-<p><span class="math display">\[\begin{align}
-\text{Sensitivity}(민감도) &amp; = \frac{TP}{TP+FN} \\
-\text{Specificity}(특이도) &amp; = \frac{TN}{FP+TN}
-\end{align}\]</span></p>
-<p>다음은 코로나 바이러스 검사법에 대한 여러 연구에서 나온 민감도와 특이도 결과를 보여 준다 (<span class="citation" data-cites="butler2021comparison">Butler-Laporte 기타 (<a href="../references.html#ref-butler2021comparison" role="doc-biblioref">2021</a>)</span>).</p>
-<div id="fig-tablecorona" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-tablecorona-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-그림&nbsp;4.1: 코로나 검사의 민감도와 특이도
-</figcaption>
-<div aria-describedby="fig-tablecorona-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../myimages/corona.png" class="img-fluid figure-img">
-</div>
-</figure>
-</div>
-<p>예제로서 그림 <a href="#fig-tablecorona" class="quarto-xref">그림&nbsp;<span>4.1</span></a> 에 제시한 종합적인 결과(pooled counts)를 이용하여 민감도와 특이도를 구해보자.</p>
-<div id="tbl-diagnose2" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-diagnose2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-표&nbsp;4.2: 코로나 바이러스 검사법의 결과
-</figcaption>
-<div aria-describedby="tbl-diagnose2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;">진단(T) / 질병(D)</th>
-<th style="text-align: center;">양성 (<span class="math inline">\(D+\)</span>)</th>
-<th style="text-align: center;">음성 (<span class="math inline">\(D-\)</span>)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">양성 (<span class="math inline">\(T+\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(664\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(157\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">음성 (<span class="math inline">\(T-\)</span>)</td>
-<td style="text-align: center;"><span class="math inline">\(120\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(4981\)</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-<p>민감도와 특이도는 다음과 같이 구할 수 있다.</p>
-<p><span class="math display">\[\begin{align*}
-\text{Sensitivity} &amp; = \frac{664}{664+120} =  0.8469 \\
-\text{Specificity} &amp; = \frac{4891}{157+4891} =  0.9689
-\end{align*}\]</span></p>
-<p>위에서 구한 민감도와 특이도는 <span class="citation" data-cites="butler2021comparison">Butler-Laporte 기타 (<a href="../references.html#ref-butler2021comparison" role="doc-biblioref">2021</a>)</span> 에서 제시한 민감도(83.2%), 특이도(99.2%) 와 유사하지만 약간의 차이가 있다. 그 이유는 <span class="citation" data-cites="butler2021comparison">Butler-Laporte 기타 (<a href="../references.html#ref-butler2021comparison" role="doc-biblioref">2021</a>)</span> 는 모든 실험 결과를 단순하게 더한 것이 아니라 메타분석(meta analysis)을 사용하여 얻은 결과이기 때문이다. 메타분석은 같은 주제에 대한 여러 개의 독립적인 연구 결과들을 결합하여 결론을 추론하는 연구 방법이다.</p>
 </section>
-<section id="양성예측도와-음성예측도" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="양성예측도와-음성예측도"><span class="header-section-number">4.2</span> 양성예측도와 음성예측도</h2>
-<p>앞에서 살펴본 민감도와 특이도를 구하는 실험에서는 실험 대상자가 질병이 있는지 없는지 알고 있다. 하지만 실제 검사는 진단을 받는 사람이 질병이 있는지 모르는 상태에서 진행된다.<br>
-따라서 우리가 정말 관심 있는 확률은 <strong>양성으로 진단된 사람이 실제로 양성인지?</strong>에 대한 확률이다.</p>
-<p>양성으로 판정되었을 때 실제로 병에 걸렸을 확률을 <strong>양성예측도(<span class="math inline">\(PV+\)</span>)</strong> (predicted value of positive test, predictive value positive) 라고 부르며 음성으로 판정되었을 때 실제로 병에 걸리지 않았을 확률을 <strong>음성예측도(<span class="math inline">\(PV-\)</span>)</strong> (predicted value of negative test, predicted value negative) 라고 부른다. 양성예측도와 음성예측도는 조건부 확률로 표현할 수 있다.</p>
-<p><span class="math display">\[\begin{align}
-PV+ &amp; = P( D+ | T+) \\
-PV- &amp; = P( D- | T-)
-\end{align}\]</span></p>
-<p>이제 앞에서 살펴본 민감도와 특이도도 다음과 같이 조건부 확률로 나타낼 수 있다.</p>
-<p><span class="math display">\[\begin{align}
-\text{Sensitivity} &amp; =  P(T+|D+) \\
-\text{Specificity} &amp; =  P(T-|D-)
-\end{align}\]</span></p>
-<p>이제 실제로 중요한 양성예측도와 음성예측도를 민감도와 특이도를 이용하여 유도해 보자. 두 확률은 사건과 조건이 바뀐 확률이기 때문에 베이즈 정리(Bayes’ Theorem)을 이용하여 구할 수 있다.</p>
-<p>일단 양성예측도를 구하는 식을 베이즈 정리를 적용하여 유도해 보자.</p>
+<section id="비모수적-방법을-이용한-생존함수의-비교" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="비모수적-방법을-이용한-생존함수의-비교"><span class="header-section-number">11.2</span> 비모수적 방법을 이용한 생존함수의 비교</h2>
+<p>두 개의 독립 집단에 대하여 다음과 같이 생존시간을 관측하였다고 하자.</p>
 <p><span class="math display">\[
-P( D+ | T+)  = \frac{ P(T+|D+)P(D+)} {  P(T+|D+)P(D+) +  P(T+|D-)P(D-)}
+\begin{aligned}
+\text{group 1} \quad &amp; (X_{11}, \delta_{11}), (X_{12}, \delta_{12}) , \dots ,(X_{1 n_1}, \delta_{1 n_1}) \\
+\text{group 2} \quad &amp; (X_{21}, \delta_{21}), (X_{22}, \delta_{22}) , \dots ,(X_{2 n_2}, \delta_{2 n_2}) \\
+\end{aligned}
 \]</span></p>
-<p>위의 식에서 나타나는 확률 <span class="math inline">\(P(D+)\)</span> 는 모집단에서 질병에 걸린 사람들의 비율을 의미하며 이를 <strong>유병률(prevalence)</strong> 이라고 부른다. 즉 양성예측도를 구하려면 질병의 유병률을 알아야 한다.</p>
-<p>다시 식을 정리해 보면 양성예측도에 대한 공식은 다음과 같다.</p>
-<p><span class="math display">\[\begin{align}
-P( D+ | T+)  &amp; = \frac{ P(T+|D+)P(D+)} {  P(T+|D+)P(D+) +  P(T+|D-)P(D-)} \\
-         &amp; = \frac{ P(T+|D+)P(D+)} {  P(T+|D+)P(D+) + [1- P(T-|D-)][1-P(D+)]} \\
-         &amp; = \frac{(민감도)(유병률)}{(민감도)(유병률) + (1-특이도)(1-유병률)}
-\end{align}\]</span></p>
-<p>비슷한 계산 방법으로 음성예측도는 다음과 같이 주어진다.</p>
-<p><span class="math display">\[\begin{align}
-P( D - | T -)  &amp; = \frac{ P(T -|D -)P(D -)} {  P(T-|D-)P(D-) +  P(T-|D+)P(D+)} \\
-         &amp; = \frac{ P(T-|D-)[1-P(D+)]} {  P(T-|D-)[1-P(D+)] + [1- P(T+|D-)] P(D+)} \\
-         &amp; = \frac{(특이도)(1- 유병률)}{(특이도)(1-유병률) + (1-민감도)(유병률)}
-\end{align}\]</span></p>
-<p>이제 표 <a href="#tbl-diagnose2" class="quarto-xref"><span>4.2</span></a> 의 결과를 이용하여 코로나 검사의 양성예측도와 음성예측도를 구해보자.</p>
-<p>코로나 유병률은 나라마다 다르고 추정하기도 힘들다. 따라서 쉽게 현재 까지 누적환자수를 전체 인구로 나눈 단순한 비율을 유병률로 사용해 보자(주의! 우리가 여기서 사용한 비율은 실제 유병률을 계산하는 방법과 다르다). 2021년 현재 누적 환자 수가 274,415 명이고 2020년 기준 총인구는 51,829,136 명이므로 유병률을 <span class="math inline">\(274415/51829136= 0.0053\)</span> 이라고 하자.</p>
-<p>이제 표 <a href="#tbl-diagnose2" class="quarto-xref"><span>4.2</span></a> 의 결과를 이용하면 코로나 검사의 양성예측도와 음성예측도는 다음과 같이 추정할 수 있다.</p>
-<p><span class="math display">\[\begin{align*}
-P( D+ | T+)  &amp; = \frac{(민감도)(유병률)}{(민감도)(유병률) + (1-특이도)(1-유병률)} \\
-     &amp; = \frac{(0.8469 )(0.0053)}{(0.8469 )(0.0053) + (1-0.9689)(1-0.0053)} \\
-     &amp; = 0.1267
-\end{align*}\]</span></p>
+<p>두 개의 집단에 대한 생존함수가 동일하다는 다음 가설을 고려하자.</p>
+<p><span class="math display">\[
+H_0: S_1 = S_2 \quad H_1: S_1 \ne S_2  
+\]</span></p>
+<p>위의 가설은 두 집단의 생존시간을 모두 합쳐서 순서대로 나열하고 <strong>중도절단이 없는 자료들에서</strong> 다음과 같은 <span class="math inline">\(2\times 2\)</span> 분할표를 작성한 다음 CMH-검정 통계량(코크란-맨텔-핸젤 검정 통계량, <a href="association-test.html#sec-cmhtest" class="quarto-xref"><span>섹션 3.3</span></a> 참조)을 이용하여 검정할 수 있다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">그룹/반응여부</th>
+<th style="text-align: center;">사망</th>
+<th style="text-align: center;">생존</th>
+<th style="text-align: center;">위험그룹의 합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\(a\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\(c\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(d\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;"><span class="math inline">\(m_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(m_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(n\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>위의 <span class="math inline">\(2\times 2\)</span> 분할표에서 유의할 점은 <strong>주어진 시점에서 고려하는 위험집단에 속한 개체들의 수</strong>가 <span class="math inline">\(n_1\)</span> 과 <span class="math inline">\(n_2\)</span> 이고 각각의 그룹에서 사망한 개체의 수가 <span class="math inline">\(a\)</span> 와 <span class="math inline">\(c\)</span> 이다. 또한 각 그룹에서 생존한 개체의 수가 <span class="math inline">\(b\)</span> 와 <span class="math inline">\(d\)</span> 이다. 그리고 각 그룹에서 사망한 개체의 수가 <span class="math inline">\(m_1\)</span> 과 <span class="math inline">\(m_2\)</span> 이다.</p>
+<p>다음과 같은 예제 자료를 고려해보자</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\color{red}{\text{[group 1]}}} \quad &amp; \color{red}{3,~~5,~~7,~~9+~~, 18} \\
+\text{[group 2]} \quad &amp; 12,~~ 19,~~ 20,~~ 20+,~~ 33+ \\
+\end{aligned}
+\]</span></p>
+<p>두 표본을 합쳐서 순서대로 놓으면 다음과 같다.</p>
+<p><span class="math display">\[
+{\color{red}{3}},~~{\color{red}{5}},~~{\color{red}{7}},~~{\color{red}{9+}}~~12,~~ {\color{red}{18}}, ~~ 19,~~ 20,~~ 20+,~~ 33+  
+\]</span></p>
+<p>이제 중도절단이 없는 자료들만 고려하고</p>
+<p><span class="math display">\[
+{\color{red}{3}},{\color{red}{5}},{\color{red}{7}},12,{\color{red}{18}},19,20
+\]</span></p>
+<p>각각 시점에 대하여 <span class="math inline">\(2\times 2\)</span> 분할표를 작성하고 CMH-검정 통계량을 계산할 수 있다.</p>
+<p>먼저 가장 짧은 생존시간 <span class="math inline">\(X=3\)</span> 이 관측 된 경우 <span class="math inline">\(2\times 2\)</span> 분할표를 작성해보자.</p>
+<table class="caption-top table">
+<caption>첫번째 분할표</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">그룹/반응여부</th>
+<th style="text-align: center;">사망</th>
+<th style="text-align: center;">생존</th>
+<th style="text-align: center;">위험그룹의 합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">10</td>
+</tr>
+</tbody>
+</table>
+<p>첫번째 분할표에서 귀무가설이 참인 경우, 즉 두 그룹의 생존시간에 대한 분포가 동일한 경우 <span class="math inline">\(a\)</span> 에 대한 기대값은 다음과 같다.</p>
+<p><span class="math display">\[
+E_0(a) = \frac{n_1 m_1}{n} = \frac{(5)(1)}{10} = 0.5
+\]</span></p>
+<p>또한 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+Var_0 (a) = \frac{n_1 n_2 m_1 m_2}{n^2(n-1)} =\frac{m_1 m_2}{(n-1)} \frac{n_1 n_2}{n^2} = \frac{(1)(9)}{9} \frac{(5)(5)}{10^2} =     0.25
+\]</span></p>
+<p>이제 두 번째 생존시간 <span class="math inline">\(X=5\)</span>이 관측된 경우 <span class="math inline">\(2\times 2\)</span> 분할표를 작성해보자. 여기서 유의할 점은 <span class="math inline">\(X=5\)</span>이 관측되기 바로 전에 위험에 처한 인원은 9명이다 (<span class="math inline">\(n_1=4\)</span>, <span class="math inline">\(n_2=5\)</span>). 이는 첫 번째 그룹에서 한 명이 <span class="math inline">\(X=3\)</span>에서 사망하였기 때문이다. 따라서 <span class="math inline">\(X=5\)</span>에서 위험에 처한 인원은 9명이다.</p>
+<table class="caption-top table">
+<caption>두번째 분할표</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">그룹/반응여부</th>
+<th style="text-align: center;">사망</th>
+<th style="text-align: center;">생존</th>
+<th style="text-align: center;">위험그룹의 합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">9</td>
+</tr>
+</tbody>
+</table>
+<p>두번째 분할표에서 귀무가설이 참인 경우, 즉 두 그룹의 생존시간에 대한 분포가 동일한 경우 <span class="math inline">\(a\)</span> 에 대한 기대값은 다음과 같다.</p>
+<p><span class="math display">\[
+E_0(a) = \frac{n_1 m_1}{n} = \frac{(4)(1)}{9} = 0.44
+\]</span></p>
+<p>또한 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+Var_0 (a) = \frac{n_1 n_2 m_1 m_2}{n^2(n-1)}  = \frac{(1)(8)}{8} \frac{(5)(4)}{9^2} =     0.2469
+\]</span> 세 번째 생존시간 <span class="math inline">\(X=7\)</span>이 관측된 경우 위의 계산과 유사하게 <span class="math inline">\(2\times 2\)</span> 분할표를 작성하고 <span class="math inline">\(a\)</span> 의 기대값과 분산을 계산할 수 있다. 참고로 원자료에서 생존시간이 <span class="math inline">\(X=9\)</span> 로 관측된 경우는 중도절단이 된 관측값이므로 분할표를 작성을 하지 않는다.</p>
+<p>이제 네 번째 생존시간 <span class="math inline">\(X=12\)</span>이 관측 된 경우 <span class="math inline">\(2\times 2\)</span> 분할표를 작성해보자. 생존시간 <span class="math inline">\(X=12\)</span>은 두 번째 그룹에서 사건이 발생한 것에 유의하자.</p>
+<table class="caption-top table">
+<caption>네번째 분할표</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">그룹/반응여부</th>
+<th style="text-align: center;">사망</th>
+<th style="text-align: center;">생존</th>
+<th style="text-align: center;">위험그룹의 합계</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">합계</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+</tr>
+</tbody>
+</table>
+<p>네번째 분할표에서 귀무가설이 참인 경우, 즉 두 그룹의 생존시간에 대한 분포가 동일한 경우 <span class="math inline">\(a\)</span> 에 대한 기대값은 다음과 같다.</p>
+<p><span class="math display">\[
+E_0(a) = \frac{n_1 m_1}{n} = \frac{(1)(1)}{6} = 0.17
+\]</span></p>
+<p>또한 분산은 다음과 같다.</p>
+<p><span class="math display">\[
+Var_0 (a) = \frac{n_1 n_2 m_1 m_2}{n^2(n-1)}  = \frac{(1)(5)}{5} \frac{(1)(5)}{6^2} =    0.1388
+\]</span></p>
+<p>이런 식으로 중도절단이 되지 않은 생존시간이 발생했을 때 마다 위험집단에 있는 개체들에 대하여 <span class="math inline">\(2\times 2\)</span> 분할표를 작성하여 <span class="math inline">\(a\)</span> 의 기대값과 분산을 계속 계산한다. 중도 절단이 되지 않은 7개의 생존시간에 대한 <span class="math inline">\(2\times 2\)</span> 분할표들에서 얻은 계산결과를 정리하면 다음표와 같다.</p>
+<table class="caption-top table">
+<caption>분할표들에서 얻은 계산결과</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(X\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(n\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(m_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(n_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(a\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(E_0(a)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(a-E_0(a)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(m_1 m_2/(n-1)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(n_1 n_2 /n^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.2500</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.44</td>
+<td style="text-align: center;">0.56</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.2469</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.38</td>
+<td style="text-align: center;">0.62</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.2344</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.17</td>
+<td style="text-align: center;">-0.17</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.1389</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.20</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.1600</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+<p>이제 위의 표를 이용하여 다음과 같이 CMH 통계량을 계산할 수 있다.</p>
+<p><span id="eq-logranktest"><span class="math display">\[
+CMH ~~\chi^2 = \frac {[ \sum (a-E_0(a))]^2}{ \sum [m_1 m_2/(n-1)][n_1 n_2 /n^2] }  
+\tag{11.1}\]</span></span></p>
+<p>여기서</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum (a-E_0(a)) &amp; = 0.50 + 0.56 + 0.62 -0.17 + 0.80 \\
+&amp; = 2.31 \\
+\sum [m_1 m_2/(n-1)][n_1 n_2 /n^2] &amp; = (1)(0.2500) + (1)(0.2469) + (1)(0.2344)  \\
+&amp;+ (1)(0.1389) + (1)(0.1600) + (1)(0) + (1)(0) \\
+&amp; = 1.0302
+\end{aligned}
+\]</span> 따라서</p>
+<p><span class="math display">\[
+CMH ~~\chi^2 = \frac{(2.31)^2} {1.0302}  = 5.1796   
+\]</span></p>
+<p>유의수준 <span class="math inline">\(\alpha=0.05\)</span>에서 <span class="math inline">\(\chi^2(1,0.95) = 3.84159 &lt;5.1796\)</span>이므로 <span class="math inline">\(H_0\)</span>를 기각한다. 즉 두 집단의 생존함수는 같지 않다.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">0.8469</span> )<span class="sc">*</span>(<span class="fl">0.0053</span>)<span class="sc">/</span>((<span class="fl">0.8469</span> )<span class="sc">*</span>(<span class="fl">0.0053</span>) <span class="sc">+</span> (<span class="dv">1</span><span class="fl">-0.9689</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="fl">-0.0053</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">12</span>,  <span class="dv">18</span>,   <span class="dv">19</span>,  <span class="dv">20</span>,  <span class="dv">20</span>,  <span class="dv">33</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(t, delta, treat)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1267108</code></pre>
+<pre><code>    t delta treat
+1   3     1     A
+2   5     1     A
+3   7     1     A
+4   9     0     A
+5  12     1     B
+6  18     1     A
+7  19     1     B
+8  20     1     B
+9  20     0     B
+10 33     0     B</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res.comp <span class="ot">&lt;-</span> <span class="fu">survdiff</span>(<span class="fu">Surv</span>(t, delta) <span class="sc">~</span> treat, <span class="at">data=</span>df)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>res.comp</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(t, delta) ~ treat, data = df)
+
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+treat=A 5        4     1.69      3.18       5.2
+treat=B 5        3     5.31      1.01       5.2
+
+ Chisq= 5.2  on 1 degrees of freedom, p= 0.02 </code></pre>
 </div>
 </div>
-<p><span class="math display">\[\begin{align}
-P( D - | T -)  &amp; = \frac{(특이도)(1- 유병률)}{(특이도)(1-유병률) + (1-민감도)(유병률)}\\
-&amp; = \frac{(0.9689)(1- 0.0053)}{(0.9689)(1-0.0053) + (1-0.8469)(0.0053)} \\
-&amp; = 0.9992
-\end{align}\]</span></p>
+</section>
+<section id="일반화-로그-순위-검정" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="일반화-로그-순위-검정"><span class="header-section-number">11.3</span> 일반화 로그 순위 검정</h2>
+<p>식 <a href="#eq-logranktest" class="quarto-xref"><span>11.1</span></a> 에 주어진 로그-순위 건정법은 다음과 같이 각 시점마다 다른 가중치 <span class="math inline">\(w_i\)</span>를 적용하여 일반화 할 수 있다.</p>
+<p><span id="eq-logranktest2"><span class="math display">\[
+CMH ~~\chi^2 = \frac {[ \sum w_i (a-E_0(A))]^2}{ \sum w_i^2 [m_1 m_2/(n-1)][n_1 n_2 /n^2] }  
+\tag{11.2}\]</span></span></p>
+<p>아래 표는 식 <a href="#eq-logranktest2" class="quarto-xref"><span>11.2</span></a> 에 주어진 일반화 로그-순위 검정에서 가준치의 형태와 해당하는 추정량의 이름이 나타나 있다.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 37%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">가중치 <span class="math inline">\(w_i\)</span>의 형태</th>
+<th style="text-align: left;">추정량 이름</th>
+<th style="text-align: left;">참고</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">Log rank</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(n_i\)</span></td>
+<td style="text-align: left;">Wilcoxon</td>
+<td style="text-align: left;"><span class="math inline">\(n_i\)</span> 는 위험집단의 수</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\sqrt{n_i}\)</span></td>
+<td style="text-align: left;">Tarone–Ware</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(\tilde S(t_i)\)</span></td>
+<td style="text-align: left;">Peto</td>
+<td style="text-align: left;"><span class="math inline">\(\tilde S(t_i)\)</span>는 그룹을 합쳐서 구한 생존함수 추량</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\hat S (t_{i-1})^p [1 − \hat S(t_{i-1})]^q\)</span></td>
+<td style="text-align: left;">Flemington–Harrington</td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span> 와 <span class="math inline">\(q\)</span>는 0 또는 1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="예제" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="예제"><span class="header-section-number">11.4</span> 예제</h2>
+<section id="예제-7.3" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="예제-7.3"><span class="header-section-number">11.4.1</span> 예제 7.3</h3>
+<p>참고도서 <span class="citation" data-cites="lee2005">Jaewon Lee (<a href="../references.html#ref-lee2005" role="doc-biblioref">2005</a>)</span> 의 예제 7-3은 흑생종 환자들에 대한 연구로 BCG 와 CP 방법의 생존시간 연장 효과를 비교하기 위한 실험이다. 환자들 중 11명은 BCG 처리를 받고 나머지 19명은 CP 처리를 받았다. 두 그룹의 생존시간에 대한 분포가 다른지 로그-순위 검정을 적용해보자.</p>
+<p>먼저 자료는 <code>example73.txt</code> 에 저장되어 있다.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">0.9689</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span> <span class="fl">0.0053</span>)<span class="sc">/</span>((<span class="fl">0.9689</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="fl">-0.0053</span>) <span class="sc">+</span> (<span class="dv">1</span><span class="fl">-0.8469</span>)<span class="sc">*</span>(<span class="fl">0.0053</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df73 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"example73.txt"</span>), <span class="at">header =</span> T, <span class="at">sep=</span><span class="st">""</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df73<span class="sc">$</span>treat <span class="ot">&lt;-</span> <span class="fu">factor</span>(df73<span class="sc">$</span>treat, <span class="at">level=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"BCG"</span>, <span class="st">"CP"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df73</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9991588</code></pre>
+<pre><code>   time censor treat
+1  33.7      0   BCG
+2   3.9      1   BCG
+3  10.5      1   BCG
+4   5.4      1   BCG
+5  19.5      1   BCG
+6  23.8      0   BCG
+7   7.9      1   BCG
+8  16.9      0   BCG
+9  16.6      0   BCG
+10 33.7      0   BCG
+11 17.1      0   BCG
+12  8.0      1    CP
+13 26.9      0    CP
+14 21.4      0    CP
+15 18.1      0    CP
+16 16.0      0    CP
+17  6.9      1    CP
+18 11.0      0    CP
+19 24.8      0    CP
+20 23.0      0    CP
+21  8.3      1    CP
+22 10.8      0    CP
+23 12.2      0    CP
+24 12.5      0    CP
+25 24.4      1    CP
+26  7.7      1    CP
+27 14.8      0    CP
+28  8.2      0    CP
+29  8.2      0    CP
+30  7.8      0    CP</code></pre>
 </div>
 </div>
-<p>사실 코로나 유병률은 정확하게 알 수도 없고 시간에 따라 변할 것이다. 이제 다양한 유병률에 따라서 양성예측도와 음성예측도가 어떻게 변하는지 계산해 보자.</p>
+<p>로그-순위검정은 함수 <code>survdiff()</code> 를 이용하여 다음과 같이 수행할 수 있다.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>calpred <span class="ot">&lt;-</span> <span class="cf">function</span>(prev, sen, spe){</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    pred.pos <span class="ot">&lt;-</span> sen<span class="sc">*</span>prev<span class="sc">/</span>(sen<span class="sc">*</span>prev <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>spe)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>prev))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  pred.neg <span class="ot">&lt;-</span> spe<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>prev)<span class="sc">/</span>(spe<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>prev) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>sen)<span class="sc">*</span>(prev))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sen, spe, prev, pred.pos, pred.neg)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(res) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sensitivity"</span>, <span class="st">"SPecificity"</span>,<span class="st">"Prevalnce"</span>, <span class="st">"Pred. Post."</span>, <span class="st">"Pred. Nega."</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  res</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>preval.range <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.02</span>, <span class="fl">0.002</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">calpred</span>(preval.range ,<span class="fl">0.8469</span>, <span class="fl">0.9689</span> )</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>exam73res <span class="ot">&lt;-</span> <span class="fu">survdiff</span>(<span class="fu">Surv</span>(time, censor) <span class="sc">~</span> treat, <span class="at">data=</span>df73)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>exam73res</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Sensitivity SPecificity Prevalnce Pred. Post. Pred. Nega.
-1       0.8469      0.9689     0.000  0.00000000   1.0000000
-2       0.8469      0.9689     0.002  0.05174816   0.9996834
-3       0.8469      0.9689     0.004  0.09858220   0.9993658
-4       0.8469      0.9689     0.006  0.14117039   0.9990471
-5       0.8469      0.9689     0.008  0.18006506   0.9987273
-6       0.8469      0.9689     0.010  0.21572673   0.9984064
-7       0.8469      0.9689     0.012  0.24854242   0.9980845
-8       0.8469      0.9689     0.014  0.27883973   0.9977614
-9       0.8469      0.9689     0.016  0.30689786   0.9974372
-10      0.8469      0.9689     0.018  0.33295620   0.9971120
-11      0.8469      0.9689     0.020  0.35722119   0.9967856</code></pre>
+<pre><code>Call:
+survdiff(formula = Surv(time, censor) ~ treat, data = df73)
+
+           N Observed Expected (O-E)^2/E (O-E)^2/V
+treat=BCG 11        5     3.68     0.469     0.747
+treat=CP  19        5     6.32     0.274     0.747
+
+ Chisq= 0.7  on 1 degrees of freedom, p= 0.4 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calpred</span>(<span class="fl">0.0053</span>, <span class="fl">0.8469</span>, <span class="fl">0.9689</span>  )</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Sensitivity SPecificity Prevalnce Pred. Post. Pred. Nega.
-1      0.8469      0.9689    0.0053   0.1267108   0.9991588</code></pre>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>exam73comp <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, censor) <span class="sc">~</span> treat, <span class="at">data=</span>df73)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam73comp, <span class="at">xlab=</span><span class="st">"Time in months"</span>, <span class="at">ylab=</span><span class="st">"Survival probability"</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>), <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"BCG"</span>, <span class="st">"CP"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">"blue"</span>,<span class="st">"red"</span>), <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="logrank-01_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-butler2021comparison" class="csl-entry" role="listitem">
-Butler-Laporte, Guillaume, Alexander Lawandi, Ian Schiller, Mandy Yao, Nandini Dendukuri, Emily G McDonald, 와/과 Todd C Lee. 2021. <span>“Comparison of saliva and nasopharyngeal swab nucleic acid amplification testing for detection of SARS-CoV-2: a systematic review and meta-analysis”</span>. <em>JAMA Intern Med</em> 181 (3): 353–58.
+<div id="ref-lee2005" class="csl-entry" role="listitem">
+Jaewon Lee, Hanna Yu, Mira Park. 2005. <em>생명과학연구를 위한 통계적 방법</em>. 1st ed. 자유아카데미.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1028,13 +1297,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notes/association-test.html" class="pagination-link" aria-label="연관성의 검정">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">연관성의 검정</span></span>
+      <a href="../notes/survival-02.html" class="pagination-link" aria-label="생존함수의 추정">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notes/anova.html" class="pagination-link" aria-label="분산분석">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">분산분석</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
