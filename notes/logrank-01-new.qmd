@@ -253,6 +253,7 @@ legend("topright", legend=c("BCG", "CP"), col=c("blue","red"), lwd=2)
 
 ### Myeloid 자료
 
+
 `survival` 패키지에 포함된 `myeloid` 자료에는 급성 골수성 백혈병(myeloid leukemia) 환자를 대상으로 한 임상시험의 데이터가 포함되어 있다.
 
 골수성 백혈병 환자들이 항암 치료를 받을 때의 일반적인 치료 경로(canonical path)는 다음과 같다
@@ -271,6 +272,7 @@ legend("topright", legend=c("BCG", "CP"), col=c("blue","red"), lwd=2)
 ```{r}
 head(myeloid,10)
 ```
+
 
 `myeloid` 자료를 구성하는 각 변수들에 대한 설명은 다음과 같다.
 
