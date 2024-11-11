@@ -252,4 +252,58 @@ legend("topright", legend=c("BCG", "CP"), col=c("blue","red"), lwd=2)
 
 
 
+
+`myeloid` 자료를 구성하는 각 변수들에 대한 설명은 다음과 같다.
+
+- `id` : 환자의 고유번호
+- `trt`: 치료방법 (`A` or `B`)
+- `sex` : 성별 (`f` 는 여성,  `m` 은 남성)
+- `flt3: FLT3 뉴전자의 돌연변이,  `A`, `B`, `C` 로 구성된 범주형 변수
+- `futime` : 사망 또는 마지막 관찰 시점까지의 시간
+- `death` : 중도절단 여부 (1: 사망, 0: 중도절단)
+- `txtime` : 조혈모세포 이식 (Hematologic Stem Cell Transplant) 시점까지의 시간
+- `crtime` : 완전반응 (Complete Response) 시점까지의 시간
+- `rltime` : 재발 (Relapse) 시점까지의 시간
+
+이제 `myeloid` 자료를 이용하여 치료방법 `treat` 에 따른 생존시간에 대한 로그-순위 검정을 수행해보자.
+
+```{r}
+exam2 <- survdiff(Surv(futime, death) ~ trt, data=myeloid)
+exam2
+```
+
+로그-순위 검정의 결과를 보면 p-값이 0.002 이므로  치료방법에 따른 생존시간의 분포가 다르다는 것을 알 수 있다. 
+이제 치료방법에 따른 생존함수를 그래프로 그려보자. 먼저 `survfit()` 함수를 이용하여 생존함수를 추정하고 `plot()` 함수를 이용하여 그래프를 그린다. 또한 `ggsurvplot()` 함수를 이용하여 두 그룹의 생존함수를 비교하는 그래프를 그려보자.
+
+처리그룹 `B` 가 처리그룹 `A` 보다 생존함수가 더 큰 것은 것을 알 수 있다.
+```{r}
+# 그룹별 생존함수 추정
+exam2fit <- survfit(Surv(futime, death) ~ trt, data=myeloid)
+#
+plot(exam2fit, xscale=365.25, xaxs='r', col=1:2, lwd=2, xlab="Years post enrollment", ylab="Survival")
+legend(20, .4, c("Arm A", "Arm B"), col=1:2, lwd=2, bty='n')
+```
+
+```{r}
+# ggsurvplot 을 이용한 두 처리그룹의 비교
+ggsurvplot(exam2fit, data=myeloid, pval = TRUE, conf.int = TRUE, risk.table = TRUE, legend.title = "Treatment", legend.labs = c("A", "B"), palette = c("blue", "red"))
+```
   
+  
+  이제 두 그룹에 대한 누적위함 함수를 비교해보자. 먼저 두 그룹에 대한 누적위험함수의 그래프를 그려보자. 처리그룹 `A` 의 누적위험함수가 처리그룹 `B` 보다 더 큰 것을 알 수 있다.
+  
+```{r}
+plot(exam2fit, fun="cumhaz", xscale=365.25, xaxs='r', col=1:2, lwd=2, xlab="Years post enrollment", ylab="Cumulative hazard")
+legend(20, .4, c("Arm A", "Arm B"), col=1:2, lwd=2, bty='n')
+```
+
+
+```{r}
+tdata <- myeloid # temporary working copy
+tied <- with(tdata, (!is.na(crtime) & !is.na(txtime) & crtime==txtime))
+tdata$crtime[tied] <- tdata$crtime[tied] -1
+mdata <- tmerge(tdata[,1:2], tdata, id=id, death= event(futime, death), sct = event(txtime), cr = event(crtime), relapse = event(rltime),  priorcr = tdc(crtime), priortx = tdc(txtime))
+
+temp <- with(mdata, cr + 2*sct + 4*relapse + 8*death)
+table(temp)
+```

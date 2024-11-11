@@ -31,6 +31,7 @@ book:
         - notes/survival-01.qmd
         - notes/survival-02.qmd
         - notes/logrank-01.qmd
+        - notes/coxreg-01.qmd
   appendices:
     - notes/multivar.qmd
     - notes/lmmtheory.qmd
