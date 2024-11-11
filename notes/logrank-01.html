@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notes/multivar.html" rel="next">
+<link href="../notes/coxreg-01.html" rel="next">
 <link href="../notes/survival-02.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -310,6 +310,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../notes/logrank-01.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/coxreg-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">비례위험모형</span></span></a>
   </div>
 </li>
       </ul>
@@ -864,6 +870,86 @@ treat=CP  19        5     6.32     0.274     0.747
 </div>
 </div>
 </div>
+<p><code>myeloid</code> 자료를 구성하는 각 변수들에 대한 설명은 다음과 같다.</p>
+<ul>
+<li><code>id</code> : 환자의 고유번호</li>
+<li><code>trt</code>: 치료방법 (<code>A</code> or <code>B</code>)</li>
+<li><code>sex</code> : 성별 (<code>f</code> 는 여성, <code>m</code> 은 남성)</li>
+<li><code>flt3: FLT3 뉴전자의 돌연변이,</code>A<code>,</code>B<code>,</code>C` 로 구성된 범주형 변수</li>
+<li><code>futime</code> : 사망 또는 마지막 관찰 시점까지의 시간</li>
+<li><code>death</code> : 중도절단 여부 (1: 사망, 0: 중도절단)</li>
+<li><code>txtime</code> : 조혈모세포 이식 (Hematologic Stem Cell Transplant) 시점까지의 시간</li>
+<li><code>crtime</code> : 완전반응 (Complete Response) 시점까지의 시간</li>
+<li><code>rltime</code> : 재발 (Relapse) 시점까지의 시간</li>
+</ul>
+<p>이제 <code>myeloid</code> 자료를 이용하여 치료방법 <code>treat</code> 에 따른 생존시간에 대한 로그-순위 검정을 수행해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exam2 <span class="ot">&lt;-</span> <span class="fu">survdiff</span>(<span class="fu">Surv</span>(futime, death) <span class="sc">~</span> trt, <span class="at">data=</span>myeloid)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>exam2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(futime, death) ~ trt, data = myeloid)
+
+        N Observed Expected (O-E)^2/E (O-E)^2/V
+trt=A 317      171      143      5.28      9.59
+trt=B 329      149      177      4.29      9.59
+
+ Chisq= 9.6  on 1 degrees of freedom, p= 0.002 </code></pre>
+</div>
+</div>
+<p>로그-순위 검정의 결과를 보면 p-값이 0.002 이므로 치료방법에 따른 생존시간의 분포가 다르다는 것을 알 수 있다. 이제 치료방법에 따른 생존함수를 그래프로 그려보자. 먼저 <code>survfit()</code> 함수를 이용하여 생존함수를 추정하고 <code>plot()</code> 함수를 이용하여 그래프를 그린다. 또한 <code>ggsurvplot()</code> 함수를 이용하여 두 그룹의 생존함수를 비교하는 그래프를 그려보자.</p>
+<p>처리그룹 <code>B</code> 가 처리그룹 <code>A</code> 보다 생존함수가 더 큰 것은 것을 알 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 그룹별 생존함수 추정</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>exam2fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(futime, death) <span class="sc">~</span> trt, <span class="at">data=</span>myeloid)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam2fit, <span class="at">xscale=</span><span class="fl">365.25</span>, <span class="at">xaxs=</span><span class="st">'r'</span>, <span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">"Years post enrollment"</span>, <span class="at">ylab=</span><span class="st">"Survival"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">20</span>, .<span class="dv">4</span>, <span class="fu">c</span>(<span class="st">"Arm A"</span>, <span class="st">"Arm B"</span>), <span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">'n'</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="logrank-01_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsurvplot 을 이용한 두 처리그룹의 비교</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(exam2fit, <span class="at">data=</span>myeloid, <span class="at">pval =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">risk.table =</span> <span class="cn">TRUE</span>, <span class="at">legend.title =</span> <span class="st">"Treatment"</span>, <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="logrank-01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>이제 두 그룹에 대한 누적위함 함수를 비교해보자. 먼저 두 그룹에 대한 누적위험함수의 그래프를 그려보자. 처리그룹 <code>A</code> 의 누적위험함수가 처리그룹 <code>B</code> 보다 더 큰 것을 알 수 있다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(exam2fit, <span class="at">fun=</span><span class="st">"cumhaz"</span>, <span class="at">xscale=</span><span class="fl">365.25</span>, <span class="at">xaxs=</span><span class="st">'r'</span>, <span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">"Years post enrollment"</span>, <span class="at">ylab=</span><span class="st">"Cumulative hazard"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">20</span>, .<span class="dv">4</span>, <span class="fu">c</span>(<span class="st">"Arm A"</span>, <span class="st">"Arm B"</span>), <span class="at">col=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bty=</span><span class="st">'n'</span>)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="logrank-01_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tdata <span class="ot">&lt;-</span> myeloid <span class="co"># temporary working copy</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tied <span class="ot">&lt;-</span> <span class="fu">with</span>(tdata, (<span class="sc">!</span><span class="fu">is.na</span>(crtime) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(txtime) <span class="sc">&amp;</span> crtime<span class="sc">==</span>txtime))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>tdata<span class="sc">$</span>crtime[tied] <span class="ot">&lt;-</span> tdata<span class="sc">$</span>crtime[tied] <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">tmerge</span>(tdata[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], tdata, <span class="at">id=</span>id, <span class="at">death=</span> <span class="fu">event</span>(futime, death), <span class="at">sct =</span> <span class="fu">event</span>(txtime), <span class="at">cr =</span> <span class="fu">event</span>(crtime), <span class="at">relapse =</span> <span class="fu">event</span>(rltime),  <span class="at">priorcr =</span> <span class="fu">tdc</span>(crtime), <span class="at">priortx =</span> <span class="fu">tdc</span>(txtime))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">with</span>(mdata, cr <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>sct <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>relapse <span class="sc">+</span> <span class="dv">8</span><span class="sc">*</span>death)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(temp)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>temp
+  0   1   2   4   8 
+325 454 364 226 320 </code></pre>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1302,8 +1388,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notes/coxreg-01.html" class="pagination-link" aria-label="비례위험모형">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">비례위험모형</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
