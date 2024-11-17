@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notes/multivar.html" rel="next">
+<link href="../notes/sample-size.html" rel="next">
 <link href="../notes/logrank-01-new.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -323,12 +323,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
+ <span class="menu-text">실험의 설계</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="토글 섹션">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/sample-size.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link">
@@ -569,13 +586,13 @@ L_p(\beta)  &amp; =   \prod_{i=1}^n    \left [  \frac{h_i (t_i)} { \sum_{j \in R
 <p><span id="eq-coxex1"><span class="math display">\[
 x_i = \begin{cases} 0 &amp; \text{if group is C} \\ 1 &amp; \text{if group is T} \end{cases}
 \tag{12.12}\]</span></span></p>
-<p>먼저 첫 번째 생존 시간 <span class="math inline">\(x_1=6\)</span> 에 대한 부분 가능도함수를 구해보자. 이 경우 위험그룹 <span class="math inline">\(R(6)\)</span> 는 모든 환자이며 부분 가능도함수는 다음과 같다.</p>
+<p>먼저 첫 번째 생존 시간 <span class="math inline">\(t_1=6\)</span> 에 대한 부분 가능도함수를 구해보자. 이 경우 위험그룹 <span class="math inline">\(R(6)\)</span> 는 모든 환자이며 부분 가능도함수는 다음과 같다.</p>
 <p><span class="math display">\[
 L_1(\beta)  =   \frac{ \exp(\beta x_1)} { \sum_{j \in R(6)} \exp(\beta x_j) }    
 = \frac{ \exp(\beta x_1)} { \sum_{j=1}^6 \exp(\beta x_j) }   
 \]</span></p>
-<p>두 번째 생존 시간 <span class="math inline">\(x_2=7\)</span> 은 중도절단이므로 부분 가능도함수에 포함되지 않는다.</p>
-<p>세 번째 생존 시간 <span class="math inline">\(x_3=10\)</span> 에 대한 부분 가능도함수는 다음과 같다. 이때 위험그룹 <span class="math inline">\(R(10)\)</span> 는 3, 4, 5, 6 번 환자이다.</p>
+<p>두 번째 생존 시간 <span class="math inline">\(t_2=7\)</span> 은 중도절단이므로 부분 가능도함수에 포함되지 않는다.</p>
+<p>세 번째 생존 시간 <span class="math inline">\(t_3=10\)</span> 에 대한 부분 가능도함수는 다음과 같다. 이때 위험그룹 <span class="math inline">\(R(10)\)</span> 는 3, 4, 5, 6 번 환자이다.</p>
 <p><span class="math display">\[
 L_3(\beta)  =  \frac{ \exp(\beta x_3)} {\sum_{j \in R(10)} \exp(\beta x_j) } =
 \frac{ \exp(\beta x_3)} { \sum_{j=3}^6 \exp(\beta x_j) }
@@ -583,7 +600,7 @@ L_3(\beta)  =  \frac{ \exp(\beta x_3)} {\sum_{j \in R(10)} \exp(\beta x_j) } =
 <p><span class="math display">\[
 L_4(\beta)  =   \frac{ \exp(\beta x_4)} { \sum_{j=4}^6 \exp(\beta x_j) }, \quad
 L_6(\beta)  =   \frac{ \exp(\beta x_6)} { \sum_{j=6}^6 \exp(\beta x_j) } = 1
-\]</span> 이제 위의 결과를 모두 곱하면 부분 가능도함수 <span class="math inline">\(L_p(\beta)\)</span> 를 구할 수 있다. 아레 부분 가능도함수를 유도하는 경우 <a href="#eq-coxex1" class="quarto-xref"><span>12.12</span></a> 에서 정의된 설명변수를 사용하였다.</p>
+\]</span> 이제 위의 결과를 모두 곱하면 부분 가능도함수 <span class="math inline">\(L_p(\beta)\)</span> 를 구할 수 있다. 아래 부분 가능도함수를 유도하는 경우 <a href="#eq-coxex1" class="quarto-xref"><span>12.12</span></a> 에서 정의된 설명변수를 사용하였다.</p>
 <p><span class="math display">\[
 \begin{aligned}
 L_p(\beta) &amp; = L_1(\beta) L_3(\beta) L_4(\beta) L_6(\beta) \\
@@ -1156,8 +1173,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notes/sample-size.html" class="pagination-link" aria-label="연구대상자수의 결정">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

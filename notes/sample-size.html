@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; 연구대상자수의 결정 – 의학통계학</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notes/multivar.html" rel="next">
+<link href="../notes/coxreg-01.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "일치 없음",
+    "search-matching-documents-text": "일치된 문서",
+    "search-copy-link-title": "검색 링크 복사",
+    "search-hide-matches-text": "추가 검색 결과 숨기기",
+    "search-more-match-text": "추가 검색결과",
+    "search-more-matches-text": "추가 검색결과",
+    "search-clear-button-title": "제거",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "취소",
+    "search-submit-button-title": "검색",
+    "search-label": "검색"
+  }
+}</script>
+<script type="text/javascript">
+ window.MathJax = {
+  tex: {
+    macros: {
+    RR: '{\\mathbb R}',                    // a simple string replacement
+    hatmat:'{\\pmb X ({\\pmb X}^t {\\pmb X} )^{-1} {\\pmb X}^t}',
+    bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+    pardiff: ['\\frac{\\partial#2}{\\partial#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+    pardifftwo: ['\\frac{\\partial#1}{\\partial#2}', 2]
+  },
+  environments: {
+  braced: ["\\left\\{", "\\right\\}"]
+  }
+ }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/sample-size.html">실험의 설계</a></li><li class="breadcrumb-item"><a href="../notes/sample-size.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="사이드바 전환" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="검색" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">의학통계학</a> 
+        <div class="sidebar-tools-main">
+    <a href="../의학통계학.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="검색"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">서론</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">분할표와 연관성</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">연관성의 측도</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/association-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">연관성의 검정</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/diagnose.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">진단의 평가</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">집단의 비교</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">분산분석</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">공분산분석</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/multiple.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">다중비교</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/repeatmeasure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">반복측정자료</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">생존분석</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/survival-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">생존함수와 위험함수</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/survival-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">생존함수의 추정</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/logrank-01-new.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">생존함수의 비교</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/coxreg-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">비례위험모형</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">실험의 설계</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/sample-size.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="토글 섹션">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/multivar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/lmmtheory.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">선형혼합모형의 이론</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/hwdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">과제 자료 화일</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">목차</h2>
+   
+  <ul>
+  <li><a href="#필요한-패키지" id="toc-필요한-패키지" class="nav-link active" data-scroll-target="#필요한-패키지"><span class="header-section-number">13.1</span> 필요한 패키지</a></li>
+  <li><a href="#개요" id="toc-개요" class="nav-link" data-scroll-target="#개요"><span class="header-section-number">13.2</span> 개요</a></li>
+  <li><a href="#통계적-가설검정과-오류" id="toc-통계적-가설검정과-오류" class="nav-link" data-scroll-target="#통계적-가설검정과-오류"><span class="header-section-number">13.3</span> 통계적 가설검정과 오류</a></li>
+  <li><a href="#평균의-차이-와-검정력의-정의" id="toc-평균의-차이-와-검정력의-정의" class="nav-link" data-scroll-target="#평균의-차이-와-검정력의-정의"><span class="header-section-number">13.4</span> 평균의 차이 와 검정력의 정의</a></li>
+  <li><a href="#가설검정의-기각역" id="toc-가설검정의-기각역" class="nav-link" data-scroll-target="#가설검정의-기각역"><span class="header-section-number">13.5</span> 가설검정의 기각역</a></li>
+  <li><a href="#검정력의-계산" id="toc-검정력의-계산" class="nav-link" data-scroll-target="#검정력의-계산"><span class="header-section-number">13.6</span> 검정력의 계산</a></li>
+  <li><a href="#연구대상자수의-산정-방법" id="toc-연구대상자수의-산정-방법" class="nav-link" data-scroll-target="#연구대상자수의-산정-방법"><span class="header-section-number">13.7</span> 연구대상자수의 산정 방법</a></li>
+  <li><a href="#비율의-비교" id="toc-비율의-비교" class="nav-link" data-scroll-target="#비율의-비교"><span class="header-section-number">13.8</span> 비율의 비교</a></li>
+  <li><a href="#중도-탈락률의-고려" id="toc-중도-탈락률의-고려" class="nav-link" data-scroll-target="#중도-탈락률의-고려"><span class="header-section-number">13.9</span> 중도 탈락률의 고려</a></li>
+  <li><a href="#예제" id="toc-예제" class="nav-link" data-scroll-target="#예제"><span class="header-section-number">13.10</span> 예제</a>
+  <ul class="collapse">
+  <li><a href="#예제-1" id="toc-예제-1" class="nav-link" data-scroll-target="#예제-1"><span class="header-section-number">13.10.1</span> 예제 1</a></li>
+  <li><a href="#예제-2" id="toc-예제-2" class="nav-link" data-scroll-target="#예제-2"><span class="header-section-number">13.10.2</span> 예제 2</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notes/sample-size.html">실험의 설계</a></li><li class="breadcrumb-item"><a href="../notes/sample-size.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-samplesize" class="quarto-section-identifier"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">연구대상자수의 결정</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="필요한-패키지" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="필요한-패키지"><span class="header-section-number">13.1</span> 필요한 패키지</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorizer)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="개요" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="개요"><span class="header-section-number">13.2</span> 개요</h2>
+<p>임상시험을 수행하기 위해서는 표본의 수(sample size), 즉 연구대상자를 실험 전에 먼저 정하고 실험을 해야한다. 대부분의 임상실험은 실험 전에 필요한 연구대상자의 수를 미리 정하고 실험을 진행한다. 엄격한 증거가 요구되는 임상실험에서는 실험 중에 원하고자 하는 결과가 나올 때 까지 대상자수를 늘리는 것이 일반적으로 받아들여 지지 않는다. 또한 충분하지 않은 소수의 대상자만으로 얻은 결론 또한 받아들여 지기 힘들다.</p>
+<p>임상실험에서 환자의 수를 결정하는 것은 연구 설계의 핵심 요소 중 하나이며, 다음과 같은 주요 요소를 고려해야 합니다:</p>
+<ol type="1">
+<li>통계적 검정력 (Statistical Power)
+<ul>
+<li>유의수준 (Significance Level, <span class="math inline">\(\alpha\)</span> ): 일반적으로 0.05로 설정.</li>
+<li>검정력 (Power, <span class="math inline">\(1-\beta\)</span>): 보통 80% 또는 90%로 설정.</li>
+</ul></li>
+<li>효과 크기 (Effective Size)
+<ul>
+<li>실험군과 대조군 간의 차이의 크기를 의미.</li>
+<li>효과 크기가 클수록 적은 환자 수가 필요.</li>
+<li>효과 크기가 작을수록 더 많은 환자 수가 필요.</li>
+</ul></li>
+<li>변동성 (Variability)
+<ul>
+<li>측정 데이터의 변동성이 클수록 더 많은 환자 수가 필요.</li>
+<li>이전 연구 또는 파일럿 연구의 데이터를 활용해 변동성을 추정.</li>
+</ul></li>
+<li>임상적 중요성 (Clinical significance)
+<ul>
+<li>통계적으로 유의미한 결과(statistical significance)뿐만 아니라 임상적으로 중요한 결과(clinical significance)를 도출하기 위한 환자 수.</li>
+<li>연구 목적과 기대되는 결과의 임상적 유의성을 정의.</li>
+<li>효과 크기와 관련됨.</li>
+</ul></li>
+<li>실험의 설계 (Design)
+<ul>
+<li>시험 유형: 무작위 대조군 시험(RCT), 교차 설계(Crossover Study) 등.</li>
+<li>비교그룹의 의 수: 실험군과 대조군의 수에 따라 필요한 환자 수도 달라짐.</li>
+<li>주요 측정 변수(primary end point)의 유형(이산형, 연속형)에 따라 표본 크기 계산이 달라짐.</li>
+</ul></li>
+<li>중도 탈락률 (Dropout Rate)
+<ul>
+<li>임상시험 중 환자가 중도 탈락할 가능성을 고려.</li>
+<li>예상 탈락률에 따라 환자 수를 추가로 모집(예: 10~20% 추가).</li>
+</ul></li>
+<li>윤리적 고려 (Ethical Considerations)
+<ul>
+<li>과도한 환자 모집은 윤리적 문제를 초래할 수 있음.</li>
+<li>연구 목적을 달성하는 데 필요한 최소 환자 수를 산출.</li>
+</ul></li>
+<li>예산 및 시간 (Budget and Time)
+<ul>
+<li>연구에 사용할 수 있는 자원(예산, 시간)이 환자 수 결정에 영향을 미침.</li>
+<li>필요한 환자 수와 연구비용 간의 균형.</li>
+</ul></li>
+<li>규제 요건 (Regulatory Requirements)
+<ul>
+<li>임상시험 설계에 관한 국가 규제기관(예: FDA, EMA)의 지침 준수.</li>
+</ul></li>
+</ol>
+<p>그러면 실험 전에 어떻게 필요한 연구대상자의 수를 결정할 수 있을까?</p>
+</section>
+<section id="통계적-가설검정과-오류" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="통계적-가설검정과-오류"><span class="header-section-number">13.3</span> 통계적 가설검정과 오류</h2>
+<p>연구대상자의 수를 실험 전에 결정하기 위해서는 모집단에 대한 두 가지 정보가 필요하다. 이제 통계학에서 나오는 가장 기본적인 가설검정인 두 정규분포의 평균의 차이에 대한 검정 문제에서 연구대상자의 수를 결정하는 절차를 알아보자.</p>
+<p>확률변수 <span class="math inline">\(X\)</span>는 정규분포 <span class="math inline">\(N(\mu_1, \sigma^2)\)</span>를 따르고 <span class="math inline">\(Y\)</span>는 <span class="math inline">\(N(\mu_2, \sigma^2)\)</span>를 따른다고 가정하자. 그리고 이제 다음과 같은 가설검정을 하려고 한다.</p>
+<p><span id="eq-muhypo01"><span class="math display">\[
+H_0 : \mu_1 = \mu_2 \quad \text{vs.} \quad H_1: \mu_1 \ne \mu_2
+\tag{13.1}\]</span></span></p>
+<p>가설 <a href="#eq-muhypo01" class="quarto-xref"><span>13.1</span></a> 은 임상실험에서 가장 자주 사용되는 가설이다. 예를 들어 새로운 약을 개발하고 제일 먼저 해야 할 일은 새로운 약이 병을 치료하는 유의한 효과가 있다는 사실을 통계적으로 보여야 한다. 즉, 위약을 사용한 집단과 새로운 약을 사용한 집단의 평균이 다르다는 가설을 검정해야 한다.</p>
+<p>참고로 위의 가설은 새로운 약의 효과가 위약의 효과와 다르다는 가설을 검정하는 것으로 대립가설 <span class="math inline">\(H_1\)</span>은 신약이 좋은 경우(예를 들어 <span class="math inline">\(\mu_1 &gt; \mu_2\)</span>)와 위약이 더 좋은 경우(예를 들어 <span class="math inline">\(\mu_1 &lt; \mu_2\)</span>)인 경우를 모두 포함하고 있다. 이러한 위약이 더 좋은 경우에 대한 대립가설은 신약의 효과(effectiveness)를 보이는 목적과는 반대되는 가설이다. 논리적으로 실험의 목적에 적합한 대립가설은 단측가설(one-side hypothesis)인 <span class="math inline">\(H_1: \mu_1 &gt; \mu_2\)</span>가 되어야 한다. 하지만 일반적인 임상실험에서는 통상적으로 대립가설을 양측가설인 가설 <a href="#eq-muhypo01" class="quarto-xref"><span>13.1</span></a> 로 놓고 가설검정을 하여 신약의 효과가 좋은 쪽으로 결과가 나타나면 성공이라고 판단한다(신약이 치료 효과가 있다). 귀무가설을 기각하지 못하거나 위약이 더 효과적이라고 결론이 나오면 임상실험의 결과는 실패이다</p>
+<p>이제 가설검정에서 발생할 수 있는 오류에 대해 알아보자. 다음의 표는 가설의 상태와 검정의 결과에 대하여 발생할 수 있는 오류들을 나타난 표이다.</p>
+<div id="tbl-twoerrors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-twoerrors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+표&nbsp;13.1: 가설검정에서 발생할 수 있는 두 가지 오류
+</figcaption>
+<div aria-describedby="tbl-twoerrors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 32%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>귀무가설 기각</strong></th>
+<th><strong>귀무가설 채택</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>실제 귀무가설이 참</strong></td>
+<td>제1종 오류 (<span class="math inline">\(\alpha\)</span>, Type I Error)</td>
+<td>올바른 판단</td>
+</tr>
+<tr class="even">
+<td><strong>실제 귀무가설이 거짓</strong></td>
+<td>올바른 판단 (검정력, <span class="math inline">\(1-\beta\)</span>)</td>
+<td>제2종 오류 (<span class="math inline">\(\beta\)</span>, Type II Error)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>위의 표 <a href="#tbl-twoerrors" class="quarto-xref"><span>13.1</span></a> 에서 알 수 있듯이 <span class="math inline">\(H_0\)</span>가 참인 경우 이를 기각하는 오류를 라고 한다. 임상실험의 목적으로 보면 신약이 효과가 없는데 효과가 있다고 잘못된 결론을 내리는 경우이다 (false positive). 또한 <span class="math inline">\(H_0\)</span>가 거짓인 경우 이를 기각하지 못하는 오류를 라고 하며 이는 신약이 효과가 있는데 효과가 없다고 잘못된 결론을 내리는 경우이다 (false negative).</p>
+<p>이렇게 가설검정에서는 두 가지 오류를 범할 수 있는데 통계적 가설검정법은 일반적으로</p>
+<ul>
+<li>제 1종 오류를 범할 확률을 유의수준 <span class="math inline">\(\alpha = 0.05\)</span>보다 작게 하면서</li>
+<li>제 2 종 오류를 범할 확률 <span class="math inline">\(\beta\)</span> 를 최소화 하도록</li>
+</ul>
+<p>만들어 졌다. 이론 상 두 개의 오류를 범할 확률을 동시에 최소화 하지 못하므로 제 1종 오류를 범할 확률을 주어진 기준(유의수준)보다 작게 하고 제 2 종 오류를 범할 확률을 최소화 하게 만든 것이다.</p>
+<p>이렇게 제 1종 오류의 한계를 먼저 정하는 것은 제 1 종 오류가 더 중대한 오류이기 때문이다. 이유는 제 1 종 오류가 발생하는 것은 효과가 없는 약을 효과가 있다고 결론 내리는 것이기 때문이다. 제 2 종 오류가 발생하면 단지 효과적인 약이 허가를 받지 못하여 개발한 기관만 손해를 보지만 제 1 종 오류가 발생하면 효과 없는 약이 시판되어 훨씬 더 큰 피해가 나기 때문이다.</p>
+</section>
+<section id="평균의-차이-와-검정력의-정의" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="평균의-차이-와-검정력의-정의"><span class="header-section-number">13.4</span> 평균의 차이 와 검정력의 정의</h2>
+<p>이제 가설검정이 약이 효과가 있는 경우, 즉 <span class="math inline">\(H_0\)</span>가 거짓인 경우 이를 기각할 확률을 생각해보자. 이는 실제로 약이 효과가 있는 경우 검정 이를 뒷받침하는 결론을 내릴 확률이며 이를 크게 하는 것이 임상실험을 수행하는 기관이 바라는 것이다.</p>
+<p><span class="math inline">\(H_0\)</span>가 거짓인 경우 이를 기각할 확률 확률을 라고 하며 다음과 같이 정의된다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+power &amp; = P( \text{ reject } H_0 | H_0 \text{ is false} ) \\
+     &amp; =  1- P( \text{ accept } H_0 | H_0 \text{ is false} ) \\
+     &amp; =  1- P( \text{ Type II error }) \\
+     &amp; =  1- \beta
+\end{aligned}
+\]</span></p>
+<p>위의 식에서 보듯이 제 2 종 오류를 범할 확률을 <span class="math inline">\(\beta\)</span> 라고 하면 검정력은 <span class="math inline">\(1-\beta\)</span> 이다.</p>
+<p>이제 이러한 확률을 계산하려면 <span class="math inline">\(H_0\)</span>가 참이 아닌 경우를 가정해야 하는데 대립가설 <a href="#eq-muhypo01" class="quarto-xref"><span>13.1</span></a> 에서는 두 평균이 같지 않다고 가정하였기 때문에 두 평균의 차이 <span class="math inline">\(\delta = \mu_1 - \mu_2\)</span>가 가질 수 있는 가능한 값은 무수히 많다. 검정력을 구하려면 이러한 모든 경우를 고려할 수 없으며 두 평균의 차이에 대한 특정한 값이 주어져야 한다.</p>
+<p>약 또는 치료 효과를 확인하기 위한 의학연구는 일련의 많은 실험들로 이루어 진다. 최종적으로 약의 효과를 증명하는 비교 임상실험을 수행하는 마지막 단계에서는 신약이 얼마나 효과적 인지에 대한 정보를 이전의 실험으로부터 유추할 수 있다. 신약의 독성이나 부작용을 알아보는 기초 실험들과 약이 최소한의 효과가 있는지에 대한 중간 단계 실험들에서 어느 정도 약의 효과에 대한 정보를 얻을 수 있다. 즉, 두 모집단의 평균의 차이 <span class="math inline">\(\delta = \mu_1 - \mu_2\)</span>에 대한 정보가 어느 정도 생기는 것이다.</p>
+<p>이렇게 얻는 정보를 이용하여 비교 실험 전에 신약의 효과, 즉 평균의 차이 <span class="math inline">\(\delta = \mu_1 - \mu_2\)</span> 를 미리 예측하여 그 값을 설정해야 한다.</p>
+<p>이제 평균의 차이 <span class="math inline">\(\delta&gt;0\)</span>의 값이 정해지면 검정력을 실제로 계산할 수 있게 된다.</p>
+<p><span id="eq-beta2"><span class="math display">\[
+power = P( \text{ reject } H_0 | \mu_1-\mu_2=\delta&gt;0) = 1-\beta
+\tag{13.2}\]</span></span></p>
+<p>참고로 유의해야 할 점은 임상실험의 전 과정에서 평균의 차이 뿐만 아니라 모집단의 분산 <span class="math inline">\(\sigma^2\)</span>에 대한 정보도 얻을 수 있다. 표본의 수를 결정할 때 분산의 값도 미리 가정해야 함을 유의하자. 실제로 분산의 값을 미리 예상하는 것은 매우 어려운 작업이며 흔히 선행연구의 결과를 참고하여 결정하기도 한다.</p>
+</section>
+<section id="가설검정의-기각역" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="가설검정의-기각역"><span class="header-section-number">13.5</span> 가설검정의 기각역</h2>
+<p>이제 일단 두 집단의 표본의 수를 모두 <span class="math inline">\(n\)</span> 이라고 가정하자(균형실험; balanced trial). 모집단은 정규분포라고 하고 분산 <span class="math inline">\(\sigma^2\)</span>를 알고 있다고 하자. 가설검정은 두 집단의 표본 평균 <span class="math inline">\(\bar X\)</span>와 <span class="math inline">\(\bar Y\)</span>를 이용한 z-통계량을 이용한다.</p>
+<p><span id="eq-zstat"><span class="math display">\[
+z = \frac{\bar X - \bar Y}{ \sigma \sqrt{1/n+ 1/n}}
+\tag{13.3}\]</span></span></p>
+<p>가설 <a href="#eq-muhypo01" class="quarto-xref"><span>13.1</span></a> 에서 귀무가설을 기각하려면 검종통계량의 절대값, <span class="math inline">\(|z|\)</span> 값이 커야 한다. 즉 어떤 양수 <span class="math inline">\(c\)</span> 에 대하여 <span class="math inline">\(|z| &gt; c\)</span> 이면 귀무가설을 기각한다고 하자. 가설검정의 기각역(rejection region)은 제 1 종의 오류가 유의수준 <span class="math inline">\(\alpha\)</span>과 같아지도록 정한다.</p>
+<p><span class="math inline">\(H_0\)</span>가 옳은 경우 z-통계량은 표준정규분포를 따르므로</p>
+<p><span class="math display">\[
+z = \frac{\bar X - \bar Y }{ \sigma \sqrt{1/n+ 1/n}} \sim N(0,1) \text{ under } H_0
+\]</span></p>
+<p>이제 이러한 사실을 이용하여 제 1 종의 오류의 확률이 유의수준 <span class="math inline">\(\alpha\)</span>와 같다고 하면</p>
+<p><span class="math display">\[
+P (|z| &gt; c  ~ |~ \mu_1 = \mu_2) = \alpha
+\]</span></p>
+<p>귀무가설을 기각하는 기준인 은 다음과 같이 주어진다. 여기서 <span class="math inline">\(z_{\alpha}\)</span>는 표준 정규분포의 <span class="math inline">\(\alpha\)</span>-상위 백분위 수이다 [ <span class="math inline">\(P(Z &gt; z_{\alpha}) = \alpha\)</span>].</p>
+<p><span id="eq-reject"><span class="math display">\[
+\text{ rejection region } = \{ |z| &gt; z_{\alpha/2} \}  
+\tag{13.4}\]</span></span></p>
+</section>
+<section id="검정력의-계산" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="검정력의-계산"><span class="header-section-number">13.6</span> 검정력의 계산</h2>
+<p>이제 약이 효과가 있는 경우, 즉 가설 <a href="#eq-muhypo01" class="quarto-xref"><span>13.1</span></a> 에서 <span class="math inline">\(H_1\)</span>이 참인 경우를 고려하자. 평균의 차이 <span class="math inline">\(\delta&gt;0\)</span>의 값이 주어지면 다음과 같은 가설을 고려한다.</p>
+<p><span id="eq-muhypo02"><span class="math display">\[
+H_0 : \mu_1 - \mu_2 =0 \quad \text{vs.} \quad H_1: \mu_1 - \mu_2 =\delta
+\tag{13.5}\]</span></span></p>
+<p>이제 <span class="math inline">\(\mu_1 - \mu_2 =\delta\)</span>인 경우, 즉 가설 <a href="#eq-muhypo02" class="quarto-xref"><span>13.5</span></a> 에서 <span class="math inline">\(H_0\)</span>를 기각하고 <span class="math inline">\(H_1\)</span>을 채택할 확률, 즉 검정력을 계산해보자. 여기서 유의할 점은 가설 <a href="#eq-muhypo02" class="quarto-xref"><span>13.5</span></a> 에서는 검정력을 계산할 때 기각역 <a href="#eq-reject" class="quarto-xref"><span>13.4</span></a> 의 한 쪽 부분만 고려해야 한다. 이는 신약의 효과가 보여지려면 통계량 <span class="math inline">\(z\)</span>의 값이 <span class="math inline">\(z_{\alpha/2}\)</span> 보다 커야 한다. 만약 통계량 <span class="math inline">\(z\)</span>의 값이 <span class="math inline">\(-z_{\alpha/2}\)</span>보다 작으면 가설 <a href="#eq-muhypo02" class="quarto-xref"><span>13.5</span></a> 에서 <span class="math inline">\(H_0\)</span>는 통계적으로 기각될 수 있지만 신약의 효과는 없는 것으로 판단한다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+power &amp; =  P(z &gt; z_{\alpha/2} |  \mu_1-\mu_2=\delta) \\
+&amp; = P \left [  \frac{\bar X - \bar Y}{ \sigma \sqrt{2/n}} &gt; z_{\alpha/2}  |  \mu_1-\mu_2=\delta \right ]
+\\
+&amp; =  P \left [  \frac{\bar X - \bar Y -\delta}{ \sigma \sqrt{2/n}} &gt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ] \\
+&amp; = P \left [  Z &gt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ]  \\
+&amp; = 1- P \left [  Z &lt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ]
+\end{aligned}
+\]</span></p>
+<p>위의 식은 <span class="math inline">\(H_1: \mu_1 - \mu_2 =\delta\)</span>이 참인 경우 다음의 z-통계량이 표준정규분포를 따른다는 사실을 이용한 것이다.</p>
+<p><span class="math display">\[ z = \frac{\bar X - \bar Y -\delta}{ \sigma \sqrt{2/n}}  \sim N(0,1) \text{ under } H_1 \]</span></p>
+<p>유의수준 <span class="math inline">\(\alpha=0.05\)</span>, 평균의 차이 <span class="math inline">\(\delta = 2.0\)</span>, 표준편차가 <span class="math inline">\(\sigma =4.0\)</span> 인 경우 검정력은 표본의 수 <span class="math inline">\(n\)</span>에 따라 변한다. 이를 그림으로 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fl">2.0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">4.0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>zalpha2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>zalpha2</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.959964</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(zalpha2 <span class="sc">-</span> delta<span class="sc">*</span><span class="fu">sqrt</span>(n)<span class="sc">/</span>(sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(n,power)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(n,power)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>유의수준 <span class="math inline">\(\alpha=0.05\)</span>, 표준편차가 <span class="math inline">\(\sigma =4.0\)</span>, 표본의 수 <span class="math inline">\(n=60\)</span>인 경우 검정력이 평균의 차이 <span class="math inline">\(\delta\)</span>에 따라 변화하는 그림을 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.0</span>, <span class="fl">4.0</span>, <span class="fl">0.1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">4.0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>zalpha2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(zalpha2 <span class="sc">-</span> delta<span class="sc">*</span><span class="fu">sqrt</span>(n)<span class="sc">/</span>(sigma<span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span>)))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(delta,power)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(delta,power)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="연구대상자수의-산정-방법" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="연구대상자수의-산정-방법"><span class="header-section-number">13.7</span> 연구대상자수의 산정 방법</h2>
+<p>이제 평균의 차이 <span class="math inline">\(\delta&gt;0\)</span>의 값이 주어진 경우 검정력, 즉 신약이 효과가 있다고 가설 <a href="#eq-muhypo02" class="quarto-xref"><span>13.5</span></a> 에서 대립가설을 채택할 확률은 다음과 같다.</p>
+<p><span class="math display">\[
+power = 1- P \left [  Z &lt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ]
+\]</span></p>
+<p>일반적으로 임상시험을 시작할 때 목표하는 검정력의 크기를 정한다. 위에서 검정력은 <span class="math inline">\(1-\beta\)</span>와 같으므로 제 2 종의 오류를 범할 확률 <span class="math inline">\(\beta\)</span> 을 정하면 검정력의 크기도 정해지게 된다.</p>
+<p>이제 제 2 종의 오류를 범할 확률 <span class="math inline">\(\beta\)</span>가 정해 졌다면 다음과 같은 방정식이 성립힌다.</p>
+<p><span id="eq-onepower"><span class="math display">\[
+1- P \left [  Z &lt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ] = 1-\beta
+\tag{13.6}\]</span></span></p>
+<p>방정식 <a href="#eq-onepower" class="quarto-xref"><span>13.6</span></a> 에서 평균의 차이 <span class="math inline">\(\delta\)</span>, 유의수준 <span class="math inline">\(\alpha\)</span>, 제 2 종의 오류를 범할 확률 <span class="math inline">\(\beta\)</span> 그리고 표준편차 <span class="math inline">\(\sigma\)</span>의 값이 주어졌다면 정해지지 않은 값은 표본의 개수 <span class="math inline">\(n\)</span>이므로 방정식 <a href="#eq-onepower" class="quarto-xref"><span>13.6</span></a> 을 <span class="math inline">\(n\)</span>에 대하여 풀 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; 1- P \left [  Z &lt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ] = 1-\beta \\
+\Leftrightarrow &amp; \quad  P \left [  Z &lt; z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } \right ] = \beta \\
+\Leftrightarrow &amp; \quad z_{\alpha/2} - \frac{\delta}{ \sigma \sqrt{2/n} } = -z_{\beta} \\
+\Leftrightarrow &amp; \quad \frac{\delta}{ \sigma \sqrt{2} } \sqrt{n}   = z_{\alpha/2} + z_{\beta}  \\
+\Leftrightarrow &amp; \quad  n = \frac{ 2(z_{\alpha/2} + z_{\beta})^2 \sigma^2}{\delta^2}   \\
+\end{aligned}
+\]</span></p>
+<p>이제 평균의 차이 <span class="math inline">\(\delta\)</span>, 유의수준 <span class="math inline">\(\alpha\)</span>, 제 2 종의 오류를 범할 확률 <span class="math inline">\(\beta\)</span> 그리고 표분편차 <span class="math inline">\(\sigma\)</span>의 값이 주어졌다면 각 치료 그룹에 필요한 연구대상자의 수는 아래와 같이 주어지며 처리 그룹이 2개이기 때문에 전체적으로 필요한 연구대상자의 수는 <span class="math inline">\(2n\)</span> 명이다. 이때의 검정력은 <span class="math inline">\(1-\beta\)</span>임을 알 수 있다.</p>
+<p><span id="eq-nmean"><span class="math display">\[
+n = \frac{ 2(z_{\alpha/2} + z_{\beta})^2 \sigma^2}{\delta^2} =
+\frac{ 2(z_{\alpha/2} + z_{\beta})^2}{(\delta/\sigma)^2}
+\tag{13.7}\]</span></span></p>
+<p>위의 식 <a href="#eq-nmean" class="quarto-xref"><span>13.7</span></a> 에서 평균의 차이 <span class="math inline">\(\delta = \mu_1 - \mu_2\)</span> 를 표준 편차 <span class="math inline">\(\sigma\)</span>로 나눈 양을 라고 부른다. 유효크기는 단위에 상관없는 양으로서 표준화된 평균의 차이로 볼 수 있다. 위의 공식에서 표본의 크기는 유효 크기의 제곱에 반비레함을 알 수 있다.</p>
+<p><span class="math display">\[ \text{ effective size } = \frac{\delta}{\sigma} =\frac{\mu_1 -\mu_2}{\sigma} \]</span></p>
+<p>유의수준 <span class="math inline">\(\alpha=0.05\)</span>, 평균의 차이 <span class="math inline">\(\delta = 2.0\)</span>, 표준편차가 <span class="math inline">\(\sigma =4.0\)</span>, 검정력이 80%인 경우(<span class="math inline">\(\beta=0.2\)</span>) 필요한 표본의 수 <span class="math inline">\(n\)</span>를 구해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fl">2.0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">4.0</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>zalpha2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>zbeta <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(beta)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>zbeta</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8416212</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(zalpha2 <span class="sc">+</span> zbeta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> sigma<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span> delta<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 62.79104</code></pre>
+</div>
+</div>
+<p><strong>일반적으로 계산된 <span class="math inline">\(n\)</span>이 정수가 아닌 경우 올림(ceiling)하여 구한다.</strong> 따라서 위의 경우에는 <span class="math inline">\(n= 63\)</span> 이다.</p>
+</section>
+<section id="비율의-비교" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="비율의-비교"><span class="header-section-number">13.8</span> 비율의 비교</h2>
+<p>두 개의 비율을 비교하기 위해 필요한 표본크기를 결정하는 문제를 생각해보자. <span class="math inline">\(p_1\)</span> 과 <span class="math inline">\(p_2\)</span> 를 각각 그룹 1과 그룹 2 에서 사건이 발생할 확률이라고 하자. 두 개의 독립적인 집단을 비교하는 실험에서 고려하는 가설은 다음과 같다.</p>
+<p><span class="math display">\[ H_0: p_1 = p_2 \quad as. \quad H_1: p_1-p_2 \ne 0 \]</span></p>
+<p>이제 그룹 1 과 그룹 2 에서 각각 <span class="math inline">\(n\)</span> 개의 대상자에게 실험을 실시해서 표본비율 <span class="math inline">\(\hat p_1\)</span>과 <span class="math inline">\(\hat p_2\)</span> 를 다음과 같이 얻었다면</p>
+<p><span class="math display">\[ \hat p_1 = \frac{\sum_{i=1}^x x_{1i}}{n}, \quad \hat p_2 = \frac{\sum_{i=1}^n x_{2i}}{n} \]</span></p>
+<p>검정통계량은 다음과 같이 주어진다. 표본의 수 <span class="math inline">\(n\)</span> 이 크면 검정 통계량 <span class="math inline">\(z\)</span> 가 근사적으로 정규분포를 따른다.</p>
+<p><span class="math display">\[  z = \frac{ \hat p_1 - \hat p_2} {\sqrt{ \frac{\bar p(1-\bar p)}{n} + \frac{\bar p(1-\bar p)}{n} }}
+=  \frac{  \hat p_1 - \hat p_2} {\sqrt{ \frac{2\bar p(1-\bar p)}{n} }} \sim N(0,1) \quad \text{under } H_0\]</span></p>
+<p>위 식에서 <span class="math inline">\(\bar p\)</span> 는 귀무가설 하에서, 즉 <span class="math inline">\(H_0: p_1= p_2=p\)</span> 에서 공통 성공확률 <span class="math inline">\(p\)</span>의 추정량이다.</p>
+<p><span id="eq-pooled"><span class="math display">\[
+\bar p = \frac{ \hat p_1 + \hat p_2}{2}
+\tag{13.8}\]</span></span></p>
+<p>이제 대립가설 하에서 두 개의 비율의 값이 다음과 같이 주어졌다고 가정한다.</p>
+<p><span class="math display">\[ H_1: p_1 = p_{11}, \quad  p_2= p_{21}, \quad  p_{11} - p_{21} =\delta &gt;0 \]</span></p>
+<p>대립가설 <span class="math inline">\(p_1=p_{11},   p_2 =p_{21}\)</span>, <span class="math inline">\(\delta = p_{11} -p_{21}\)</span> 인 경우는 다음과 같은 통계량이 근사적으로 정규분포를 따른다.</p>
+<p><span class="math display">\[ \frac{ \hat p_1 - \hat p_2 - \delta}{\sqrt{\frac{p_{11}(1-p_{11})}{n} + \frac{p_{21}(1-p_{21})}{n}}} \sim N(0,1) \]</span></p>
+<p>따라서 대립가설하에서 검정력은 다음과 같이 주어진다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+power &amp; =  P(z &gt; z_{\alpha/2}  ~| ~  p_1 = p_{11},  p_2= p_{21}) \\
+&amp; = P \left [  \frac{ \hat p_1 - \hat p_2} {\sqrt{ \frac{2\bar p (1-\bar p)}{n}  }} &gt; z_{\alpha/2}  ~\Bigg  | ~  p_1 = p_{11},  p_2= p_{21} \right ]
+\\
+&amp; = P \left [  \frac{ \hat p_1 - \hat p_2}{\sqrt{\frac{p_{11}(1-p_{11})}{n} + \frac{p_{21}(1-p_{21})}{n}}}  &gt; z_{\alpha/2}    \frac{ \sqrt{ \frac{2\bar p (1-\bar p)}{n}  }} {\sqrt{\frac{p_{11}(1-p_{11})}{n} + \frac{p_{21}(1-p_{21})}{n}}} ~\Bigg  | ~  p_1 = p_{11},  p_2= p_{21} \right ]
+\\
+&amp; = P \left [  \frac{ \hat p_1 - \hat p_2-\delta}{\sqrt{\frac{p_{11}(1-p_{11})}{n} + \frac{p_{21}(1-p_{21})}{n}}}  &gt;   \frac{ z_{\alpha/2}  \sqrt{ \frac{2\bar p (1-\bar p)}{n}  } -\delta} {\sqrt{\frac{p_{11}(1-p_{11})}{n} + \frac{p_{21}(1-p_{21})}{n}}}  \right ]
+\\
+&amp; =  P \left [  Z  &gt;  \frac{z_{\alpha/2}\sqrt{ 2\bar p (1-\bar p)} - \delta \sqrt{n}} {\sqrt{p_{11}(1-p_{11}) + p_{21}(1-p_{21})}}  \right ] \\
+&amp; = 1- P \left [  Z  \le  \frac{z_{\alpha/2}\sqrt{ 2\bar p (1-\bar p)} - \delta \sqrt{n}} {\sqrt{p_{11}(1-p_{11}) + p_{21}(1-p_{21})}}  \right ]
+\end{aligned}
+\]</span></p>
+<p>이러한 경우 제 2 종의 오류를 범할 확률이 <span class="math inline">\(\beta\)</span> 라고 한다면 연속형 분포에서 유도한 식과 유사하게 다음과 같은 방정식이 성립한다.</p>
+<p><span class="math display">\[ \frac{z_{\alpha/2}\sqrt{ 2\bar p (1-\bar p)} - \delta \sqrt{n}} {\sqrt{p_{11}(1-p_{11}) + p_{21}(1-p_{21})}} = -z_{\beta} \]</span></p>
+<p>위의 방정식을 <span class="math inline">\(n\)</span> 에 대하여 풀면 다음과 같이 표본의 크기를 구할 수 있는 공식이 주어진다.</p>
+<p><span id="eq-nproportion"><span class="math display">\[
+n = \frac{ \left [ z_{\alpha/2} \sqrt{ 2 \bar p (1-\bar p)} + z_{\beta} \sqrt{p_{11}(1-p_{11}) + p_{21}(1-p_{21})} \right ]^2}{(p_{11} - p_{21})^2} \quad \text{where} \quad  \bar p = \frac{p_{11} + p_{21}}{2}
+\tag{13.9}\]</span></span></p>
+<p>식 <a href="#eq-nproportion" class="quarto-xref"><span>13.9</span></a> 에 주어진 비율의 비교에 대한 표본의 크기 공식에서 식 <a href="#eq-pooled" class="quarto-xref"><span>13.8</span></a> 를 이용하여 표본으로 부터 구한 <span class="math inline">\(\bar p\)</span> 는 대립가설 하에서 주어진 모수를 이용하여 다시 계산한다.</p>
+<p>유의수준 <span class="math inline">\(\alpha=0.05\)</span>, 두 집단의 성공 확률이 각각 <span class="math inline">\(p_1 = 0.3, p_2=0.3\)</span>, 검정력이 80%인 경우(<span class="math inline">\(\beta=0.2\)</span>) 필요한 표본의 수 <span class="math inline">\(n\)</span>를 구해보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>zalpha2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>zbeta <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(beta)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> p1 <span class="sc">-</span> p2</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>pbar <span class="ot">&lt;-</span> (p1<span class="sc">+</span>p2)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>pbar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pbar))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">+</span> p2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p2))</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> (zalpha2<span class="sc">*</span>t1 <span class="sc">+</span> zbeta<span class="sc">*</span>t2)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span> (delta<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>n  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 293.1513</code></pre>
+</div>
+</div>
+<p>이제 첫 번째 그룹의 성공확률 <span class="math inline">\(p1=0.5\)</span> 로 고정시키고 두 번째 그룹의 성공확률 <span class="math inline">\(p_2\)</span>를 변화시키면서 필요한 실험 대상자의 수가 어떻게 변하는 지 살펴보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fl">0.2</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>zalpha2 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>zbeta <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">qnorm</span>(beta)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.02</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>pbar <span class="ot">&lt;-</span> (p1<span class="sc">+</span>p2)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> p1 <span class="sc">-</span> p2</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>pbar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pbar))</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p1<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p1)<span class="sc">+</span> p2<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p2))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> (zalpha2<span class="sc">*</span>t1 <span class="sc">+</span> zbeta<span class="sc">*</span>t2)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span> (delta<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p2, n, <span class="at">main =</span><span class="st">"sample size when p1=0.5"</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(p1,p2,delta,n)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    p1   p2 delta         n
+1  0.5 0.10  0.40  19.38084
+2  0.5 0.12  0.38  22.03610
+3  0.5 0.14  0.36  25.14457
+4  0.5 0.16  0.34  28.81619
+5  0.5 0.18  0.32  33.19626
+6  0.5 0.20  0.30  38.48004
+7  0.5 0.22  0.28  44.93493
+8  0.5 0.24  0.26  52.93495
+9  0.5 0.26  0.24  63.01626
+10 0.5 0.28  0.22  75.96933
+11 0.5 0.30  0.20  92.99884
+12 0.5 0.32  0.18 116.01429
+13 0.5 0.34  0.16 148.18957
+14 0.5 0.36  0.14 195.11898
+15 0.5 0.38  0.12 267.42413
+16 0.5 0.40  0.10 387.33852</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(p2, n)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="중도-탈락률의-고려" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="중도-탈락률의-고려"><span class="header-section-number">13.9</span> 중도 탈락률의 고려</h2>
+<p>임상시험에서 환자의 수를 결정할 때 <strong>중도 탈락률(dropout rate)</strong>을 고려하는 것은 실제 분석에 필요한 충분한 데이터를 확보하기 위해 매우 중요하다. 탈락률을 고려하지 않으면 필요한 대상자수의 크기를 확보하지 못하여 연구 결과의 신뢰성과 통계적 검정력이 저하될 수 있다.</p>
+<p>중도 탈락률은 임상시험 기간 동안 중도 탈락하거나 데이터 분석에서 제외되는 환자의 비율이다. 탈락률은 임상실험의 시작 전에 예측해야 하며 예측 방법은 다음과 같다.</p>
+<ul>
+<li>이전 유사한 연구의 탈락률 참조.</li>
+<li>파일럿 연구 데이터 활용.</li>
+<li>임상 전문가 의견 반영.</li>
+<li>환자군의 특성과 연구 기간을 고려하여 보수적으로 추정.</li>
+</ul>
+<p>실험의 대상자 수를 결정하는 과정에 중도 탈락률 적용하는 방법은 다음과 같다.</p>
+<p><span class="math display">\[
+n_{adjusted} = \frac{n_{required}}{1 - r}
+\]</span></p>
+<p>위의 식에서 각 항목은 다음과 같다.</p>
+<ul>
+<li><span class="math inline">\(n_{adjusted}\)</span>: 중도 탈락률을 고려한 총 필요한 실험 대상자의 수.</li>
+<li><span class="math inline">\(n_{required}\)</span>: 통계적으로 필요한 최소 실험 대상자의 수.</li>
+<li><span class="math inline">\(r\)</span>: 예상하는 중도 탈락률</li>
+</ul>
+<p>예를 들어 각 그룹에 통계적으로 필요한 최소 샘플 크기 <span class="math inline">\(n_{required}=100\)</span> 명이고 예상하는 탈락률 <span class="math inline">\(r = 20\%\)</span> 이면 중도 탈락률을 고려한 총 실험 대상자의 수는 다음과 같다.</p>
+<p><span class="math display">\[
+n_{adjusted} = \frac{100}{1 - 0.2} = \frac{100}{0.8} = 125
+\]</span></p>
+<p>따라서 실제로 각 그룹에 125명을 모집해야 한다.</p>
+</section>
+<section id="예제" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="예제"><span class="header-section-number">13.10</span> 예제</h2>
+<section id="예제-1" class="level3" data-number="13.10.1">
+<h3 data-number="13.10.1" class="anchored" data-anchor-id="예제-1"><span class="header-section-number">13.10.1</span> 예제 1</h3>
+<p>식이요법이 콜레스테롤에 수준에 미치는 영향을 알아 보기 위하여 연구를 수행하려고 한다. 식이요법을 수행한 그룹과 하지 않는 그룹의 콜레스테롤 수준의 차이가 20 mg/dl 가 있음을 보이려고 하는 경우, 유의수준을 5%, 검정력을 90% 를 가정하면 필요한 환자의 수는 얼마인가? 선행연구로 부터 콜레스테롤 환자들의 수준에 대한 표준편차는 50ml/dl 로 알려져 있다.</p>
+<p>이 경우 귀무가설과 대립가설은 다음과 같다.</p>
+<p><span class="math display">\[ H_0: \mu_1 = \mu_2 \quad \text{vs.} \quad H_1: \mu_1 \ne \mu_2 \]</span></p>
+<p>유의수준 5% 와 제 2 종 오류의 확률 <span class="math inline">\(\beta = 0.1 = 1- \text{power}\)</span> 에 대한 정규분포 백분위수 <span class="math inline">\(z_{0.025} = 1.96\)</span>, <span class="math inline">\(z_{0.1} = 1.28\)</span> 이이다.</p>
+<p>식 <a href="#eq-nmean" class="quarto-xref"><span>13.7</span></a> 에 의해 한 그룹에 필요한 실험 대상자의 수는 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[   n = \frac{2(1.96 + 1.28^2(50)^2)}{20^2} =   131.22  \]</span></p>
+<p>따라서 각 그룹 당 <span class="math inline">\(132\)</span> 명의 대상자가 필요하며 총 <span class="math inline">\(2 \times 132 = 264\)</span> 명의 대상자가 필요하다.</p>
+</section>
+<section id="예제-2" class="level3" data-number="13.10.2">
+<h3 data-number="13.10.2" class="anchored" data-anchor-id="예제-2"><span class="header-section-number">13.10.2</span> 예제 2</h3>
+<p>새로운 약을 처리받은 집단의 치료율이 0.5 이고 위약 집단의 의 치료율이 0.3 인 경우 새로운 약을 처리받은 집단과 위약 집단의 치료율이 동일한지 검정하여고 한다. 유의수준을 5%, 검정력을 80% 로 하고 양측검정을 실시하려고 한다. 필요한 실험 대상자의 수는 얼마인가?</p>
+<p>이 경우 귀무가설과 대립가설은 다음과 같다.</p>
+<p><span class="math display">\[ H_0: p_1 = p_2 \quad \text{vs.} \quad H_1: p_1 \ne p_2 \]</span></p>
+<p>유의수준 5% 와 제 2 종 오류의 확률 <span class="math inline">\(\beta = 0.2 = 1- \text{power}\)</span> 에 대한 정규분포 백분위수 <span class="math inline">\(z_{0.025} = 1.96\)</span>, <span class="math inline">\(z_{0.2} = 0.84\)</span> 이이다. 또한 공통확률 <span class="math inline">\(\bar p\)</span> 는 다음과 같이 주어진다.</p>
+<p><span class="math display">\[ \bar p = (p_1+p_2)/2 = (0.5+0.3)/2 = 0.4 \]</span></p>
+<p>식 <a href="#eq-nproportion" class="quarto-xref"><span>13.9</span></a> 에 의해 한 그룹에 필요한 실험 대상자의 수는 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[   n = \frac{ \left [ (1.96) \sqrt{ 2 (0.4)(0.6)} + (0.84) \sqrt{(0.5)(0.5) + (0.3)(0.7)} \right ]^2}{(0.5 - 0.3)^2}
+= 92.895   \]</span></p>
+<p>따라서 각 그룹 당 <span class="math inline">\(93\)</span> 명의 대상자가 필요하며 총 <span class="math inline">\(2 \times 93 = 186\)</span> 명의 대상자가 필요하다.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "복사완료!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "복사완료!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notes/coxreg-01.html" class="pagination-link" aria-label="비례위험모형">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">비례위험모형</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notes/multivar.html" class="pagination-link" aria-label="다변량 확률변수의 성질">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">다변량 확률변수의 성질</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
