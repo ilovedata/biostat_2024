@@ -32,6 +32,10 @@ book:
         - notes/survival-02.qmd
         - notes/logrank-01-new.qmd
         - notes/coxreg-01.qmd
+    - part: "실험의 설계"
+      chapters:
+        - notes/sample-size.qmd
+
   appendices:
     - notes/multivar.qmd
     - notes/lmmtheory.qmd
