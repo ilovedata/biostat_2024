@@ -35,6 +35,7 @@ book:
     - part: "실험의 설계"
       chapters:
         - notes/sample-size.qmd
+        - notes/crossover.qmd
 
   appendices:
     - notes/multivar.qmd
