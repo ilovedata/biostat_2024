@@ -647,7 +647,7 @@ $$ \delta_L= - 16.51 \quad \text{and} \quad \delta_U= 16.51 $$
 2. 처리 순서에 배정된 처리 순서 그룹(`Sequence`)에서 첫 번째 순서에서는  `R->T` 이고  두 번째 순서에서 `T->R` 이다.  
 따라서 가설 @eq-crossover-equiv-hypo 를 위한 두 반응값에 대한 차이 $d_{ik}$ 는 다음과 같이 계산할 수 있다.
 
-$$ d_{ik} = \frac{1}{2}(y_{i2k} - y_{i1k}) =  \frac{1}{2}({\tt P2} - {\tt P1}), \quad \text{ for } k=1,2$$
+$$ d_{ik} = \frac{1}{2}(y_{i2k} - y_{i1k}) =  \frac{1}{2}({P2} - {P1}), \quad \text{ for } k=1,2$$
 :::
 
 다음 R 코드는 환자의 두 반응값에 대한 차이 `d` 을 계산한 후  평균의 차이에 대한 $90\%$-신뢰구간을 구한다.
