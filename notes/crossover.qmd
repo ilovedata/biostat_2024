@@ -44,12 +44,12 @@ library(lmerTest)
 교차실험의 통계적 분석에 대한 자세한 내용은  @chow1999design 또는 @jones2003design 을 참고하자.
 
 먼저, 두 개의 처리 `T` (TEST) 와 `R` (REFERENCE) 를 비교하는 실험이라고 가정하자. 
-또한 각 처리 순서(sequence)에 각각 $n$ 명의 피험자가 할당되었다고 가정하자.
+또한 각 처리 순서(sequence)에 각각 $n_1$ 과 $n_i$ 명의 피험자가 할당되었다고 가정하자.
 
 $2 \times 2$ 교차실험의 일반적인 통계적 모형은 다음과 같이 나타낼 수 있다.  
 
 $$
-y_{i j k}= \mu+S_{ik}+p_{j}+f_{(j, k)}+c_{(j-1, k)}+e_{i j k}, \quad i=1, \ldots, n, ~~ j=1,2, ~~ k=1,2
+y_{i j k}= \mu+S_{ik}+p_{j}+f_{(j, k)}+c_{(j-1, k)}+e_{i j k}, \quad i=1, \ldots, n_i, ~~ j=1,2, ~~ k=1,2
 $$ {#eq-crossover-model1}
 
 위의 @eq-crossover-model1 식에서 주어진 각 항들의 의미는 다음과 같다.
@@ -161,7 +161,7 @@ $$ E(y_{ijk}) = \mu_{jk} $$
 
 $$
 t_{ik} = y_{i1k} + y_{i2k} , \quad k=1,2
-$$
+$$ {#eq-crossover-sum}
 
 를 고려하면 모형 @eq-crossover-model1 에서 다음과 같이 나타낼 수 있다.
 
@@ -178,15 +178,15 @@ t_{i2} &= y_{i12} + y_{i22} \\
 &= 2\mu + p_1 + p_2 + f_R + f_T + c_R + (2S_{i2} + e_{i12} + e_{i22}) \\
 &= 2\mu + p_1 + p_2 + f_R + f_T + c_R + e'_{i2} \\
 \end{aligned}
-$$ {#eq-crossover-sum}
+$$ {#eq-crossover-sum2}
 
 위의 식에서 $e'_{i1}$ 와 $e'_{i2}$ 는 각각 오차항들과 개인효과의 조합으로 나타난 새로운 오차항으로 볼 수 있다.
 
 이제 $t_{i1}$ 와 $t_{i2}$ 의 각각의 평균 $\bar t_1$ 과 $\bar t_2$ 을 구하고, 두 평균의 차이를 $\bar t$ 라고 하자.
 
 $$
-\bar t = \bar t_1 - \bar t_2 \quad \text{ where } ~~\bar t_1 = \frac{1}{n} \sum_{i=1}^n t_{i1} ~~\text{ and }~~ \bar t_2 = \frac{1}{n} \sum_{i=1}^n t_{i2}
-$$
+\bar t = \bar t_1 - \bar t_2 \quad \text{ where } ~~\bar t_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} t_{i1} ~~\text{ and }~~ \bar t_2 = \frac{1}{n_2} \sum_{i=1}^{n_2} t_{i2}
+$$ 
 위의 통계량 $\bar t$ 의 기대값을 구해보면  @eq-crossover-sum 식을 이용하여 다음과 같이 나타낼 수 있다.
 
 $$ 
@@ -205,9 +205,11 @@ $$
 $\bar t$ 이용한 t-검정을 실시할 수 있다. 이월 효과에 대한 t-검정에서 사용할 통계량은 다음과 같다.
 
 $$
-t = \frac{\bar t}{\hat \sigma^2_t} \quad \text{ where } ~~ \hat \sigma^2_t = \sqrt{\frac{1}{n+n-2} \sum_{k=1}^2 \sum_{i=1}^n (t_{ik} - \bar t_k)^2}
-$$
-위에서 구한  검정통계량 $t$ 값이 $t_{n+n-2, \alpha/2}$ 보다 크면 이월 효과가 유의하다고 판단할 수 있다. 반대로 $t$ 값이 $t_{n+n-2, \alpha/2}$ 보다 작으면 이월 효과가 유의하지 않다고 판단할 수 있으며 이 경우 처리 효과를 비교하는 것이 가능하다.
+t = \frac{\bar t_1 -\bar t_2}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \quad \text{ where } ~~ \hat \sigma^2_t = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (t_{ik} - \bar t_k)^2
+$$ {#eq-crossover-carry1}
+
+
+위에서 구한  검정통계량 $t$ 값이 $t_{n_1 + n_2 -2, \alpha/2}$ 보다 크면 이월 효과가 유의하다고 판단할 수 있다. 반대로 $t$ 값이 $t_{n_1 + n_2 -2, \alpha/2}$ 보다 작으면 이월 효과가 유의하지 않다고 판단할 수 있으며 이 경우 처리 효과를 비교하는 것이 가능하다.
 
 다만 유의할 점은 이월 효과가 통계적 유의하지 않다고 판단되더라도 이월효과가 존재하지 않는다는 강력한 증거는 아니다. 따라서 이월 효과가 나타나지 않도록 하기 위하여 충분한 세척기간을 두어야 한다.
 
@@ -223,7 +225,7 @@ $$ c_T = c_R = 0 $$
 
 $$ 
 d_{ik} = \frac{y_{i1k} - y_{i2k}}{2}, \quad k=1,2
-$$
+$$ {#eq-crossover-diff}
 
 모형 @eq-crossover-model1 에서 $d_{ik}$ 는 각 순서($k=1,2$)에 대해서 다음과 같이 나타낼 수 있다.
 
@@ -243,7 +245,7 @@ $$
 이제 각 순서에 대하여 반응값의 차이 $d_{ik}$ 의 평균 $\bar d_1$ 과 $\bar d_2$ 을 구하고, 두 평균의 차이를 $\bar d$ 라고 하자. 
 
 $$ 
-\bar d = \bar d_1 - \bar d_2 \quad \text{ where } ~~\bar d_1 = \frac{1}{n} \sum_{i=1}^n d_{i1} ~~\text{ and }~~ \bar d_2 = \frac{1}{n} \sum_{i=1}^n d_{i2}
+\bar d = \bar d_1 - \bar d_2 \quad \text{ where } ~~\bar d_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} d_{i1} ~~\text{ and }~~ \bar d_2 = \frac{1}{n_2} \sum_{i=1}^{n_2} d_{i2}
 $$
 
 위의 통계량 $\bar d$ 의 기대값을 구해보면  @eq-crossover-sum 식을 이용하여 다음과 같이 나타낼 수 있다.
@@ -264,8 +266,422 @@ $$
 $\bar d$ 이용한 t-검정을 실시할 수 있다. 처리 효과에 대한 t-검정에서 사용할 통계량은 다음과 같다.
 
 $$
-t = \frac{\bar d}{\hat \sigma^2_d} \quad \text{ where } ~~ \hat \sigma^2_t = \sqrt{\frac{1}{n+n-2} \sum_{k=1}^2 \sum_{i=1}^n (d_{ik} - \bar d_k)^2}
+t = \frac{\bar d_1 -\bar d_2}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \quad \text{ where } ~~ \hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+$$ {#eq-crossover-diff1}
+
+
+위에서 구한 검정통계량 $t$ 값이 $t_{n_1 + n_2 -2, \alpha/2}$ 보다 크면 두 처리 효과에  유의한 차이를 있다고 판단할 수 있다.
+
+
+## 교차실험 예제
+
+
+### 간단한 예제 
+
+
+다음은 간단한 교차실험의 예제이다. 
+
+```{r}
+#| include: false
+# 피험자 수
+set.seed(123)
+n_subjects <- 10
+
+# 피험자 그룹 (Group 1: S1, Group 2: S2)
+group <- rep(c("S1", "S2"), each = n_subjects / 2)
+
+# Period별 처리 할당
+period1 <- ifelse(group == "S1", "A", "B")
+period2 <- ifelse(group == "S1", "B", "A")
+
+# 실제 측정값 생성 (A와 B의 효과 차이를 약간 부여)
+response_period1 <- ifelse(period1 == "A", rnorm(n_subjects, mean = 10, sd = 2), rnorm(n_subjects, mean = 8, sd = 2))
+response_period2 <- ifelse(period2 == "A", rnorm(n_subjects, mean = 15, sd = 2), rnorm(n_subjects, mean = 8, sd = 2))
+
+# 데이터 프레임 생성
+df_ex1 <- data.frame(
+  Subject = 1:n_subjects,
+  Group = group,
+  P1 = round(response_period1,0),
+  P2 = round(response_period2,0)
+)
+```
+
+다음 자료는 첫 번째 처리 순서(`S1`)에 배정된 5명의 환자는 첫 번쨰 시점(`P1`)에서 `A` 처리를 받고 두 번째 시점(`P2`)에서 `B` 처리를 받았다. 두 번째 처리 순서(`S2`)에 배정된 5명의 환자는 첫 번쨰 시점(`P1`)에서 `B` 처리를 받고 두 번째 시점(`P2`)에서 `A` 처리를 받았다.
+
+| Group | P1  | P2  |
+|-----------------|-----------|-----------|
+| S1 | `A` | `B` |
+| S2 | `B` | `A` |
+: 예제 자료의  처리 배정
+
+```{r}
+df_ex1  
+```
+
+이제 @eq-crossover-sum 과 @eq-crossover-diff 에 제시된 이월효과에 대한 검정에 필요한 반응값의 합 $t_{ik}$ 과 반응값의 차이 $d_{ik}$ 를 계산하여 데이터프레임에 포함시키지.
+
+```{r}
+df_ex1 <- df_ex1 %>% 
+  dplyr::mutate(t = P1 + P2, d = (P1 - P2)/2)
+df_ex1
+```
+
+
+
+다음으로 반응값의 합 $t_{ik}$ 과 반응값의 차이 $d_{ik}$ 에 대한 기술통계량을 살펴보자.
+
+```{r}
+df_ex1 %>% 
+  group_by(Group) %>% 
+  summarise(n=n(), mean_t = mean(t), var_t = var(t), 
+            mean_d = mean(d), var_d = var(d))
+```
+
+위의 기술 통계량은 다음과 같이 계산할 수 있다.
+
+$$
+\begin{aligned}
+\bar t_1 & = \frac{18+17+23+20+20}{5} = 19.6 \\
+\bar t_2 & = \frac{24+26+19+22+25}{5} = 23.2 \\
+s^2_{t1} & =  \frac{ (18-19.6)^2 + (17-19.6)^2 + (23-19.6)^2 + (20-19.6)^2 + (20-19.6)^2}{4} = 5.3 \\
+s^2_{t2} & =  \frac{ (24-23.2)^2 + (26-23.2)^2 + (19-23.2)^2 + (22-23.2)^2 + (25-23.2)^2}{4} = 7.7 \\
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\bar d_1 & = \frac{1}{5} (0 + 1.5 + 1.5 + 0 + 0) = 0.6 \\
+\bar d_2 & = \frac{1}{5} (0 + (-4) + (-5.5) + (-2) + (-5.5)) = -3.4 \\
+s^2_{d1} & =  \frac{ (0-0.6)^2 + (1.5-0.6)^2 + (1.5-0.6)^2 + (0-0.6)^2 + (0-0.6)^2}{4} = 0.675 \\
+s^2_{d2} & =  \frac{ (0+5.3)^2 + (-4+5.3)^2 + (-5.5+5.3)^2 + (-2+5.3)^2 + (-5.5+5.3)^2}{4} = 5.675 \\
+\end{aligned}
+$$
+
+먼저 이월효과의 유무에 대한 가설 검정을 위하여 제시된 @eq-crossover-carry1 에서 검정 통계량은 다음과 같이 계산할 수 있다.
+
+
+$$
+\begin{aligned}
+t & = \frac{\bar t}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+ & = \frac{\bar t_1 - \bar t_2}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+ & = \frac{19.6-23.2}{\sqrt{ (6.5) \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+ & = -2.23
+\end{aligned}
+$$
+위에서 
+
+$$
+\hat \sigma^2_t = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (t_{ik} - \bar t_k)^2
+= \frac{1}{5+5-2} [ (4)(5.3) + (4)(7.7)] = 6.5
 $$
 
 
-위에서 구한 검정통계량 $t$ 값이 $t_{n+n-2, \alpha/2}$ 보다 크면 두 처리 효과에  유의한 차이를 있다고 판단할 수 있다.
+따라서 t-통계량의 절대값 $|t| = 2.23$ 이 $t_{8, 0.025} = 2.306$ 보다 작으므로 이월효과가 유의하지 않다고 판단할 수 있다.
+
+위의 결과는 다음과 같이 R 의 함수 `t.test` 를 사용하여 얻을 수 있다. 이월효과 검정에 대한 p-값은 $p=0.05607$ 이다.
+
+```{r}
+t.test(t ~ group, var.equal = TRUE, data = df_ex1)
+```
+
+이제 처리 A 와 B 의 효과 차이에 대한 검정을 실시해보자. 첫 번째 처리 순서에는 `A->B`, 두 번째 처리 순서에서는 `B->A` 의 순서로 실험을 수행하여으므로 
+위의 기초통계량에서 $\bar d = \bar d_1 - \bar d_2$ 은 `A` 처리 효과 $f_A$ 와 `B` 처리의 차이 효과 $f_B$ 의 차이를 나타낸다.
+
+$$ f_A - f_B \approx \bar d_1 -\bar d_2 = 0.6 - (-3.4) = 4 $$
+
+
+
+처리 효과에 대한 가설검정을 위하여 제시된 @eq-crossover-diff1 에서 검정 통계량은 다음과 같이 계산할 수 있다.
+
+$$
+\begin{aligned}
+t & = \frac{\bar d}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+ & = \frac{\bar d_1 - \bar d_2}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+ & = \frac{0.6 - (-3.4)}{\sqrt{ (3.175) \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+ & = 3.55
+\end{aligned}
+$$
+
+위에서
+$$
+\hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+= \frac{1}{5+5-2} [ (4)(0.675) + (4)(5.675)] = 3.175
+$$
+
+따라서 t-통계량의 절대값 $|t| = 3.55$ 이 $t_{8, 0.025} = 2.306$ 보다 크므로 처리 효과가 유의하다고 판단할 수 있다.
+
+
+
+위의 결과는 다음과 같이 R 의 함수 `t.test` 를 사용하여 얻을 수 있다. 처리효과 검정에 대한 p-값은 $p=0.007516$ 이다.
+
+```{r}
+t.test(d ~ group, var.equal = TRUE, data = df_ex1)
+```
+
+### 폐질환 환자의 교차실험
+
+
+예제에 사용된 자료는 @jones2003design 2장에서 제시된 예제를 사용하였다.
+
+시용된 데이터는 하나의 병원에서 실험함 자료이며 무작위 배정(randomized), 위약 대조(placebo-controlled), 이중 맹검 연구(double blinded) 실험에서 얻은 데이터이다.
+
+실험의 목적은 만성 폐쇄성 폐질환(Chronic Obstructive Pulmonary Diseasel; COPD) 환자에 대하여 하루에 두 번 투여하는 흡입 약물(inhaler)인 메타콜린(A)의 효능과 안전성을 평가하기 위한 자료이다.
+
+실험에 참가할 수 있는 기준(inlcusion criteria)을 충족한 환자는 2주간 병원에 2번을 방문하여 치료 전단계(rin-in period)를 거치는데 다양한 알레지 반응에 대한 시험을 받고 임상 시험에 참가할 수 있는지 검사한다.  
+
+임상시험에 참가할 수 있는 자격이 되는 환자는 병원을 방문하여  메타콜린(A) 또는 그에 상응하는 위약(B) 중 하나를 무작위로 배정하고 4주 동안 약물을 투여하는 치료를 받는다(첫 번쨰 시점; period 1). 4주 치료가 끝난 환자들은 다시 4주 동안 다른 약물로 치료를 받는다(두 번째 시점; period 2).
+
+
+| Group | resp1  | resp2  |
+|-----------------|-----------|-----------|
+| 1 | `A` | `B` |
+| 2 | `B` | `A` |
+: 폐질환 환자의 교차실험의  처리 배정
+
+주요 반응 변수(primary efficacy variable or primary reponse variable)은  아침에 측정한 최고날숨속도(Peak Expiratory Flow Rate; PEFR)이며 매일 아침에 일어나서, 약을 복용하기 전, 취침 시간에 3번 측정한다.
+
+연구에 모집된 총 77명의 환자 중 66명이 무작위로 치료에 배정되었다. 각 치료 순서(sequence; AB 그룹 또는 BA 그룹)당 33명을 배정하였다. 최종적으로 56명의 환자(AB 그룹 27명, BA 그룹 29명)의 평균 아침 PEFR에 대한 데이터를 얻었다.
+
+아래 데이터프레임 `cross_df` 는 실험에 참가한 환자들의 데이터를 나타낸다. 다음은 각 변수에 대한 설명이다.
+
+- `group`: 치료 순서(AB = 1,  BA = 2)
+- `subject`: 각 그룹에서 환자의 순서
+- `patno` : 환자 번호
+- `resp1` : 첫 번째 시점에서의 PEFR
+- `resp2` : 두 번째 시점에서의 PEFR
+- `base` : 치료 전 PEFR 
+
+```{r}
+cross_df <- read.csv(here::here("data","jones-kenward-data-1.csv"), sep="", header=TRUE) %>%
+  dplyr::select(-base.)
+
+head(cross_df)
+```
+
+먼저 자료에 대한 기술통계량을 살펴보자.
+
+```{r}
+cross_df %>% 
+  group_by(group) %>% 
+  summarise(n=n(), mean_resp1 = mean(resp1), var_resp1 = var(resp1), 
+            mean_resp2 = mean(resp2), var_resp2 = var(resp2))
+```
+
+다음으로 자료에 대한 그림을 통한 시각적 분석을 위하여자료를 긴 형태(long format)로 변환하자. `pivot_longer` 함수를 사용하여 시점을 나타내는 변수 `period` 와 처리를  나타나는 변수 `treat` 를 생성하고  데이터를 긴 형태로 변환하자.
+
+```{r}
+# make long format data buy creating a period variable 
+cross_df_long <- cross_df %>% 
+  dplyr::select(group, patno,  resp1, resp2) %>%
+  pivot_longer(cols = c(resp1, resp2), names_to = "period", values_to = "PEFR") %>%
+  mutate(treat = case_when(group == 1 & period == "resp1"  ~ "A", 
+                           group == 1 & period == "resp2"  ~ "B",
+                           group == 2 & period == "resp1"  ~ "B",
+                           group == 2 & period == "resp2"  ~ "A"))
+
+head(cross_df_long)
+```
+
+처리 순서 그룹별로 환자의 첫 번째 시점과 두 번째 시점에서 얻은 PEFR 의 값을 나타내는  프로파일 그림(profile plot)으로 그려보자
+
+```{r}
+#profile plot for each patient in each group
+cross_df_long %>% 
+  ggplot(aes(x = period, y = PEFR, group=patno,  color = factor(patno))) +
+  geom_line() +
+  facet_wrap(~group) 
+```
+
+다음으로 처리 순서 그룹별로 첫 번째 시점과 두 번째 시점에서 얻은 반응값 PEFR 의 분포를 상자그림으로 그려보자
+
+```{r}
+# compare the distribution of PEFR at each period by group using boxplot
+cross_df_long %>% 
+  ggplot(aes(x = period, y = PEFR, fill = treat)) +
+  geom_boxplot() +
+  facet_wrap(~group)
+```
+
+
+다음으로 교차실험에 대한 분석을 수행하자. 먼저 이월효과가 통계적으로 유의한자에 대한 t-검정을 실시하자. @eq-crossover-sum 와 같이 각 환자의 두 반응값에 대한 합을 구하고 순서 그룹별로 이월효과에 대한 차이를 비교하는 t-검정을 수행하자. 다음 R 코드는 환자의 두 반응값에 대한 합 `t` 을 계산한 후 순서 그룹 `group` 간에 `t` 의 평균이 차이가 있는지 @eq-crossover-carry1 에 나타난 t-검정을 수행한다.
+
+```{r}
+cross_df <- cross_df %>% 
+  dplyr::mutate(t = resp1 + resp2)
+
+head(cross_df)
+
+cross_df %>% 
+  group_by(group) %>% 
+  summarise(n=n(), mean_t = mean(t), var_t = var(t))
+
+t.test(t ~ group, var.equal = TRUE, data = cross_df)
+```
+
+위의 결과를 보면 p-값이 $0.3472$ 이므로 이월효과가 통계적으로 유의하지 않다고 판단할 수 있다. 따라서 이월효과가 없다고 가정하고 처리 효과에 대한 t-검정을 수행할 수 있다.
+
+이제 @eq-crossover-diff1 와 같이 각 환자의 두 반응값에 대한 차이를 구하고 순서 그룹별로 처리 효과에 대한 차이를 비교하는 t-검정을 수행하자. 다음 R 코드는 환자의 두 반응값에 대한 차이 `d` 을 계산한 후 순서 그룹 `group` 간에 `d` 의 평균이 차이가 있는지  t-검정을 수행한다.
+
+```{r}
+cross_df <- cross_df %>% 
+  dplyr::mutate(d = (resp1 - resp2)/2)
+head(cross_df)
+
+cross_df %>% 
+  group_by(group) %>% 
+  summarise(n=n(), mean_d = mean(d), var_d = var(d))
+
+
+t.test(d ~ group, var.equal = TRUE, data = cross_df)
+```
+
+위의 결과를 보면    p-값이 `0.0036`  이므로 메타콜린(A) 과 위약(B)의 처리 효과가 유의한 차이가 있다는 결론을 내릴 수있다.
+
+메타콜린(A) 와 위약(B)의 처리 효과의 차이는 다음과 같으므로 
+
+$$ f_A - f_B \approx \bar d_1 -\bar d_2 = 3.32 -(-7.08) = 10.4 $$ 
+
+메타콜린(A) 을 복용한 환자들이 위약(B)을 복용한 환자들보다 평균 PEFR 값이 10.4 더 높다고 해석할 수 있다.
+
+### 생물학적 동등성 실험 
+
+예제에 사용된 자료는 @chow1999design 3장에서 제시된 예제를 사용하였다.
+
+생물학적 동등성 실험(bioequivalence study)은 두 개의 약물이 동등한 생물학적 효과를 가지는지를 평가하기 위한 실험이다. 건강한 24 명의 지원자에 대한 각 처리순서에 임의로 12명을 배정하는  $2\times 2$ 교차실험을 통해 두 개의 약물을 비교하였다. 
+비교하는 약물은 5개의 50-mg 얄약 형태(test, `T`) 와 5mL 액체 형태(reference, `R`) 이다.
+반응값은 약을 복용한 후 32시간 동안의 혈장약물 농도에 대한 AUC(Area Under the Curve) 값이다.
+
+| Sequence | P1  | P2  |
+|-----------------|-----------|-----------|
+| 1 | `R` | `T` |
+| 2 | `T` | `R` |
+: 생물학적 동등성 실험의  처리 배정
+
+아래 데이터프레임 `equiv_df` 는 실험에 참가한 지원자들의 데이터를 나타낸다. 다음은 각 변수에 대한 설명이다.
+
+- `Sequence`: 치료 순서(RT = 1,  TR = 2)
+- `patno` : 환자 번호
+- `P1` : 첫 번째 시점에서의 AUC
+- `P2` : 두 번째 시점에서의 AUC
+
+```{r}
+equv_df <- read.csv(here::here("data","chow-liu-data.csv"), sep="", header=TRUE) 
+
+head(equv_df)
+```
+
+먼저 자료에 대한 기술통계량을 살펴보자.
+
+```{r}
+equv_df %>% 
+  group_by(Sequence) %>% 
+  summarise(n=n(), mean_P1 = mean(P1), var_P1 = var(P1), 
+            mean_P2 = mean(P2), var_P2 = var(P2))
+```
+
+다음으로 자료에 대한 그림을 통한 시각적 분석을 위하여자료를 긴 형태(long format)로 변환하자. `pivot_longer` 함수를 사용하여 시점을 나타내는 변수 `period` 와 처리를  나타나는 변수 `treat` 를 생성하고  데이터를 긴 형태로 변환하자.
+
+```{r}
+# make long format data buy creating a period variable 
+equv_df_long <- equv_df %>% 
+  dplyr::select(Sequence, patno,  P1, P2) %>%
+  pivot_longer(cols = c(P1, P2), names_to = "period", values_to = "AUC") %>%
+  mutate(treat = case_when(Sequence == 1 & period == "P1"  ~ "R", 
+                           Sequence == 1 & period == "P2"  ~ "T",
+                           Sequence == 2 & period == "P1"  ~ "T",
+                           Sequence == 2 & period == "P2"  ~ "R"))
+
+head(equv_df_long)
+```
+
+처리 순서 그룹별로 지원지의 첫 번째 시점과 두 번째 시점에서 얻은 AUC 의 값을 나타내는  프로파일 그림(profile plot)으로 그려보자
+
+```{r}
+#profile plot for each patient in each Sequence
+equv_df_long %>% 
+  ggplot(aes(x = period, y = AUC, group=patno,  color = factor(patno))) +
+  geom_line() +
+  facet_wrap(~Sequence) 
+```
+
+다음으로 처리 순서 그룹별로 첫 번째 시점과 두 번째 시점에서 얻은 반응값 AUC 의 분포를 상자그림으로 그려보자
+
+```{r}
+# compare the distribution of PEFR at each period by Sequence using boxplot
+equv_df_long %>% 
+  ggplot(aes(x = period, y = AUC, fill = treat)) +
+  geom_boxplot() +
+  facet_wrap(~Sequence)
+```
+
+
+평균적 생물학적동등성에 대한 가설을 고려해보자. 시험약(`T`)과 대조약(`R`)간의 반응값의 평균의 차이를 
+$\delta$ 라고 하자.
+
+
+$$
+\delta=\mu_T-\mu_R
+$$
+
+평균적 생물학적 동등성에 대한 가설은 다음과 같다. 
+
+$$ 
+H_0: \delta \le \delta_L ~~~or~~~ \delta \ge \delta_U   \quad vs. \quad H_1: \delta_L < \delta < \delta_U 
+$$ {#eq-crossover-equiv-hypo}
+
+
+위의 생물학적 동등성에 대한 가설에서 동등성 한계(bioequivalence limit) 인 $\delta_L$ 과 $\delta_U$ 는 다음과 같이 주어진다.
+
+$$ \delta_L= - 16.51 \quad \text{and} \quad \delta_U= 16.51 $$
+
+
+이제 @eq-crossover-diff1 에 나타난 통계량을 이용하여 각 환자의 두 반응값에 대한 차이를 구하고 순서 그룹별로 처리 효과에 대한 차이에 대한 $90\%$-신뢰구간을 구해보자.  
+
+::: {.callout-caution}
+
+#### 유의할 점
+
+1.  생물학적 동등성을 보이기 위한 기준은 $95\%$ 가 아닌 $90\%$-신뢰구간이 $\delta_L$ 과 $\delta_U$ 사이에 포함되어야 한다.
+
+2. 처리 순서에 배정된 처리 순서 그룹(`Sequence`)에서 첫 번째 순서에서는  `R->T` 이고  두 번째 순서에서 `T->R` 이다.  
+따라서 가설 @eq-crossover-equiv-hypo 를 위한 두 반응값에 대한 차이 $d_{ik}$ 는 다음과 같이 계산할 수 있다.
+
+$$ d_{ik} = \frac{1}{2}(y_{i2k} - y_{i1k}) =  \frac{1}{2}({\tt P2} - {\tt P1}), \quad \text{ for } k=1,2$$
+:::
+
+다음 R 코드는 환자의 두 반응값에 대한 차이 `d` 을 계산한 후  평균의 차이에 대한 $90\%$-신뢰구간을 구한다.
+
+```{r}
+equv_df <- equv_df %>% 
+  dplyr::mutate(d = (P2 - P1)/2)
+head(equv_df)
+
+equv_df %>% 
+  group_by(Sequence) %>% 
+  summarise(n=n(), mean_d = mean(d), var_d = var(d))
+
+
+res <- t.test(d ~ Sequence, var.equal = TRUE, conf.level = 0.9, data = equv_df)
+res$conf.int
+```
+
+위의 결과를 보면 평균의 차이에 대한 $90\%$-신뢰구간은   $(-8.698  4.123)$ 으로 $\delta_L$ 과 $\delta_U$ 사이에 포함되므로 두 약물의 생물학적 동등성을 보인다고 결론을 내릴 수 있다.
+
+$$(-8.698,~~  4.123) \subset (-16.51,~~ 16.51)$$
+참고로 위에서 구한 $90\%$-신뢰구간을 기초 통계량으로 유도해보자.
+
+$$
+\begin{aligned}
+ &  (\bar d_1 - \bar d_2) \pm t(0.05,22){\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+ & = (-2.01 - 0.278) \pm (1.7171) {\sqrt{(83.6)\left ( \frac{1}{12} + \frac{1}{12} \right )}} \\
+ & = -2.288 \pm 6.419 \\
+ & = (-8.698,~~  4.123)
+\end{aligned}
+$$
+
+위에서
+$$
+\hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+= \frac{1}{12+12-2} [ (11)(41.2) + (11)(126.)] = 83.6
+$$
