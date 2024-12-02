@@ -396,6 +396,12 @@ window.Quarto = {
   <li><a href="#이월-효과에-대한-검정" id="toc-이월-효과에-대한-검정" class="nav-link" data-scroll-target="#이월-효과에-대한-검정"><span class="header-section-number">14.4.1</span> 이월 효과에 대한 검정</a></li>
   <li><a href="#처리-효과에-대한-검정" id="toc-처리-효과에-대한-검정" class="nav-link" data-scroll-target="#처리-효과에-대한-검정"><span class="header-section-number">14.4.2</span> 처리 효과에 대한 검정</a></li>
   </ul></li>
+  <li><a href="#교차실험-예제" id="toc-교차실험-예제" class="nav-link" data-scroll-target="#교차실험-예제"><span class="header-section-number">14.5</span> 교차실험 예제</a>
+  <ul class="collapse">
+  <li><a href="#간단한-예제" id="toc-간단한-예제" class="nav-link" data-scroll-target="#간단한-예제"><span class="header-section-number">14.5.1</span> 간단한 예제</a></li>
+  <li><a href="#폐질환-환자의-교차실험" id="toc-폐질환-환자의-교차실험" class="nav-link" data-scroll-target="#폐질환-환자의-교차실험"><span class="header-section-number">14.5.2</span> 폐질환 환자의 교차실험</a></li>
+  <li><a href="#생물학적-동등성-실험" id="toc-생물학적-동등성-실험" class="nav-link" data-scroll-target="#생물학적-동등성-실험"><span class="header-section-number">14.5.3</span> 생물학적 동등성 실험</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -457,10 +463,10 @@ window.Quarto = {
 <section id="교차실험의-모형" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="교차실험의-모형"><span class="header-section-number">14.3</span> 교차실험의 모형</h2>
 <p>교차실험의 통계적 분석에 대한 자세한 내용은 <span class="citation" data-cites="chow1999design">Chow 와/과 Liu (<a href="../references.html#ref-chow1999design" role="doc-biblioref">1999</a>)</span> 또는 <span class="citation" data-cites="jones2003design">Jones 와/과 Kenward (<a href="../references.html#ref-jones2003design" role="doc-biblioref">2003</a>)</span> 을 참고하자.</p>
-<p>먼저, 두 개의 처리 <code>T</code> (TEST) 와 <code>R</code> (REFERENCE) 를 비교하는 실험이라고 가정하자. 또한 각 처리 순서(sequence)에 각각 <span class="math inline">\(n\)</span> 명의 피험자가 할당되었다고 가정하자.</p>
+<p>먼저, 두 개의 처리 <code>T</code> (TEST) 와 <code>R</code> (REFERENCE) 를 비교하는 실험이라고 가정하자. 또한 각 처리 순서(sequence)에 각각 <span class="math inline">\(n_1\)</span> 과 <span class="math inline">\(n_i\)</span> 명의 피험자가 할당되었다고 가정하자.</p>
 <p><span class="math inline">\(2 \times 2\)</span> 교차실험의 일반적인 통계적 모형은 다음과 같이 나타낼 수 있다.</p>
 <p><span id="eq-crossover-model1"><span class="math display">\[
-y_{i j k}= \mu+S_{ik}+p_{j}+f_{(j, k)}+c_{(j-1, k)}+e_{i j k}, \quad i=1, \ldots, n, ~~ j=1,2, ~~ k=1,2
+y_{i j k}= \mu+S_{ik}+p_{j}+f_{(j, k)}+c_{(j-1, k)}+e_{i j k}, \quad i=1, \ldots, n_i, ~~ j=1,2, ~~ k=1,2
 \tag{14.1}\]</span></span></p>
 <p>위의 <a href="#eq-crossover-model1" class="quarto-xref"><span>14.1</span></a> 식에서 주어진 각 항들의 의미는 다음과 같다.</p>
 <section id="반응값" class="level4">
@@ -637,11 +643,11 @@ c_{(j-1, k)}= \begin{cases}c_{T} &amp; \text { if } j=2, k=1 \\ c_{R} &amp; \tex
 <p>따라서 이월 효과를 먼저 추정하고 이월효과가 유의하지 않은 경우 처리 효과를 비교하는 것이 일반적인 절차이다.</p>
 <p>이월 효과를 추정하디 위하여 다음과 같은 방법을 고려할 수 있다.</p>
 <p>먼저 각 순서에 대하여 환자의 두 반응값들의 합 <span class="math inline">\(t_{ik}\)</span></p>
-<p><span class="math display">\[
-t_{ik} = y_{i1k} + y_{i2k} , \quad k=1,2
-\]</span></p>
-<p>를 고려하면 모형 <a href="#eq-crossover-model1" class="quarto-xref"><span>14.1</span></a> 에서 다음과 같이 나타낼 수 있다.</p>
 <p><span id="eq-crossover-sum"><span class="math display">\[
+t_{ik} = y_{i1k} + y_{i2k} , \quad k=1,2
+\tag{14.2}\]</span></span></p>
+<p>를 고려하면 모형 <a href="#eq-crossover-model1" class="quarto-xref"><span>14.1</span></a> 에서 다음과 같이 나타낼 수 있다.</p>
+<p><span id="eq-crossover-sum2"><span class="math display">\[
 \begin{aligned}
 t_{i1} &amp;= y_{i11} + y_{i21} \\
 &amp; = (\mu + S_{i1} + p_1 + f_T + 0 + e_{i11}) + (\mu + S_{i1} + p_2 + f_R + c_T + e_{i21}) \\
@@ -654,11 +660,11 @@ t_{i2} &amp;= y_{i12} + y_{i22} \\
 &amp;= 2\mu + p_1 + p_2 + f_R + f_T + c_R + (2S_{i2} + e_{i12} + e_{i22}) \\
 &amp;= 2\mu + p_1 + p_2 + f_R + f_T + c_R + e'_{i2} \\
 \end{aligned}
-\tag{14.2}\]</span></span></p>
+\tag{14.3}\]</span></span></p>
 <p>위의 식에서 <span class="math inline">\(e'_{i1}\)</span> 와 <span class="math inline">\(e'_{i2}\)</span> 는 각각 오차항들과 개인효과의 조합으로 나타난 새로운 오차항으로 볼 수 있다.</p>
 <p>이제 <span class="math inline">\(t_{i1}\)</span> 와 <span class="math inline">\(t_{i2}\)</span> 의 각각의 평균 <span class="math inline">\(\bar t_1\)</span> 과 <span class="math inline">\(\bar t_2\)</span> 을 구하고, 두 평균의 차이를 <span class="math inline">\(\bar t\)</span> 라고 하자.</p>
 <p><span class="math display">\[
-\bar t = \bar t_1 - \bar t_2 \quad \text{ where } ~~\bar t_1 = \frac{1}{n} \sum_{i=1}^n t_{i1} ~~\text{ and }~~ \bar t_2 = \frac{1}{n} \sum_{i=1}^n t_{i2}
+\bar t = \bar t_1 - \bar t_2 \quad \text{ where } ~~\bar t_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} t_{i1} ~~\text{ and }~~ \bar t_2 = \frac{1}{n_2} \sum_{i=1}^{n_2} t_{i2}
 \]</span> 위의 통계량 <span class="math inline">\(\bar t\)</span> 의 기대값을 구해보면 <a href="#eq-crossover-sum" class="quarto-xref"><span>14.2</span></a> 식을 이용하여 다음과 같이 나타낼 수 있다.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -671,9 +677,10 @@ E(\bar t) &amp; = E(\bar t_1) - E(\bar t_2) \\
 H_0: c_T - c_R = 0 \quad \text{ vs. } \quad H_1: c_T - c_R \ne 0
 \]</span></p>
 <p><span class="math inline">\(\bar t\)</span> 이용한 t-검정을 실시할 수 있다. 이월 효과에 대한 t-검정에서 사용할 통계량은 다음과 같다.</p>
-<p><span class="math display">\[
-t = \frac{\bar t}{\hat \sigma^2_t} \quad \text{ where } ~~ \hat \sigma^2_t = \sqrt{\frac{1}{n+n-2} \sum_{k=1}^2 \sum_{i=1}^n (t_{ik} - \bar t_k)^2}
-\]</span> 위에서 구한 검정통계량 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n+n-2, \alpha/2}\)</span> 보다 크면 이월 효과가 유의하다고 판단할 수 있다. 반대로 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n+n-2, \alpha/2}\)</span> 보다 작으면 이월 효과가 유의하지 않다고 판단할 수 있으며 이 경우 처리 효과를 비교하는 것이 가능하다.</p>
+<p><span id="eq-crossover-carry1"><span class="math display">\[
+t = \frac{\bar t_1 -\bar t_2}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \quad \text{ where } ~~ \hat \sigma^2_t = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (t_{ik} - \bar t_k)^2
+\tag{14.4}\]</span></span></p>
+<p>위에서 구한 검정통계량 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n_1 + n_2 -2, \alpha/2}\)</span> 보다 크면 이월 효과가 유의하다고 판단할 수 있다. 반대로 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n_1 + n_2 -2, \alpha/2}\)</span> 보다 작으면 이월 효과가 유의하지 않다고 판단할 수 있으며 이 경우 처리 효과를 비교하는 것이 가능하다.</p>
 <p>다만 유의할 점은 이월 효과가 통계적 유의하지 않다고 판단되더라도 이월효과가 존재하지 않는다는 강력한 증거는 아니다. 따라서 이월 효과가 나타나지 않도록 하기 위하여 충분한 세척기간을 두어야 한다.</p>
 </section>
 <section id="처리-효과에-대한-검정" class="level3" data-number="14.4.2">
@@ -682,9 +689,9 @@ t = \frac{\bar t}{\hat \sigma^2_t} \quad \text{ where } ~~ \hat \sigma^2_t = \sq
 <p>처리 효과 <span class="math inline">\(f_{T}\)</span> 와 <span class="math inline">\(f_{R}\)</span> 를 비교하는 경우 이월효과가 없다고 가정한다. 즉</p>
 <p><span class="math display">\[ c_T = c_R = 0 \]</span></p>
 <p>먼저 두 처리 효과의 차이 <span class="math inline">\(\delta = f_{T}-f_{R}\)</span> 를 반영하는 각 개인에 대한 반응값의 차이를 다음과 같이 나타낼 수 있다.</p>
-<p><span class="math display">\[
+<p><span id="eq-crossover-diff"><span class="math display">\[
 d_{ik} = \frac{y_{i1k} - y_{i2k}}{2}, \quad k=1,2
-\]</span></p>
+\tag{14.5}\]</span></span></p>
 <p>모형 <a href="#eq-crossover-model1" class="quarto-xref"><span>14.1</span></a> 에서 <span class="math inline">\(d_{ik}\)</span> 는 각 순서(<span class="math inline">\(k=1,2\)</span>)에 대해서 다음과 같이 나타낼 수 있다.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -700,7 +707,7 @@ d_{i2} &amp;= \frac{y_{i12} - y_{i22}}{2} \\
 \]</span></p>
 <p>이제 각 순서에 대하여 반응값의 차이 <span class="math inline">\(d_{ik}\)</span> 의 평균 <span class="math inline">\(\bar d_1\)</span> 과 <span class="math inline">\(\bar d_2\)</span> 을 구하고, 두 평균의 차이를 <span class="math inline">\(\bar d\)</span> 라고 하자.</p>
 <p><span class="math display">\[
-\bar d = \bar d_1 - \bar d_2 \quad \text{ where } ~~\bar d_1 = \frac{1}{n} \sum_{i=1}^n d_{i1} ~~\text{ and }~~ \bar d_2 = \frac{1}{n} \sum_{i=1}^n d_{i2}
+\bar d = \bar d_1 - \bar d_2 \quad \text{ where } ~~\bar d_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} d_{i1} ~~\text{ and }~~ \bar d_2 = \frac{1}{n_2} \sum_{i=1}^{n_2} d_{i2}
 \]</span></p>
 <p>위의 통계량 <span class="math inline">\(\bar d\)</span> 의 기대값을 구해보면 <a href="#eq-crossover-sum" class="quarto-xref"><span>14.2</span></a> 식을 이용하여 다음과 같이 나타낼 수 있다.</p>
 <p><span class="math display">\[
@@ -714,10 +721,569 @@ E(\bar d) &amp; = E(\bar d_1) - E(\bar d_2) \\
 H_0: f_T - f_R = 0 \quad \text{ vs. } \quad H_1: f_T - f_R \ne 0
 \]</span></p>
 <p><span class="math inline">\(\bar d\)</span> 이용한 t-검정을 실시할 수 있다. 처리 효과에 대한 t-검정에서 사용할 통계량은 다음과 같다.</p>
+<p><span id="eq-crossover-diff1"><span class="math display">\[
+t = \frac{\bar d_1 -\bar d_2}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \quad \text{ where } ~~ \hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+\tag{14.6}\]</span></span></p>
+<p>위에서 구한 검정통계량 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n_1 + n_2 -2, \alpha/2}\)</span> 보다 크면 두 처리 효과에 유의한 차이를 있다고 판단할 수 있다.</p>
+</section>
+</section>
+<section id="교차실험-예제" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="교차실험-예제"><span class="header-section-number">14.5</span> 교차실험 예제</h2>
+<section id="간단한-예제" class="level3" data-number="14.5.1">
+<h3 data-number="14.5.1" class="anchored" data-anchor-id="간단한-예제"><span class="header-section-number">14.5.1</span> 간단한 예제</h3>
+<p>다음은 간단한 교차실험의 예제이다.</p>
+<p>다음 자료는 첫 번째 처리 순서(<code>S1</code>)에 배정된 5명의 환자는 첫 번쨰 시점(<code>P1</code>)에서 <code>A</code> 처리를 받고 두 번째 시점(<code>P2</code>)에서 <code>B</code> 처리를 받았다. 두 번째 처리 순서(<code>S2</code>)에 배정된 5명의 환자는 첫 번쨰 시점(<code>P1</code>)에서 <code>B</code> 처리를 받고 두 번째 시점(<code>P2</code>)에서 <code>A</code> 처리를 받았다.</p>
+<table class="caption-top table">
+<caption>예제 자료의 처리 배정</caption>
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>P1</th>
+<th>P2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S1</td>
+<td><code>A</code></td>
+<td><code>B</code></td>
+</tr>
+<tr class="even">
+<td>S2</td>
+<td><code>B</code></td>
+<td><code>A</code></td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_ex1  </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Subject Group P1 P2
+1        1    S1  9  9
+2        2    S1 10  7
+3        3    S1 13 10
+4        4    S1 10 10
+5        5    S1 10 10
+6        6    S2 12 12
+7        7    S2  9 17
+8        8    S2  4 15
+9        9    S2  9 13
+10      10    S2  7 18</code></pre>
+</div>
+</div>
+<p>이제 <a href="#eq-crossover-sum" class="quarto-xref"><span>14.2</span></a> 과 <a href="#eq-crossover-diff" class="quarto-xref"><span>14.5</span></a> 에 제시된 이월효과에 대한 검정에 필요한 반응값의 합 <span class="math inline">\(t_{ik}\)</span> 과 반응값의 차이 <span class="math inline">\(d_{ik}\)</span> 를 계산하여 데이터프레임에 포함시키지.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_ex1 <span class="ot">&lt;-</span> df_ex1 <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">t =</span> P1 <span class="sc">+</span> P2, <span class="at">d =</span> (P1 <span class="sc">-</span> P2)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_ex1</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Subject Group P1 P2  t    d
+1        1    S1  9  9 18  0.0
+2        2    S1 10  7 17  1.5
+3        3    S1 13 10 23  1.5
+4        4    S1 10 10 20  0.0
+5        5    S1 10 10 20  0.0
+6        6    S2 12 12 24  0.0
+7        7    S2  9 17 26 -4.0
+8        8    S2  4 15 19 -5.5
+9        9    S2  9 13 22 -2.0
+10      10    S2  7 18 25 -5.5</code></pre>
+</div>
+</div>
+<p>다음으로 반응값의 합 <span class="math inline">\(t_{ik}\)</span> 과 반응값의 차이 <span class="math inline">\(d_{ik}\)</span> 에 대한 기술통계량을 살펴보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_ex1 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Group) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_t =</span> <span class="fu">mean</span>(t), <span class="at">var_t =</span> <span class="fu">var</span>(t), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_d =</span> <span class="fu">mean</span>(d), <span class="at">var_d =</span> <span class="fu">var</span>(d))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  Group     n mean_t var_t mean_d var_d
+  &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 S1        5   19.6   5.3    0.6 0.675
+2 S2        5   23.2   7.7   -3.4 5.68 </code></pre>
+</div>
+</div>
+<p>위의 기술 통계량은 다음과 같이 계산할 수 있다.</p>
 <p><span class="math display">\[
-t = \frac{\bar d}{\hat \sigma^2_d} \quad \text{ where } ~~ \hat \sigma^2_t = \sqrt{\frac{1}{n+n-2} \sum_{k=1}^2 \sum_{i=1}^n (d_{ik} - \bar d_k)^2}
+\begin{aligned}
+\bar t_1 &amp; = \frac{18+17+23+20+20}{5} = 19.6 \\
+\bar t_2 &amp; = \frac{24+26+19+22+25}{5} = 23.2 \\
+s^2_{t1} &amp; =  \frac{ (18-19.6)^2 + (17-19.6)^2 + (23-19.6)^2 + (20-19.6)^2 + (20-19.6)^2}{4} = 5.3 \\
+s^2_{t2} &amp; =  \frac{ (24-23.2)^2 + (26-23.2)^2 + (19-23.2)^2 + (22-23.2)^2 + (25-23.2)^2}{4} = 7.7 \\
+\end{aligned}
 \]</span></p>
-<p>위에서 구한 검정통계량 <span class="math inline">\(t\)</span> 값이 <span class="math inline">\(t_{n+n-2, \alpha/2}\)</span> 보다 크면 두 처리 효과에 유의한 차이를 있다고 판단할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar d_1 &amp; = \frac{1}{5} (0 + 1.5 + 1.5 + 0 + 0) = 0.6 \\
+\bar d_2 &amp; = \frac{1}{5} (0 + (-4) + (-5.5) + (-2) + (-5.5)) = -3.4 \\
+s^2_{d1} &amp; =  \frac{ (0-0.6)^2 + (1.5-0.6)^2 + (1.5-0.6)^2 + (0-0.6)^2 + (0-0.6)^2}{4} = 0.675 \\
+s^2_{d2} &amp; =  \frac{ (0+5.3)^2 + (-4+5.3)^2 + (-5.5+5.3)^2 + (-2+5.3)^2 + (-5.5+5.3)^2}{4} = 5.675 \\
+\end{aligned}
+\]</span></p>
+<p>먼저 이월효과의 유무에 대한 가설 검정을 위하여 제시된 <a href="#eq-crossover-carry1" class="quarto-xref"><span>14.4</span></a> 에서 검정 통계량은 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+t &amp; = \frac{\bar t}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+&amp; = \frac{\bar t_1 - \bar t_2}{\sqrt{\hat \sigma^2_t \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+&amp; = \frac{19.6-23.2}{\sqrt{ (6.5) \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+&amp; = -2.23
+\end{aligned}
+\]</span> 위에서</p>
+<p><span class="math display">\[
+\hat \sigma^2_t = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (t_{ik} - \bar t_k)^2
+= \frac{1}{5+5-2} [ (4)(5.3) + (4)(7.7)] = 6.5
+\]</span></p>
+<p>따라서 t-통계량의 절대값 <span class="math inline">\(|t| = 2.23\)</span> 이 <span class="math inline">\(t_{8, 0.025} = 2.306\)</span> 보다 작으므로 이월효과가 유의하지 않다고 판단할 수 있다.</p>
+<p>위의 결과는 다음과 같이 R 의 함수 <code>t.test</code> 를 사용하여 얻을 수 있다. 이월효과 검정에 대한 p-값은 <span class="math inline">\(p=0.05607\)</span> 이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(t <span class="sc">~</span> group, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> df_ex1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  t by group
+t = -2.2326, df = 8, p-value = 0.05607
+alternative hypothesis: true difference in means between group S1 and group S2 is not equal to 0
+95 percent confidence interval:
+ -7.3183199  0.1183199
+sample estimates:
+mean in group S1 mean in group S2 
+            19.6             23.2 </code></pre>
+</div>
+</div>
+<p>이제 처리 A 와 B 의 효과 차이에 대한 검정을 실시해보자. 첫 번째 처리 순서에는 <code>A-&gt;B</code>, 두 번째 처리 순서에서는 <code>B-&gt;A</code> 의 순서로 실험을 수행하여으므로 위의 기초통계량에서 <span class="math inline">\(\bar d = \bar d_1 - \bar d_2\)</span> 은 <code>A</code> 처리 효과 <span class="math inline">\(f_A\)</span> 와 <code>B</code> 처리의 차이 효과 <span class="math inline">\(f_B\)</span> 의 차이를 나타낸다.</p>
+<p><span class="math display">\[ f_A - f_B \approx \bar d_1 -\bar d_2 = 0.6 - (-3.4) = 4 \]</span></p>
+<p>처리 효과에 대한 가설검정을 위하여 제시된 <a href="#eq-crossover-diff1" class="quarto-xref"><span>14.6</span></a> 에서 검정 통계량은 다음과 같이 계산할 수 있다.</p>
+<p><span class="math display">\[
+\begin{aligned}
+t &amp; = \frac{\bar d}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+&amp; = \frac{\bar d_1 - \bar d_2}{\sqrt{\hat \sigma^2_d \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+&amp; = \frac{0.6 - (-3.4)}{\sqrt{ (3.175) \left ( \frac{1}{5} + \frac{1}{5} \right )}} \\
+&amp; = 3.55
+\end{aligned}
+\]</span></p>
+<p>위에서 <span class="math display">\[
+\hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+= \frac{1}{5+5-2} [ (4)(0.675) + (4)(5.675)] = 3.175
+\]</span></p>
+<p>따라서 t-통계량의 절대값 <span class="math inline">\(|t| = 3.55\)</span> 이 <span class="math inline">\(t_{8, 0.025} = 2.306\)</span> 보다 크므로 처리 효과가 유의하다고 판단할 수 있다.</p>
+<p>위의 결과는 다음과 같이 R 의 함수 <code>t.test</code> 를 사용하여 얻을 수 있다. 처리효과 검정에 대한 p-값은 <span class="math inline">\(p=0.007516\)</span> 이다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d <span class="sc">~</span> group, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> df_ex1)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  d by group
+t = 3.5494, df = 8, p-value = 0.007516
+alternative hypothesis: true difference in means between group S1 and group S2 is not equal to 0
+95 percent confidence interval:
+ 1.401265 6.598735
+sample estimates:
+mean in group S1 mean in group S2 
+             0.6             -3.4 </code></pre>
+</div>
+</div>
+</section>
+<section id="폐질환-환자의-교차실험" class="level3" data-number="14.5.2">
+<h3 data-number="14.5.2" class="anchored" data-anchor-id="폐질환-환자의-교차실험"><span class="header-section-number">14.5.2</span> 폐질환 환자의 교차실험</h3>
+<p>예제에 사용된 자료는 <span class="citation" data-cites="jones2003design">Jones 와/과 Kenward (<a href="../references.html#ref-jones2003design" role="doc-biblioref">2003</a>)</span> 2장에서 제시된 예제를 사용하였다.</p>
+<p>시용된 데이터는 하나의 병원에서 실험함 자료이며 무작위 배정(randomized), 위약 대조(placebo-controlled), 이중 맹검 연구(double blinded) 실험에서 얻은 데이터이다.</p>
+<p>실험의 목적은 만성 폐쇄성 폐질환(Chronic Obstructive Pulmonary Diseasel; COPD) 환자에 대하여 하루에 두 번 투여하는 흡입 약물(inhaler)인 메타콜린(A)의 효능과 안전성을 평가하기 위한 자료이다.</p>
+<p>실험에 참가할 수 있는 기준(inlcusion criteria)을 충족한 환자는 2주간 병원에 2번을 방문하여 치료 전단계(rin-in period)를 거치는데 다양한 알레지 반응에 대한 시험을 받고 임상 시험에 참가할 수 있는지 검사한다.</p>
+<p>임상시험에 참가할 수 있는 자격이 되는 환자는 병원을 방문하여 메타콜린(A) 또는 그에 상응하는 위약(B) 중 하나를 무작위로 배정하고 4주 동안 약물을 투여하는 치료를 받는다(첫 번쨰 시점; period 1). 4주 치료가 끝난 환자들은 다시 4주 동안 다른 약물로 치료를 받는다(두 번째 시점; period 2).</p>
+<table class="caption-top table">
+<caption>폐질환 환자의 교차실험의 처리 배정</caption>
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>resp1</th>
+<th>resp2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>A</code></td>
+<td><code>B</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>B</code></td>
+<td><code>A</code></td>
+</tr>
+</tbody>
+</table>
+<p>주요 반응 변수(primary efficacy variable or primary reponse variable)은 아침에 측정한 최고날숨속도(Peak Expiratory Flow Rate; PEFR)이며 매일 아침에 일어나서, 약을 복용하기 전, 취침 시간에 3번 측정한다.</p>
+<p>연구에 모집된 총 77명의 환자 중 66명이 무작위로 치료에 배정되었다. 각 치료 순서(sequence; AB 그룹 또는 BA 그룹)당 33명을 배정하였다. 최종적으로 56명의 환자(AB 그룹 27명, BA 그룹 29명)의 평균 아침 PEFR에 대한 데이터를 얻었다.</p>
+<p>아래 데이터프레임 <code>cross_df</code> 는 실험에 참가한 환자들의 데이터를 나타낸다. 다음은 각 변수에 대한 설명이다.</p>
+<ul>
+<li><code>group</code>: 치료 순서(AB = 1, BA = 2)</li>
+<li><code>subject</code>: 각 그룹에서 환자의 순서</li>
+<li><code>patno</code> : 환자 번호</li>
+<li><code>resp1</code> : 첫 번째 시점에서의 PEFR</li>
+<li><code>resp2</code> : 두 번째 시점에서의 PEFR</li>
+<li><code>base</code> : 치료 전 PEFR</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"jones-kenward-data-1.csv"</span>), <span class="at">sep=</span><span class="st">""</span>, <span class="at">header=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>base.)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cross_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group subject patno   resp1   resp2
+1     1       1     7 121.905 116.667
+2     1       2     8 218.500 200.500
+3     1       3     9 235.000 217.143
+4     1       4    13 250.000 196.429
+5     1       5    14 186.190 185.500
+6     1       6    15 231.563 221.842</code></pre>
+</div>
+</div>
+<p>먼저 자료에 대한 기술통계량을 살펴보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_resp1 =</span> <span class="fu">mean</span>(resp1), <span class="at">var_resp1 =</span> <span class="fu">var</span>(resp1), </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_resp2 =</span> <span class="fu">mean</span>(resp2), <span class="at">var_resp2 =</span> <span class="fu">var</span>(resp2))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  group     n mean_resp1 var_resp1 mean_resp2 var_resp2
+  &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+1     1    27       246.     6852.       239.     6674.
+2     2    29       216.     5275.       230.     5467.</code></pre>
+</div>
+</div>
+<p>다음으로 자료에 대한 그림을 통한 시각적 분석을 위하여자료를 긴 형태(long format)로 변환하자. <code>pivot_longer</code> 함수를 사용하여 시점을 나타내는 변수 <code>period</code> 와 처리를 나타나는 변수 <code>treat</code> 를 생성하고 데이터를 긴 형태로 변환하자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make long format data buy creating a period variable </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cross_df_long <span class="ot">&lt;-</span> cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(group, patno,  resp1, resp2) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(resp1, resp2), <span class="at">names_to =</span> <span class="st">"period"</span>, <span class="at">values_to =</span> <span class="st">"PEFR"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">case_when</span>(group <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"resp1"</span>  <span class="sc">~</span> <span class="st">"A"</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                           group <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"resp2"</span>  <span class="sc">~</span> <span class="st">"B"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                           group <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"resp1"</span>  <span class="sc">~</span> <span class="st">"B"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                           group <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"resp2"</span>  <span class="sc">~</span> <span class="st">"A"</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cross_df_long)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  group patno period  PEFR treat
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
+1     1     7 resp1   122. A    
+2     1     7 resp2   117. B    
+3     1     8 resp1   218. A    
+4     1     8 resp2   200. B    
+5     1     9 resp1   235  A    
+6     1     9 resp2   217. B    </code></pre>
+</div>
+</div>
+<p>처리 순서 그룹별로 환자의 첫 번째 시점과 두 번째 시점에서 얻은 PEFR 의 값을 나타내는 프로파일 그림(profile plot)으로 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#profile plot for each patient in each group</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cross_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> PEFR, <span class="at">group=</span>patno,  <span class="at">color =</span> <span class="fu">factor</span>(patno))) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group) </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="crossover_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음으로 처리 순서 그룹별로 첫 번째 시점과 두 번째 시점에서 얻은 반응값 PEFR 의 분포를 상자그림으로 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the distribution of PEFR at each period by group using boxplot</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cross_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> PEFR, <span class="at">fill =</span> treat)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="crossover_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음으로 교차실험에 대한 분석을 수행하자. 먼저 이월효과가 통계적으로 유의한자에 대한 t-검정을 실시하자. <a href="#eq-crossover-sum" class="quarto-xref"><span>14.2</span></a> 와 같이 각 환자의 두 반응값에 대한 합을 구하고 순서 그룹별로 이월효과에 대한 차이를 비교하는 t-검정을 수행하자. 다음 R 코드는 환자의 두 반응값에 대한 합 <code>t</code> 을 계산한 후 순서 그룹 <code>group</code> 간에 <code>t</code> 의 평균이 차이가 있는지 <a href="#eq-crossover-carry1" class="quarto-xref"><span>14.4</span></a> 에 나타난 t-검정을 수행한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="ot">&lt;-</span> cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">t =</span> resp1 <span class="sc">+</span> resp2)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cross_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group subject patno   resp1   resp2       t
+1     1       1     7 121.905 116.667 238.572
+2     1       2     8 218.500 200.500 419.000
+3     1       3     9 235.000 217.143 452.143
+4     1       4    13 250.000 196.429 446.429
+5     1       5    14 186.190 185.500 371.690
+6     1       6    15 231.563 221.842 453.405</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_t =</span> <span class="fu">mean</span>(t), <span class="at">var_t =</span> <span class="fu">var</span>(t))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  group     n mean_t  var_t
+  &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1     1    27   485. 26288.
+2     2    29   446. 20937.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(t <span class="sc">~</span> group, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> cross_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  t by group
+t = 0.94831, df = 54, p-value = 0.3472
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -43.32831 121.10522
+sample estimates:
+mean in group 1 mean in group 2 
+       485.0421        446.1536 </code></pre>
+</div>
+</div>
+<p>위의 결과를 보면 p-값이 <span class="math inline">\(0.3472\)</span> 이므로 이월효과가 통계적으로 유의하지 않다고 판단할 수 있다. 따라서 이월효과가 없다고 가정하고 처리 효과에 대한 t-검정을 수행할 수 있다.</p>
+<p>이제 <a href="#eq-crossover-diff1" class="quarto-xref"><span>14.6</span></a> 와 같이 각 환자의 두 반응값에 대한 차이를 구하고 순서 그룹별로 처리 효과에 대한 차이를 비교하는 t-검정을 수행하자. 다음 R 코드는 환자의 두 반응값에 대한 차이 <code>d</code> 을 계산한 후 순서 그룹 <code>group</code> 간에 <code>d</code> 의 평균이 차이가 있는지 t-검정을 수행한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="ot">&lt;-</span> cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">d =</span> (resp1 <span class="sc">-</span> resp2)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cross_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group subject patno   resp1   resp2       t       d
+1     1       1     7 121.905 116.667 238.572  2.6190
+2     1       2     8 218.500 200.500 419.000  9.0000
+3     1       3     9 235.000 217.143 452.143  8.9285
+4     1       4    13 250.000 196.429 446.429 26.7855
+5     1       5    14 186.190 185.500 371.690  0.3450
+6     1       6    15 231.563 221.842 453.405  4.8605</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cross_df <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_d =</span> <span class="fu">mean</span>(d), <span class="at">var_d =</span> <span class="fu">var</span>(d))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  group     n mean_d var_d
+  &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1     1    27   3.32  191.
+2     2    29  -7.08  137.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(d <span class="sc">~</span> group, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> cross_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  d by group
+t = 3.0456, df = 54, p-value = 0.003587
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+  3.554688 17.250478
+sample estimates:
+mean in group 1 mean in group 2 
+       3.317704       -7.084879 </code></pre>
+</div>
+</div>
+<p>위의 결과를 보면 p-값이 <code>0.0036</code> 이므로 메타콜린(A) 과 위약(B)의 처리 효과가 유의한 차이가 있다는 결론을 내릴 수있다.</p>
+<p>메타콜린(A) 와 위약(B)의 처리 효과의 차이는 다음과 같으므로</p>
+<p><span class="math display">\[ f_A - f_B \approx \bar d_1 -\bar d_2 = 3.32 -(-7.08) = 10.4 \]</span></p>
+<p>메타콜린(A) 을 복용한 환자들이 위약(B)을 복용한 환자들보다 평균 PEFR 값이 10.4 더 높다고 해석할 수 있다.</p>
+</section>
+<section id="생물학적-동등성-실험" class="level3" data-number="14.5.3">
+<h3 data-number="14.5.3" class="anchored" data-anchor-id="생물학적-동등성-실험"><span class="header-section-number">14.5.3</span> 생물학적 동등성 실험</h3>
+<p>예제에 사용된 자료는 <span class="citation" data-cites="chow1999design">Chow 와/과 Liu (<a href="../references.html#ref-chow1999design" role="doc-biblioref">1999</a>)</span> 3장에서 제시된 예제를 사용하였다.</p>
+<p>생물학적 동등성 실험(bioequivalence study)은 두 개의 약물이 동등한 생물학적 효과를 가지는지를 평가하기 위한 실험이다. 건강한 24 명의 지원자에 대한 각 처리순서에 임의로 12명을 배정하는 <span class="math inline">\(2\times 2\)</span> 교차실험을 통해 두 개의 약물을 비교하였다. 비교하는 약물은 5개의 50-mg 얄약 형태(test, <code>T</code>) 와 5mL 액체 형태(reference, <code>R</code>) 이다. 반응값은 약을 복용한 후 32시간 동안의 혈장약물 농도에 대한 AUC(Area Under the Curve) 값이다.</p>
+<table class="caption-top table">
+<caption>생물학적 동등성 실험의 처리 배정</caption>
+<thead>
+<tr class="header">
+<th>Sequence</th>
+<th>P1</th>
+<th>P2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>R</code></td>
+<td><code>T</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>T</code></td>
+<td><code>R</code></td>
+</tr>
+</tbody>
+</table>
+<p>아래 데이터프레임 <code>equiv_df</code> 는 실험에 참가한 지원자들의 데이터를 나타낸다. 다음은 각 변수에 대한 설명이다.</p>
+<ul>
+<li><code>Sequence</code>: 치료 순서(RT = 1, TR = 2)</li>
+<li><code>patno</code> : 환자 번호</li>
+<li><code>P1</code> : 첫 번째 시점에서의 AUC</li>
+<li><code>P2</code> : 두 번째 시점에서의 AUC</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>equv_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"chow-liu-data.csv"</span>), <span class="at">sep=</span><span class="st">""</span>, <span class="at">header=</span><span class="cn">TRUE</span>) </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(equv_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sequence patno      P1      P2
+1        1     1  74.675  73.675
+2        1     4  96.400  93.250
+3        1     5 101.950 102.125
+4        1     6  79.050  69.450
+5        1    11  79.050  69.025
+6        1    12  85.950  68.700</code></pre>
+</div>
+</div>
+<p>먼저 자료에 대한 기술통계량을 살펴보자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>equv_df <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sequence) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_P1 =</span> <span class="fu">mean</span>(P1), <span class="at">var_P1 =</span> <span class="fu">var</span>(P1), </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_P2 =</span> <span class="fu">mean</span>(P2), <span class="at">var_P2 =</span> <span class="fu">var</span>(P2))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  Sequence     n mean_P1 var_P1 mean_P2 var_P2
+     &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1        1    12    85.8   246.    81.8   389.
+2        2    12    78.7   539.    79.3   635.</code></pre>
+</div>
+</div>
+<p>다음으로 자료에 대한 그림을 통한 시각적 분석을 위하여자료를 긴 형태(long format)로 변환하자. <code>pivot_longer</code> 함수를 사용하여 시점을 나타내는 변수 <code>period</code> 와 처리를 나타나는 변수 <code>treat</code> 를 생성하고 데이터를 긴 형태로 변환하자.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make long format data buy creating a period variable </span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>equv_df_long <span class="ot">&lt;-</span> equv_df <span class="sc">%&gt;%</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Sequence, patno,  P1, P2) <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(P1, P2), <span class="at">names_to =</span> <span class="st">"period"</span>, <span class="at">values_to =</span> <span class="st">"AUC"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treat =</span> <span class="fu">case_when</span>(Sequence <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"P1"</span>  <span class="sc">~</span> <span class="st">"R"</span>, </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                           Sequence <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"P2"</span>  <span class="sc">~</span> <span class="st">"T"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                           Sequence <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"P1"</span>  <span class="sc">~</span> <span class="st">"T"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                           Sequence <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span> period <span class="sc">==</span> <span class="st">"P2"</span>  <span class="sc">~</span> <span class="st">"R"</span>))</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(equv_df_long)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  Sequence patno period   AUC treat
+     &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
+1        1     1 P1      74.7 R    
+2        1     1 P2      73.7 T    
+3        1     4 P1      96.4 R    
+4        1     4 P2      93.2 T    
+5        1     5 P1     102.  R    
+6        1     5 P2     102.  T    </code></pre>
+</div>
+</div>
+<p>처리 순서 그룹별로 지원지의 첫 번째 시점과 두 번째 시점에서 얻은 AUC 의 값을 나타내는 프로파일 그림(profile plot)으로 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#profile plot for each patient in each Sequence</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>equv_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> AUC, <span class="at">group=</span>patno,  <span class="at">color =</span> <span class="fu">factor</span>(patno))) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Sequence) </span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="crossover_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>다음으로 처리 순서 그룹별로 첫 번째 시점과 두 번째 시점에서 얻은 반응값 AUC 의 분포를 상자그림으로 그려보자</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compare the distribution of PEFR at each period by Sequence using boxplot</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>equv_df_long <span class="sc">%&gt;%</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> period, <span class="at">y =</span> AUC, <span class="at">fill =</span> treat)) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Sequence)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="crossover_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>평균적 생물학적동등성에 대한 가설을 고려해보자. 시험약(<code>T</code>)과 대조약(<code>R</code>)간의 반응값의 평균의 차이를 <span class="math inline">\(\delta\)</span> 라고 하자.</p>
+<p><span class="math display">\[
+\delta=\mu_T-\mu_R
+\]</span></p>
+<p>평균적 생물학적 동등성에 대한 가설은 다음과 같다.</p>
+<p><span id="eq-crossover-equiv-hypo"><span class="math display">\[
+H_0: \delta \le \delta_L ~~~or~~~ \delta \ge \delta_U   \quad vs. \quad H_1: \delta_L &lt; \delta &lt; \delta_U
+\tag{14.7}\]</span></span></p>
+<p>위의 생물학적 동등성에 대한 가설에서 동등성 한계(bioequivalence limit) 인 <span class="math inline">\(\delta_L\)</span> 과 <span class="math inline">\(\delta_U\)</span> 는 다음과 같이 주어진다.</p>
+<p><span class="math display">\[ \delta_L= - 16.51 \quad \text{and} \quad \delta_U= 16.51 \]</span></p>
+<p>이제 <a href="#eq-crossover-diff1" class="quarto-xref"><span>14.6</span></a> 에 나타난 통계량을 이용하여 각 환자의 두 반응값에 대한 차이를 구하고 순서 그룹별로 처리 효과에 대한 차이에 대한 <span class="math inline">\(90\%\)</span>-신뢰구간을 구해보자.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+유의할 점
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>생물학적 동등성을 보이기 위한 기준은 <span class="math inline">\(95\%\)</span> 가 아닌 <span class="math inline">\(90\%\)</span>-신뢰구간이 <span class="math inline">\(\delta_L\)</span> 과 <span class="math inline">\(\delta_U\)</span> 사이에 포함되어야 한다.</p></li>
+<li><p>처리 순서에 배정된 처리 순서 그룹(<code>Sequence</code>)에서 첫 번째 순서에서는 <code>R-&gt;T</code> 이고 두 번째 순서에서 <code>T-&gt;R</code> 이다.<br>
+따라서 가설 <a href="#eq-crossover-equiv-hypo" class="quarto-xref"><span>14.7</span></a> 를 위한 두 반응값에 대한 차이 <span class="math inline">\(d_{ik}\)</span> 는 다음과 같이 계산할 수 있다.</p></li>
+</ol>
+<p><span class="math display">\[ d_{ik} = \frac{1}{2}(y_{i2k} - y_{i1k}) =  \frac{1}{2}({P2} - {P1}), \quad \text{ for } k=1,2\]</span></p>
+</div>
+</div>
+<p>다음 R 코드는 환자의 두 반응값에 대한 차이 <code>d</code> 을 계산한 후 평균의 차이에 대한 <span class="math inline">\(90\%\)</span>-신뢰구간을 구한다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>equv_df <span class="ot">&lt;-</span> equv_df <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">d =</span> (P2 <span class="sc">-</span> P1)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(equv_df)</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sequence patno      P1      P2       d
+1        1     1  74.675  73.675 -0.5000
+2        1     4  96.400  93.250 -1.5750
+3        1     5 101.950 102.125  0.0875
+4        1     6  79.050  69.450 -4.8000
+5        1    11  79.050  69.025 -5.0125
+6        1    12  85.950  68.700 -8.6250</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>equv_df <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sequence) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>(), <span class="at">mean_d =</span> <span class="fu">mean</span>(d), <span class="at">var_d =</span> <span class="fu">var</span>(d))</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  Sequence     n mean_d var_d
+     &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1        1    12 -2.01   41.2
+2        2    12  0.278 126. </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">t.test</span>(d <span class="sc">~</span> Sequence, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.9</span>, <span class="at">data =</span> equv_df)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>conf.int</span></code><button title="클립보드 복사" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -8.698047  4.123047
+attr(,"conf.level")
+[1] 0.9</code></pre>
+</div>
+</div>
+<p>위의 결과를 보면 평균의 차이에 대한 <span class="math inline">\(90\%\)</span>-신뢰구간은 <span class="math inline">\((-8.698  4.123)\)</span> 으로 <span class="math inline">\(\delta_L\)</span> 과 <span class="math inline">\(\delta_U\)</span> 사이에 포함되므로 두 약물의 생물학적 동등성을 보인다고 결론을 내릴 수 있다.</p>
+<p><span class="math display">\[(-8.698,~~  4.123) \subset (-16.51,~~ 16.51)\]</span> 참고로 위에서 구한 <span class="math inline">\(90\%\)</span>-신뢰구간을 기초 통계량으로 유도해보자.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;  (\bar d_1 - \bar d_2) \pm t(0.05,22){\sqrt{\hat \sigma^2_d \left ( \frac{1}{n_1} + \frac{1}{n_2} \right )}} \\
+&amp; = (-2.01 - 0.278) \pm (1.7171) {\sqrt{(83.6)\left ( \frac{1}{12} + \frac{1}{12} \right )}} \\
+&amp; = -2.288 \pm 6.419 \\
+&amp; = (-8.698,~~  4.123)
+\end{aligned}
+\]</span></p>
+<p>위에서 <span class="math display">\[
+\hat \sigma^2_d = \frac{1}{n_1+n_2-2} \sum_{k=1}^2 \sum_{i=1}^{n_i} (d_{ik} - \bar d_k)^2
+= \frac{1}{12+12-2} [ (11)(41.2) + (11)(126.)] = 83.6
+\]</span></p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
