@@ -11,3 +11,8 @@
 - [문제 2 자료](../data/chapter07-problems-03-ext.txt)
 
 - [문제 3 자료](../data/chapter07-problems-05.txt)
+
+
+## 과제 6
+
+- [문제 5 자료](../data/bioeqiv-2by2.csv)
